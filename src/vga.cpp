@@ -83,6 +83,12 @@ int __not_in_flash_func(VgaBufProcess)()
 
 	int y0 = -1;
 	u8 linetype = ScanlineType[line];
+
+	// Added VSYNC support (Added by WV)
+	#ifdef VGA_GPIO_VSYNC
+	gpio_put(VGA_GPIO_VSYNC, linetype != LINE_VSYNC);
+	#endif
+
 	switch (linetype)
 	{
 	case LINE_IMG:		// progressive image 0, 1, 2,...
@@ -712,10 +718,17 @@ void VgaBufInit()
 	// VGA mode
 	else
 	{
-		// vertical synchronization
-		//   hsync must be min. 4
-		LineBufSync[0] = BYTESWAP(VGACMD(vga_offset_sync+BASE_OFFSET,CurVmode.htot-CurVmode.hsync-3)); // invert dark line
-		LineBufSync[1] = BYTESWAP(VGADARK(CurVmode.hsync-4,0)); // invert HSYNC
+		// Add VSYNC support.  If VSYNC provided, don't HSYNC on VSYNC (Added by WV)
+		#ifndef VGA_GPIO_VSYNC
+			// vertical synchronization
+			//   hsync must be min. 4
+			LineBufSync[0] = BYTESWAP(VGACMD(vga_offset_sync+BASE_OFFSET,CurVmode.htot-CurVmode.hsync-3)); // invert dark line
+			LineBufSync[1] = BYTESWAP(VGADARK(CurVmode.hsync-4,0)); // invert HSYNC
+		#else
+			// no-vertical synchronization (Added by WV)
+			LineBufSync[0] = BYTESWAP(VGACMD(vga_offset_sync+BASE_OFFSET,CurVmode.hsync-3)); // HSYNC
+			LineBufSync[1] = BYTESWAP(VGADARK(CurVmode.htot-CurVmode.hsync-4,0)); // dark line
+		#endif
 
 		// control blocks - initialize to VSYNC
 		CtrlBuf1[0] = 2; // send 2x u32
@@ -974,6 +987,12 @@ void VgaInit(const sVmode* vmode)
 	// get layer program
 	LayerProgInx = vmode->prog;
 	memcpy(&CurLayerProg, &LayerProg[LayerProgInx], sizeof(sLayerProg));
+
+	// set vsync output if necessary (Added by WV)
+	#ifdef VGA_GPIO_VSYNC
+		gpio_init(VGA_GPIO_VSYNC);
+		gpio_set_dir(VGA_GPIO_VSYNC, true);
+	#endif
 
 	// initialize VGA PIO
 	VgaPioInit();

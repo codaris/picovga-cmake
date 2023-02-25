@@ -14,80 +14,16 @@ add_compile_options(-Wall
         -Wno-maybe-uninitialized
         )
 
-set(PICOVGA_PATH ${CMAKE_CURRENT_LIST_DIR}/src)
+# Since this is the picovga project set to the path to this directory        
+set(PICOVGA_PATH ${CMAKE_CURRENT_LIST_DIR})
+# Include the picovga.cmake to add the add_picovga() macro 
+include(picovga.cmake)
+# Our monitor requires vsync so set teh vsync pin
+add_compile_definitions(VGA_GPIO_VSYNC=9)
 
-macro(add_picovga project)
-    pico_generate_pio_header(${project} ${PICOVGA_PATH}/vga.pio)
-
-    target_sources(${project} PRIVATE
-        ${PICOVGA_PATH}/render/vga_atext.S
-        ${PICOVGA_PATH}/render/vga_attrib8.S
-        ${PICOVGA_PATH}/render/vga_color.S
-        ${PICOVGA_PATH}/render/vga_ctext.S
-        ${PICOVGA_PATH}/render/vga_dtext.S
-        ${PICOVGA_PATH}/render/vga_fastsprite.S
-        ${PICOVGA_PATH}/render/vga_ftext.S
-        ${PICOVGA_PATH}/render/vga_graph1.S
-        ${PICOVGA_PATH}/render/vga_graph2.S
-        ${PICOVGA_PATH}/render/vga_graph4.S
-        ${PICOVGA_PATH}/render/vga_graph8.S
-        ${PICOVGA_PATH}/render/vga_graph8mat.S
-        ${PICOVGA_PATH}/render/vga_graph8persp.S
-        ${PICOVGA_PATH}/render/vga_gtext.S
-        ${PICOVGA_PATH}/render/vga_level.S
-        ${PICOVGA_PATH}/render/vga_levelgrad.S
-        ${PICOVGA_PATH}/render/vga_mtext.S
-        ${PICOVGA_PATH}/render/vga_oscil.S
-        ${PICOVGA_PATH}/render/vga_oscline.S
-        ${PICOVGA_PATH}/render/vga_persp.S
-        ${PICOVGA_PATH}/render/vga_persp2.S
-        ${PICOVGA_PATH}/render/vga_plane2.S
-        ${PICOVGA_PATH}/render/vga_progress.S
-        ${PICOVGA_PATH}/render/vga_sprite.S
-        ${PICOVGA_PATH}/render/vga_tile.S
-        ${PICOVGA_PATH}/render/vga_tile2.S
-        ${PICOVGA_PATH}/render/vga_tilepersp.S
-        ${PICOVGA_PATH}/render/vga_tilepersp15.S
-        ${PICOVGA_PATH}/render/vga_tilepersp2.S
-        ${PICOVGA_PATH}/render/vga_tilepersp3.S
-        ${PICOVGA_PATH}/render/vga_tilepersp4.S
-        ${PICOVGA_PATH}/vga_blitkey.S
-        ${PICOVGA_PATH}/vga_render.S    
-
-        ${PICOVGA_PATH}/vga.cpp
-        ${PICOVGA_PATH}/vga_layer.cpp
-        ${PICOVGA_PATH}/vga_pal.cpp
-        ${PICOVGA_PATH}/vga_screen.cpp
-        ${PICOVGA_PATH}/vga_util.cpp
-        ${PICOVGA_PATH}/vga_vmode.cpp
-        ${PICOVGA_PATH}/util/canvas.cpp
-        ${PICOVGA_PATH}/util/mat2d.cpp
-        ${PICOVGA_PATH}/util/overclock.cpp
-        ${PICOVGA_PATH}/util/print.cpp
-        ${PICOVGA_PATH}/util/rand.cpp
-        ${PICOVGA_PATH}/util/pwmsnd.cpp
-        ${PICOVGA_PATH}/font/font_bold_8x8.cpp
-        ${PICOVGA_PATH}/font/font_bold_8x14.cpp
-        ${PICOVGA_PATH}/font/font_bold_8x16.cpp
-        ${PICOVGA_PATH}/font/font_boldB_8x14.cpp
-        ${PICOVGA_PATH}/font/font_boldB_8x16.cpp
-        ${PICOVGA_PATH}/font/font_game_8x8.cpp
-        ${PICOVGA_PATH}/font/font_ibm_8x8.cpp
-        ${PICOVGA_PATH}/font/font_ibm_8x14.cpp
-        ${PICOVGA_PATH}/font/font_ibm_8x16.cpp
-        ${PICOVGA_PATH}/font/font_ibmtiny_8x8.cpp
-        ${PICOVGA_PATH}/font/font_italic_8x8.cpp
-        ${PICOVGA_PATH}/font/font_thin_8x8.cpp
-    )
-
-    target_link_libraries(${project} pico_stdlib hardware_pio hardware_dma pico_multicore hardware_interp hardware_pwm)
-
-    include_directories(${project} ${CMAKE_CURRENT_BINARY_DIR})
-endmacro()
-
+# Add the examples
 add_subdirectory(examples)
 
+# Control the text output of the examples
 #pico_enable_stdio_usb(picovga 0)
 #pico_enable_stdio_uart(picovga 0)
-
-#pico_add_extra_outputs(picovga)
