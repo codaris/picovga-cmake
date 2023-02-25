@@ -14,83 +14,80 @@ add_compile_options(-Wall
         -Wno-maybe-uninitialized
         )
 
-add_library(picovga STATIC)
+set(PICOVGA_PATH ${CMAKE_CURRENT_LIST_DIR}/src)
 
-pico_generate_pio_header(picovga ${CMAKE_CURRENT_LIST_DIR}/src/vga.pio)
-# pico_generate_pio_header(picovga ${CMAKE_CURRENT_LIST_DIR}/terminal/bus6502.pio)
+macro(add_picovga project)
+    pico_generate_pio_header(${project} ${PICOVGA_PATH}/vga.pio)
 
-target_sources(picovga PRIVATE
-    src/render/vga_atext.S
-    src/render/vga_attrib8.S
-    src/render/vga_color.S
-    src/render/vga_ctext.S
-    src/render/vga_dtext.S
-    src/render/vga_fastsprite.S
-    src/render/vga_ftext.S
-    src/render/vga_graph1.S
-    src/render/vga_graph2.S
-    src/render/vga_graph4.S
-    src/render/vga_graph8.S
-    src/render/vga_graph8mat.S
-    src/render/vga_graph8persp.S
-    src/render/vga_gtext.S
-    src/render/vga_level.S
-    src/render/vga_levelgrad.S
-    src/render/vga_mtext.S
-    src/render/vga_oscil.S
-    src/render/vga_oscline.S
-    src/render/vga_persp.S
-    src/render/vga_persp2.S
-    src/render/vga_plane2.S
-    src/render/vga_progress.S
-    src/render/vga_sprite.S
-    src/render/vga_tile.S
-    src/render/vga_tile2.S
-    src/render/vga_tilepersp.S
-    src/render/vga_tilepersp15.S
-    src/render/vga_tilepersp2.S
-    src/render/vga_tilepersp3.S
-    src/render/vga_tilepersp4.S
-    src/vga_blitkey.S
-    src/vga_render.S    
+    target_sources(${project} PRIVATE
+        ${PICOVGA_PATH}/render/vga_atext.S
+        ${PICOVGA_PATH}/render/vga_attrib8.S
+        ${PICOVGA_PATH}/render/vga_color.S
+        ${PICOVGA_PATH}/render/vga_ctext.S
+        ${PICOVGA_PATH}/render/vga_dtext.S
+        ${PICOVGA_PATH}/render/vga_fastsprite.S
+        ${PICOVGA_PATH}/render/vga_ftext.S
+        ${PICOVGA_PATH}/render/vga_graph1.S
+        ${PICOVGA_PATH}/render/vga_graph2.S
+        ${PICOVGA_PATH}/render/vga_graph4.S
+        ${PICOVGA_PATH}/render/vga_graph8.S
+        ${PICOVGA_PATH}/render/vga_graph8mat.S
+        ${PICOVGA_PATH}/render/vga_graph8persp.S
+        ${PICOVGA_PATH}/render/vga_gtext.S
+        ${PICOVGA_PATH}/render/vga_level.S
+        ${PICOVGA_PATH}/render/vga_levelgrad.S
+        ${PICOVGA_PATH}/render/vga_mtext.S
+        ${PICOVGA_PATH}/render/vga_oscil.S
+        ${PICOVGA_PATH}/render/vga_oscline.S
+        ${PICOVGA_PATH}/render/vga_persp.S
+        ${PICOVGA_PATH}/render/vga_persp2.S
+        ${PICOVGA_PATH}/render/vga_plane2.S
+        ${PICOVGA_PATH}/render/vga_progress.S
+        ${PICOVGA_PATH}/render/vga_sprite.S
+        ${PICOVGA_PATH}/render/vga_tile.S
+        ${PICOVGA_PATH}/render/vga_tile2.S
+        ${PICOVGA_PATH}/render/vga_tilepersp.S
+        ${PICOVGA_PATH}/render/vga_tilepersp15.S
+        ${PICOVGA_PATH}/render/vga_tilepersp2.S
+        ${PICOVGA_PATH}/render/vga_tilepersp3.S
+        ${PICOVGA_PATH}/render/vga_tilepersp4.S
+        ${PICOVGA_PATH}/vga_blitkey.S
+        ${PICOVGA_PATH}/vga_render.S    
 
-    src/vga.cpp
-    src/vga_layer.cpp
-    src/vga_pal.cpp
-    src/vga_screen.cpp
-    src/vga_util.cpp
-    src/vga_vmode.cpp
-    src/util/canvas.cpp
-    src/util/mat2d.cpp
-    src/util/overclock.cpp
-    src/util/print.cpp
-    src/util/rand.cpp
-    src/util/pwmsnd.cpp
-    src/font/font_bold_8x8.cpp
-    src/font/font_bold_8x14.cpp
-    src/font/font_bold_8x16.cpp
-    src/font/font_boldB_8x14.cpp
-    src/font/font_boldB_8x16.cpp
-    src/font/font_game_8x8.cpp
-    src/font/font_ibm_8x8.cpp
-    src/font/font_ibm_8x14.cpp
-    src/font/font_ibm_8x16.cpp
-    src/font/font_ibmtiny_8x8.cpp
-    src/font/font_italic_8x8.cpp
-    src/font/font_thin_8x8.cpp
-    
-    terminal/bus6502.cpp
-    terminal/console.cpp
-    terminal/main.cpp
-    terminal/usbhid.cpp
-    terminal/terminal.cpp    
-)
+        ${PICOVGA_PATH}/vga.cpp
+        ${PICOVGA_PATH}/vga_layer.cpp
+        ${PICOVGA_PATH}/vga_pal.cpp
+        ${PICOVGA_PATH}/vga_screen.cpp
+        ${PICOVGA_PATH}/vga_util.cpp
+        ${PICOVGA_PATH}/vga_vmode.cpp
+        ${PICOVGA_PATH}/util/canvas.cpp
+        ${PICOVGA_PATH}/util/mat2d.cpp
+        ${PICOVGA_PATH}/util/overclock.cpp
+        ${PICOVGA_PATH}/util/print.cpp
+        ${PICOVGA_PATH}/util/rand.cpp
+        ${PICOVGA_PATH}/util/pwmsnd.cpp
+        ${PICOVGA_PATH}/font/font_bold_8x8.cpp
+        ${PICOVGA_PATH}/font/font_bold_8x14.cpp
+        ${PICOVGA_PATH}/font/font_bold_8x16.cpp
+        ${PICOVGA_PATH}/font/font_boldB_8x14.cpp
+        ${PICOVGA_PATH}/font/font_boldB_8x16.cpp
+        ${PICOVGA_PATH}/font/font_game_8x8.cpp
+        ${PICOVGA_PATH}/font/font_ibm_8x8.cpp
+        ${PICOVGA_PATH}/font/font_ibm_8x14.cpp
+        ${PICOVGA_PATH}/font/font_ibm_8x16.cpp
+        ${PICOVGA_PATH}/font/font_ibmtiny_8x8.cpp
+        ${PICOVGA_PATH}/font/font_italic_8x8.cpp
+        ${PICOVGA_PATH}/font/font_thin_8x8.cpp
+    )
 
-target_include_directories(picovga PRIVATE terminal)
+    target_link_libraries(${project} pico_stdlib hardware_pio hardware_dma pico_multicore hardware_interp hardware_pwm)
 
-target_link_libraries(picovga pico_stdlib hardware_pio hardware_dma pico_multicore hardware_interp hardware_pwm tinyusb_board tinyusb_host)
+    include_directories(${project} ${CMAKE_CURRENT_BINARY_DIR})
+endmacro()
 
-pico_enable_stdio_usb(picovga 0)
-pico_enable_stdio_uart(picovga 0)
+add_subdirectory(examples)
 
-pico_add_extra_outputs(picovga)
+#pico_enable_stdio_usb(picovga 0)
+#pico_enable_stdio_uart(picovga 0)
+
+#pico_add_extra_outputs(picovga)

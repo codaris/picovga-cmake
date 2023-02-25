@@ -6,6 +6,7 @@
 // ****************************************************************************
 
 #include "include.h"
+#include "vga.pio.h"
 
 // scanline type
 u8 ScanlineType[MAXLINE];

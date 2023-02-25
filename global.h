@@ -186,15 +186,15 @@ extern const ALIGNED u8 FontThin8x8[2048];
 #include "hardware/structs/xip_ctrl.h"
 #include "hardware/structs/xosc.h"
 
-#include "hardware/adc.h"
+//#include "hardware/adc.h"
 #include "hardware/address_mapped.h"
 #include "hardware/claim.h"
 #include "hardware/clocks.h"
 #include "hardware/divider.h"
 #include "hardware/dma.h"
-#include "hardware/flash.h"
+//#include "hardware/flash.h"
 #include "hardware/gpio.h"
-#include "hardware/i2c.h"
+//#include "hardware/i2c.h"
 #include "hardware/interp.h"
 #include "hardware/irq.h"
 #include "hardware/pio.h"
@@ -203,8 +203,8 @@ extern const ALIGNED u8 FontThin8x8[2048];
 #include "hardware/pll.h"
 #include "hardware/pwm.h"
 #include "hardware/resets.h"
-#include "hardware/rtc.h"
-#include "hardware/spi.h"
+//#include "hardware/rtc.h"
+//#include "hardware/spi.h"
 #include "hardware/sync.h"
 #include "hardware/timer.h"
 #include "hardware/uart.h"
@@ -212,11 +212,11 @@ extern const ALIGNED u8 FontThin8x8[2048];
 #include "hardware/watchdog.h"
 #include "hardware/xosc.h"
 
-#include "boot/picoboot.h"
-#include "boot/uf2.h"
+//#include "boot/picoboot.h"
+//#include "boot/uf2.h"
 
-#include "pico.h"
-#include "tusb_config.h"
+//#include "pico.h"
+//#include "tusb_config.h"
 
 #include "pico/assert.h"
 #include "pico/binary_info.h"
@@ -232,7 +232,7 @@ extern const ALIGNED u8 FontThin8x8[2048];
 #include "pico/int64_ops.h"
 #include "pico/lock_core.h"
 #include "pico/malloc.h"
-#include "pico/mem_ops.h"
+//#include "pico/mem_ops.h"
 #include "pico/multicore.h"
 #include "pico/mutex.h"
 #include "pico/platform.h"
@@ -240,15 +240,15 @@ extern const ALIGNED u8 FontThin8x8[2048];
 #include "pico/runtime.h"
 #include "pico/sem.h"
 #include "pico/stdio.h"
-#include "pico/stdio_semihosting.h"
-#include "pico/stdio_uart.h"
-#include "pico/stdio_usb.h"
+//#include "pico/stdio_semihosting.h"
+//#include "pico/stdio_uart.h"
+//#include "pico/stdio_usb.h"
 #include "pico/stdlib.h"
 #include "pico/sync.h"
 #include "pico/time.h"
 #include "pico/timeout_helper.h"
 #include "pico/types.h"
-#include "pico/unique_id.h"
+//#include "pico/unique_id.h"
 #include "pico/version.h"
 
 #include "pico/binary_info/code.h"
@@ -257,7 +257,7 @@ extern const ALIGNED u8 FontThin8x8[2048];
 
 #include "pico/bootrom/sf_table.h"
 
-#include "pico/fix/rp2040_usb_device_enumeration.h"
+//#include "pico/fix/rp2040_usb_device_enumeration.h"
 
 #include "pico/stdio/driver.h"
 
@@ -266,16 +266,16 @@ extern const ALIGNED u8 FontThin8x8[2048];
 #include "pico/util/queue.h"
 
 // PicoVGA includes
-#include "_picovga/define.h"	// common definitions of C and ASM
-#include "_picovga/util/canvas.h" // canvas
-#include "_picovga/util/overclock.h" // overclock
-#include "_picovga/util/print.h" // print to attribute text buffer
-#include "_picovga/util/rand.h"	// random number generator
-#include "_picovga/util/mat2d.h" // 2D transformation matrix
-#include "_picovga/util/pwmsnd.h" // PWM sound output
-#include "_picovga/vga_pal.h"	// VGA colors and palettes
-#include "_picovga/vga_vmode.h"	// VGA videomodes
-#include "_picovga/vga_layer.h"	// VGA layers
-#include "_picovga/vga_screen.h" // VGA screen layout
-#include "_picovga/vga_util.h"	// VGA utilities
-#include "_picovga/vga.h"	 // VGA output
+#include "src/define.h"	// common definitions of C and ASM
+#include "src/util/canvas.h" // canvas
+#include "src/util/overclock.h" // overclock
+#include "src/util/print.h" // print to attribute text buffer
+#include "src/util/rand.h"	// random number generator
+#include "src/util/mat2d.h" // 2D transformation matrix
+#include "src/util/pwmsnd.h" // PWM sound output
+#include "src/vga_pal.h"	// VGA colors and palettes
+#include "src/vga_vmode.h"	// VGA videomodes
+#include "src/vga_layer.h"	// VGA layers
+#include "src/vga_screen.h" // VGA screen layout
+#include "src/vga_util.h"	// VGA utilities
+#include "src/vga.h"	 // VGA output

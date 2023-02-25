@@ -6,6 +6,7 @@
 // ****************************************************************************
 
 #include "include.h"
+#include "vga.pio.h"
 
 // layer program descriptors
 const sLayerProg LayerProg[LAYERPROG_NUM] = {

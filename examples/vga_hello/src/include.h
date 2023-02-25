@@ -9,8 +9,7 @@
 //                                   Includes
 // ----------------------------------------------------------------------------
 
-#include "../../global.h"	// global common definitions
-#include "../vga.pio.h"		// VGA PIO compilation
+#include "../../../global.h"	// global common definitions
 
 // main
 #include "main.h"		// main code
