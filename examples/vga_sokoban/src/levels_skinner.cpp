@@ -11,7 +11,7 @@
 // These levels may be freely distributed provided they are credited
 // with the author's name and e-mail address.
 
-#include "include.h"
+#include "main.h"
 
 // Sasquatch, (c) David W. Skinner
 const char* SkinnerCol1[] = {

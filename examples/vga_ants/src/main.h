@@ -8,6 +8,8 @@
 #ifndef _MAIN_H
 #define _MAIN_H
 
+#include "picovga.h"
+
 #define WIDTH	512		// screen width
 #define HEIGHT	400		// screen height
 

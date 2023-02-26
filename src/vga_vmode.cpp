@@ -769,11 +769,8 @@ const u16 VideoResReq[RES_MAX*2] =
 //	FORM_RLE: pointer to image rows (ALIGNED attribute, should be in RAM)
 void Video(u8 dev, u8 res, u8 form, u8* buf, const void* buf2 /* = FontBoldB8x16 */)
 {
-	// stop VGA core
-	multicore_reset_core1();
-
 	// run VGA core
-	multicore_launch_core1(VgaCore);
+	StartVgaCore();
 
 	// prepare timings structure
 	if (dev >= DEV_MAX) dev = DEV_VGA;

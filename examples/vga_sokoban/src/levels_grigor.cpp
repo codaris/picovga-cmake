@@ -20,7 +20,7 @@
 // I shall be pleased, if you place them in the program or on the site.
 // Do not ask me the sanction.
 
-#include "include.h"
+#include "main.h"
 
 // Grigr 2001
 const char* GrigorCol1[] = {

@@ -7,6 +7,7 @@
 
 #include "pico/stdlib.h"
 #include "pico/printf.h"
+#include "pico/multicore.h"
 
 #include "picovga.h"
 #include "vga.pio.h"
@@ -1055,6 +1056,17 @@ void VgaCore()
 			Core1Fnc = NULL;
 		}
 	}
+}
+
+/**
+ * @brief Starts the VGA core on core1
+ */
+void StartVgaCore()
+{
+	// stop VGA core
+	multicore_reset_core1();
+	// run VGA core
+	multicore_launch_core1(VgaCore);
 }
 
 // request to initialize VGA videomode, NULL=only stop driver (wait to initialization completes)

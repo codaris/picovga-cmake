@@ -1,5 +1,4 @@
-#include "include.h"
-
+#include "main.h"
 // format: RLE compression
 // no transparency
 // image width: 640 pixels

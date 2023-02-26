@@ -1,5 +1,4 @@
-#include "include.h"
-
+#include "main.h"
 // format: 8-bit pixel graphics
 // image width: 256 pixels
 // image height: 232 lines

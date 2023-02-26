@@ -5,7 +5,9 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
+#include "pico/printf.h"
+#include <string.h>
 
 u8 Text[TEXTMAX]; // row of text
 ALIGNED u8 TextCol[TEXTMAX*8]; // text color gradient
@@ -342,7 +344,7 @@ int main()
 	CopyWhiteImg(Ghost4Img_Copy, Ghost4Img, sizeof(Ghost4Img));
 
 	// run VGA core
-	multicore_launch_core1(VgaCore);
+	StartVgaCore();
 
 	// initialize videomode
 	VideoInit(170000);

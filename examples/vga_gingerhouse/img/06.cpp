@@ -1,4 +1,4 @@
-#include "include.h"
+#include "main.h"
 
 // format: RLE compression
 // no transparency

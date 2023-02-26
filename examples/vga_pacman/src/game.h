@@ -8,6 +8,8 @@
 #ifndef _GAME_H
 #define _GAME_H
 
+#include "picovga.h"
+
 // shift X coordinate in direction (wrap coordinate and direction)
 s8 ShiftX(s8 x, s8 dir);
 

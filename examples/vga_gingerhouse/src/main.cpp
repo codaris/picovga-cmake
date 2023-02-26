@@ -5,7 +5,10 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
+#include "pico/printf.h"
+#include "hardware/clocks.h"
+#include <string.h>
 
 // page list
 const u16* const ImgRowsList[PAGES] = { // list of rows
@@ -297,7 +300,7 @@ int main()
 	memcpy(Font_Copy, FontBold8x8, sizeof(FontBold8x8));
 
 	// run VGA core
-	multicore_launch_core1(VgaCore);
+	StartVgaCore();
 
 	// initialize videomode (and open first page)
 	VideoInit();

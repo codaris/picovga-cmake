@@ -5,7 +5,14 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
+#include "def.h"		// definitions
+#include "data.h"		// data and tables
+#include "game.h"		// game
+#include "main.h"		// main code
+#include "open.h"		// open screen
+#include "pico/printf.h"
+#include <string.h>
 
 // initialize buffers on program start
 void BufInit()
@@ -202,7 +209,7 @@ int main()
 	BufInit();
 
 	// run VGA core
-	multicore_launch_core1(VgaCore);
+	StartVgaCore();
 
 	// initialize videomode
 	VideoInit();

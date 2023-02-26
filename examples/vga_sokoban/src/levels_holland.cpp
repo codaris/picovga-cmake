@@ -5,7 +5,7 @@
 //
 // ****************************************************************************
 // Author: David Holland
-// These levels are © David Holland <dholland@dholland.karoo.co.uk>
+// These levels are ï¿½ David Holland <dholland@dholland.karoo.co.uk>
 // These levels may be distributed freely as long as this copyright message is retained.
 //
 // Author's note:
@@ -24,7 +24,7 @@
 // kind, but are nevertheless quite varied. The puzzles are in roughly ascending
 // order of difficulty.
 
-#include "include.h"
+#include "main.h"
 
 // DH1, (c) David Holland
 const char* HollandCol1[] = {

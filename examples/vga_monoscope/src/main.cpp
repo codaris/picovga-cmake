@@ -45,7 +45,11 @@
 
 #define PI_MONOSCOPE 31
 
-#include "include.h"
+#include "main.h"
+#include "pico/printf.h"
+#include <string.h>
+#include "hardware/clocks.h"
+
 
 u16 Rows[962];	// RLE rows
 u8 Img[180000] __attribute__ ((aligned(4))); // RLE image
@@ -257,7 +261,7 @@ int main()
 	int i;
 
 	// run VGA core
-	multicore_launch_core1(VgaCore);
+	StartVgaCore();
 
 	// run default video mode VGA 640x480
 	MonoInit(22);

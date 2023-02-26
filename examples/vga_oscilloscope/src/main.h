@@ -8,6 +8,8 @@
 #ifndef _MAIN_H
 #define _MAIN_H
 
+#include "picovga.h"
+
 // oscil image
 //    AAAAAAAAAAAAAAA
 //    B1 1111111 C1C1

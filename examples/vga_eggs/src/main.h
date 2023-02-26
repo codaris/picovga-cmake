@@ -8,6 +8,8 @@
 #ifndef _MAIN_H
 #define _MAIN_H
 
+#include "picovga.h"
+
 // control keys
 #define KEY_R	'L'	// right
 #define KEY_U	'I'	// up

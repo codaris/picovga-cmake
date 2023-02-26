@@ -17,7 +17,7 @@
 //   @ or p = player
 //   + or P = player on mark
 
-#include "include.h"
+#include "main.h"
 
 // intro level (tiles 32x32, board 20x15)
 const char* IntroLevel[] = {

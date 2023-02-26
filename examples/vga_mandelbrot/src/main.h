@@ -8,6 +8,8 @@
 #ifndef _MAIN_H
 #define _MAIN_H
 
+#include "picovga.h"
+
 #define WIDTH	528	// image width, high resolution
 #define HEIGHT	400	// image height, high resolution
 

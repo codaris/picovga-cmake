@@ -114,8 +114,8 @@ void ScanlineTypePrint(const u8* scan, int lines);
 // - All layer modes must use same layer program (LAYERMODE_BASE = overlapped layers are OFF)
 void VgaInit(const sVmode* vmode); //, u8 layer1mode=LAYERMODE_BASE, u8 layer2mode=LAYERMODE_BASE, u8 layer3mode=LAYERMODE_BASE);
 
-// VGA core
-void VgaCore();
+// Start the VGA processing on core1
+void StartVgaCore();
 
 // request to initialize VGA videomode, NULL=only stop driver (wait to initialization completes)
 void VgaInitReq(const sVmode* vmode);

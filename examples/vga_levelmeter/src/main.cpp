@@ -5,7 +5,8 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
+#include <string.h>
 
 // copy of images
 ALIGNED u8 Repro1Img_Copy[sizeof(Repro1Img)];
@@ -121,7 +122,7 @@ int main()
 	CopyWhiteImg(Repro3Img_Copy, Repro3Img, sizeof(Repro3Img));
 
 	// run VGA core
-	multicore_launch_core1(VgaCore);
+	StartVgaCore();
 
 	// initialize videomode
 	VideoInit();

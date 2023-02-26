@@ -8,6 +8,8 @@
 #ifndef _MAIN_H
 #define _MAIN_H
 
+#include "picovga.h"
+
 #define IMG_LAYER	1	// overlapped layer with RLE image
 
 extern const u16 Monoscope256x192_rows[193];

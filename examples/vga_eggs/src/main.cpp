@@ -5,7 +5,9 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
+#include <string.h>
+#include "pico/printf.h"
 
 // Draw box
 ALIGNED u8 Box[WIDTH*HEIGHT];
@@ -151,7 +153,7 @@ u8 GetStones(s8 x, s8 y)
 void DispPos()
 {
 	s8 x, y;
-	u8 stones;
+	// u8 stones;
 	u8 c;
 
 	// clear number of possible positions

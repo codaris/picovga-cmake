@@ -7,7 +7,9 @@
 // "wave" maze generator: https://www.itnetwork.cz/navrh/algoritmy/algoritmy-bludiste/algoritmus-tvorba-nahodneho-bludiste
 // - MAZEW and MAZEH must be odd numbers!
 
-#include "include.h"
+#include "main.h"
+#include "pico/printf.h"
+#include <string.h>
 
 // copy of tiles images
 ALIGNED u8 TilesImg_Copy[sizeof(TilesImg)];

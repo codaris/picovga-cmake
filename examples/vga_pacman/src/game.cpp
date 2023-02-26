@@ -5,7 +5,11 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
+#include "game.h"
+#include "def.h"
+#include "data.h"
+
 
 // shift X coordinate in direction (wrap coordinate and direction)
 s8 ShiftX(s8 x, s8 dir)

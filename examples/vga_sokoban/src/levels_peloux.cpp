@@ -11,7 +11,7 @@
 // distributed for non-commercial use provided they remain unchanged, credited
 // with the author's name and original web site, and provided the author is notified.
 
-#include "include.h"
+#include "main.h"
 
 // MiniCosmos, (c) Aymeric du Peloux
 const char* PelouxCol1[] = {

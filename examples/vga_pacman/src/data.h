@@ -8,6 +8,9 @@
 #ifndef _DATA_H
 #define _DATA_H
 
+#include "picovga.h"
+#include "def.h"
+
 // format: 8-bit pixel graphics
 // image width: 144 pixels
 // image height: 34 lines

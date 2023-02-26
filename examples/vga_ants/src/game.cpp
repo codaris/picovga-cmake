@@ -5,7 +5,9 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "picovga.h"
+#include "game.h"
+#include "main.h"
 
 const int CastleX[2] = { 72+16, WIDTH-72-16-128 }; // castle X coordinate
 const int FenceX[2] = { 72+160, WIDTH-72-160-8 }; // fence X coordinate

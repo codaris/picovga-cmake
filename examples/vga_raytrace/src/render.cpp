@@ -5,7 +5,7 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
 
 // list of spheres
 Sphere Spheres[] = {

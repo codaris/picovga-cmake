@@ -5,7 +5,9 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "pico/printf.h"
+#include "main.h"		// main code
+#include "game.h"		// game engine
 
 // draw box
 ALIGNED u8 Box[WIDTH*HEIGHT];
@@ -258,8 +260,7 @@ void DispOpen()
 	DrawImg(&Canvas, &Title2Canvas, 210, 92, 0, 0, 96, 80);
 
 	// display open text
-	int y = 192;
-	int i;
+	uint i;
 	for (i = 0; i < count_of(OpenText); i++)
 	{
 		DrawText(&Canvas, OpenText[i], 8, 192+i*10, COL_WHITE, FontBold8x8);

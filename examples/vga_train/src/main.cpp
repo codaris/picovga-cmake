@@ -5,7 +5,7 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
 
 u8 Text[TEXTMAX*2]; // 2 rows of text (2nd row is empty, it is used to center line vertically)
 u8 TextCol[TEXTMAX*2*8] __attribute__ ((aligned(4))); // text color gradient
@@ -104,7 +104,7 @@ int main()
 	memcpy(Font_Copy, FontBold8x8, sizeof(FontBold8x8));
 
 	// run VGA core
-	multicore_launch_core1(VgaCore);
+	StartVgaCore();
 
 	// clear info row
 	InfoClear();

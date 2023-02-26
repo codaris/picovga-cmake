@@ -28,7 +28,10 @@ Need 6 bits for integer part of number + 1 bit for sign.
 We will use 32-bit integer with highest 7 bits as integer part and 25 lower bits as decimal part.
 */
 
-#include "include.h"
+#include "main.h"
+#include "fixed.h"
+#include "pico/printf.h"
+#include <string.h>
 
 #define USE_INT	0	// use integer arithmetics
 #define USE_FLT	1	// use float arithmetics
@@ -379,7 +382,7 @@ int main()
 	int c;
 
 	// run VGA core
-	multicore_launch_core1(VgaCore);
+	StartVgaCore();
 
 	// setup videomode
 	Init();

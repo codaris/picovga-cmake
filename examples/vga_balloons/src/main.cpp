@@ -5,7 +5,8 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
+#include <string.h>
 
 // clouds copy
 ALIGNED u8 CloudsImg_Copy[sizeof(CloudsImg)];
@@ -205,7 +206,7 @@ int main()
 	CopyWhiteImg(YellowImg_Copy, YellowImg, sizeof(YellowImg));
 
 	// run VGA core
-	multicore_launch_core1(VgaCore);
+	StartVgaCore();
 
 	// initialize videomode
 	VideoInit();

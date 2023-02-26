@@ -5,7 +5,7 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
 
 // Draw box
 u8 Box[WIDTHBYTE*HEIGHT] __attribute__ ((aligned(4)));
@@ -37,7 +37,7 @@ void VideoInit()
 int main()
 {
 	// run VGA core
-//	multicore_launch_core1(VgaCore);
+//	StartVgaCore();
 
 	// initialize videomode
 //	VideoInit();

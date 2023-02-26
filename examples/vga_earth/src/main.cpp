@@ -5,7 +5,8 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
+#include <string.h>
 
 #define USERANDSHADOW	1	// 1=use random shadow (or rastered shadow otherwise)
 

@@ -5,7 +5,8 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
+#include <string.h>
 
 #define LINENUM	70	// number of lines
 #define SPEEDMIN 3.0f	// minimal speed
@@ -90,7 +91,7 @@ int main()
 	Video(DEV_VGA, RES_EGA, FORM_8BIT, Box);
 
 	// run VGA core
-//	multicore_launch_core1(VgaCore);
+//	StartVgaCore();
 
 	// initialize videomode
 //	VideoInit();

@@ -8,6 +8,8 @@
 #ifndef _MAIN_H
 #define _MAIN_H
 
+#include "picovga.h"
+
 //#define DRV	VideoVGA // timings
 #define WIDTH	640	// screen width
 #define HEIGHT	480	// screen height

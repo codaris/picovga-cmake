@@ -5,7 +5,9 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
+#include <string.h>
+
 
 // copy of images
 ALIGNED u8 OscilAImg_Copy[sizeof(OscilAImg)];
@@ -96,7 +98,7 @@ int main()
 	memcpy(GridImg_Copy, GridImg, sizeof(GridImg));
 
 	// run VGA core
-	multicore_launch_core1(VgaCore);
+	StartVgaCore();
 
 	// initialize videomode
 	VideoInit();

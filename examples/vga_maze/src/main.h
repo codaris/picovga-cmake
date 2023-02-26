@@ -8,6 +8,8 @@
 #ifndef _MAIN_H
 #define _MAIN_H
 
+#include "picovga.h"
+
 #define WIDTH	256	// screen width
 #define HEIGHT	192	// screen height
 #define TILESIZE 8	// tile size in number of pixels

@@ -5,7 +5,7 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
 
 // buffers
 u8 Board[MAPWMAX*MAPHMAX]; // game board

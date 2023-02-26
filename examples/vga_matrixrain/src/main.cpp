@@ -5,7 +5,8 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
+#include <string.h>
 
 #define DELAY		10	// delay in [ms]
 #define LEN_MIN	 	10	// minimal length of drop
@@ -109,7 +110,7 @@ int main()
 	memcpy(Font_Copy, FontBold8x8, sizeof(FontBold8x8));
 
 	// run VGA core
-	multicore_launch_core1(VgaCore);
+	StartVgaCore();
 
 	// initialize videomode
 	VideoInit();

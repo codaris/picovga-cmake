@@ -1,4 +1,4 @@
-#include "include.h"
+#include "main.h"
 
 // sound format: PCM mono 8-bit 22050Hz
 const u8 IncreasePowerSnd[24338] = {

@@ -5,7 +5,12 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "open.h"
+#include "picovga.h"
+#include "def.h"
+#include "main.h"
+#include "data.h"
+#include "game.h"
 
 const char* OpenCharName[4] = { "SHADOW", "SPEEDY", "BASHFUL", "POKEY" };
 const char* OpenCharNick[4] = { "\"BLINKY\"", "\"PINKY\"", "\"INKY\"", "\"CLYDE\"" };

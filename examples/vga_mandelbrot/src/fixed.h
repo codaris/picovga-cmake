@@ -10,6 +10,8 @@
 #ifndef _FIXED_H
 #define _FIXED_H
 
+#include "picovga.h"
+
 // multiply two 64-bit integers with 64-bit result (signed or unsigned)
 extern "C" s64 Mul64(s64 a, s64 b);
 

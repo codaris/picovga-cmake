@@ -12,7 +12,7 @@
 // does not display memory outside valid buffer limits, otherwise program will
 // crash on hardfault.
 
-#include "include.h"
+#include "main.h"
 
 // draw box
 ALIGNED u8 Box[IMGW*IMGH];
@@ -69,7 +69,7 @@ int main()
 	SetMat(0);
 
 	// run VGA core
-	multicore_launch_core1(VgaCore);
+	StartVgaCore();
 
 	// initialize videomode (and open first page)
 	VideoInit();

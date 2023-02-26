@@ -5,7 +5,7 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
 
 // Draw box
 ALIGNED u8 Box[WIDTHBYTE*HEIGHT];
@@ -98,7 +98,7 @@ int main()
 	memcpy(Img4, WoodImg, IMGSIZE);
 
 	// run VGA core
-	multicore_launch_core1(VgaCore);
+	StartVgaCore();
 
 	// initialize videomode
 	VideoInit();

@@ -7,7 +7,7 @@
 // Copyright (c) by Yoshio Murase.
 // Original level website: http://www.ne.jp/asahi/ai/yoshio/sokoban/
 
-#include "include.h"
+#include "main.h"
 
 // Hand-Made, (c) Yoshio Murase
 const char* MuraseCol1[] = {

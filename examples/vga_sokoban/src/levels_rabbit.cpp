@@ -6,7 +6,7 @@
 // ****************************************************************************
 // (c) Thinking Rabbit
 
-#include "include.h"
+#include "main.h"
 
 // XSokoban, Original Levels & extras, (c) Thinking Rabbit
 const char* RabbitCol1[] = {

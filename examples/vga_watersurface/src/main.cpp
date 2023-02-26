@@ -5,7 +5,7 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
 
 // Draw box
 ALIGNED u8 Box[WIDTHBYTE*HEIGHT];

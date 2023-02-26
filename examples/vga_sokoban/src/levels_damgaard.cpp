@@ -8,7 +8,7 @@
 // Copyright: Copyright (c) 2003 Brian Damgaard
 // These levels may be freely distributed provided they are credited with the author's name.
 
-#include "include.h"
+#include "main.h"
 
 // The YASGen Collection, (c) Brian Damgaard
 const char* DamgaardCol1[] = {

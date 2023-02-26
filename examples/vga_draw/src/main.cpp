@@ -5,7 +5,8 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
+#include <string.h>
 
 // Draw box
 #if FORMAT==CANVAS_PLANE2
@@ -133,7 +134,7 @@ int main()
 	u32 t, t2;
 
 	// run VGA core
-	multicore_launch_core1(VgaCore);
+	StartVgaCore();
 
 	// initialize videomode
 	VideoInit();

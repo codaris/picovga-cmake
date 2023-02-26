@@ -5,7 +5,9 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
+#include "pico/printf.h"
+#include <string.h>
 
 // copy of tiles images
 u8 TilesImg_Copy[sizeof(Tiles16Img)] __attribute__ ((aligned(4)));
@@ -362,7 +364,7 @@ int main()
 	LoadSlot();
 
 	// run VGA core
-//	multicore_launch_core1(VgaCore);
+//	StartVgaCore();
 
 	// initialize videomode
 //	VideoInit();

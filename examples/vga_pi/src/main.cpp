@@ -5,7 +5,10 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
+#include "picovga.h"
+#include "hardware/clocks.h"
+#include <string.h>
 
 // text screen (mono character, format GF_MTEXT)
 ALIGNED u8 TextBuf[TEXTSIZE];

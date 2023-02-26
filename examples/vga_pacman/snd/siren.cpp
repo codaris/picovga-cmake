@@ -1,4 +1,4 @@
-#include "include.h"
+#include "data.h"
 
 // sound format: PCM mono 8-bit 22050Hz
 const u8 SirenSnd[9460] = {

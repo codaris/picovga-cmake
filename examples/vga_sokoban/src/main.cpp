@@ -5,7 +5,7 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
 
 // copy of tiles images
 ALIGNED u8 TilesImg_Copy[sizeof(Tiles32Img)];
@@ -144,7 +144,7 @@ int main()
 	memcpy(Font_Copy, FontBoldB8x16, sizeof(FontBoldB8x16));
 
 	// run VGA core
-	multicore_launch_core1(VgaCore);
+	StartVgaCore();
 
 	// initialize videomode
 	VideoInit();

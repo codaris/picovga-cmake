@@ -5,7 +5,7 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "main.h"
 
 #define BASEBRICKNUM 7	// number of basebricks
 #define BRICKTEMPNUM 19	// number of brick templates
