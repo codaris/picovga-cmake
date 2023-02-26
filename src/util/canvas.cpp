@@ -5,7 +5,11 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "pico/stdlib.h"
+#include "picovga.h"
+#include <string.h>
+
+#include "hardware/interp.h"
 
 // Draw rectangle
 //  col with CANVAS_ATTRIB8 format: bit 0..3 = draw color, bit 4 = draw color is background color

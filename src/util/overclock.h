@@ -8,6 +8,8 @@
 #ifndef _OVERCLOCK_H
 #define _OVERCLOCK_H
 
+#include "pico/stdlib.h"
+
 // Search PLL setup
 //  reqkhz ... required output frequency in kHz
 //  input ... PLL input frequency in kHz (default 12000, or use clock_get_hz(clk_ref)/1000)

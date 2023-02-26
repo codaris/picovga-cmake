@@ -5,7 +5,10 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "picovga.h"
+#include "overclock.h"
+#include "hardware/clocks.h"
+#include "hardware/structs/ssi.h"
 
 // Search PLL setup
 //  reqkhz ... required output frequency in kHz

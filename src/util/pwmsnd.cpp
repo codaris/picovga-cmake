@@ -6,7 +6,10 @@
 // ****************************************************************************
 // Note: Cannot use DMA, because sample is 8-bit, but CC port requires 16-bit write.
 
-#include "include.h"
+#include "picovga.h"
+#include "hardware/pwm.h"
+#include "hardware/clocks.h"
+#include "hardware/sync.h"
 
 // current sound
 const u8* CurSound = NULL; // current playing sound

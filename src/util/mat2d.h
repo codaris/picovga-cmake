@@ -8,6 +8,9 @@
 #ifndef _MAT2D_H
 #define _MAT2D_H
 
+#include "pico/double.h"
+#include "define.h"
+
 // transformation matrix
 template <typename m2type> class cMat2D 
 {

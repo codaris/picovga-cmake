@@ -5,7 +5,10 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "pico/stdlib.h"
+
+#include "picovga.h"
+#include <string.h>
 
 // convert image from 16-color to 8x8 attribute format
 void Attr8Conv(u8* dst, u8* attr, const u8* src, int w, int h, const u8* pal)

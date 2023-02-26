@@ -5,8 +5,11 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "pico/stdlib.h"
+#include "picovga.h"
+#include "hardware/sync.h"
 #include "vga.pio.h"
+
 
 // layer program descriptors
 const sLayerProg LayerProg[LAYERPROG_NUM] = {

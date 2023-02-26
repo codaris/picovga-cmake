@@ -5,7 +5,11 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "pico/stdlib.h"
+#include "pico/printf.h"
+#include "pico/multicore.h"
+#include "picovga.h"
+
 
 sVmode Vmode;	// videomode setup
 sVgaCfg Cfg;	// required configuration

@@ -5,7 +5,7 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "picovga.h"
 
 // current print buffer
 u8* PrintBuf;

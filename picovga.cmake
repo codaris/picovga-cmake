@@ -69,5 +69,5 @@ macro(add_picovga project)
 
     target_link_libraries(${project} pico_stdlib hardware_pio hardware_dma pico_multicore hardware_interp hardware_pwm)
 
-    include_directories(${project} ${CMAKE_CURRENT_BINARY_DIR})
+    include_directories(${project} ${CMAKE_CURRENT_BINARY_DIR} ${PICOVGA_PATH}/src)
 endmacro()

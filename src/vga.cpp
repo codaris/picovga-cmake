@@ -5,8 +5,16 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "pico/stdlib.h"
+#include "pico/printf.h"
+
+#include "picovga.h"
 #include "vga.pio.h"
+
+#include <string.h>
+#include "hardware/divider.h"
+#include "hardware/dma.h"
+#include "hardware/sync.h"
 
 // scanline type
 u8 ScanlineType[MAXLINE];

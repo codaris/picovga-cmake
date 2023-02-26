@@ -5,7 +5,7 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "mat2d.h"
 
 // prepare transformation matrix (for DrawImgMat function)
 //  ws ... source image width

@@ -5,7 +5,9 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "pico/stdlib.h"
+#include "picovga.h"
+#include "hardware/sync.h"
 
 // current video screen
 sScreen Screen = { .num = 0 };	// default video screen

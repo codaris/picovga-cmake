@@ -5,7 +5,8 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "pico/stdlib.h"
+#include "picovga.h"
 
 // default 16-color palettes (EGA colors)
 // - do not set "const", to stay in faster RAM

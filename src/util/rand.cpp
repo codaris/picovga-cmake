@@ -5,7 +5,8 @@
 //
 // ****************************************************************************
 
-#include "include.h"
+#include "picovga.h"
+#include "hardware/structs/rosc.h"
 
 // global random generator
 cRandom Rand;
