@@ -17,7 +17,8 @@
 // License: Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported
 // http://creativecommons.org/licenses/by-nc-nd/3.0/
 
-#include "main.h"
+#include "levels.h"
+#include "picovga.h"
 
 // Original remixed, (c) Jordi Domenech
 const char* DomenechCol1[] = {

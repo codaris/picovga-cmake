@@ -24,7 +24,8 @@
 // kind, but are nevertheless quite varied. The puzzles are in roughly ascending
 // order of difficulty.
 
-#include "main.h"
+#include "levels.h"
+#include "picovga.h"
 
 // DH1, (c) David Holland
 const char* HollandCol1[] = {

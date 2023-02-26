@@ -6,6 +6,7 @@
 // ****************************************************************************
 
 #include "main.h"
+#include "picovga.h"
 
 // Draw box
 ALIGNED u8 Box[WIDTHBYTE*HEIGHT];

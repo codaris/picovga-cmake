@@ -8,7 +8,8 @@
 // Authors: Aymeric du Peloux, Francois Marques, David Skinner, Sven Egevad, Victor Kindermans,
 //          Michael Steins, Frantisek Pokorny, Arpad Fekete, Roger Delaporte
 
-#include "main.h"
+#include "levels.h"
+#include "picovga.h"
 
 // Loma
 const char* LomaCol1[] = {

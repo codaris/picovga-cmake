@@ -5,8 +5,8 @@
 //
 // ****************************************************************************
 
-#include "main.h"
-
+#include "levels.h"
+#include "picovga.h"
 // Galadriel, (c) Marko Dzekic
 const char* DzekicCol1[] = {
 

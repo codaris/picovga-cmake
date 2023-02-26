@@ -8,6 +8,8 @@
 #ifndef _VECTOR_H
 #define _VECTOR_H
 
+#include "main.h"
+
 // 3D vector
 class V3
 {

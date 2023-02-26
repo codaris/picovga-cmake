@@ -8,6 +8,8 @@
 #ifndef _MAIN_H
 #define _MAIN_H
 
+#include "picovga.h"
+
 // canvas format
 #define FORMAT CANVAS_8		// 8-bit pixels
 

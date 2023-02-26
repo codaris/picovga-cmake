@@ -5,7 +5,15 @@
 //
 // ****************************************************************************
 
+#include "game.h"
 #include "main.h"
+#include "levels.h"
+#include "select.h"
+
+#include <string.h>
+#include "hardware/sync.h"
+#include "hardware/clocks.h"
+#include "pico/printf.h"
 
 // buffers
 u8 Board[MAPWMAX*MAPHMAX]; // game board

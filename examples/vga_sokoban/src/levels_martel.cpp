@@ -15,7 +15,8 @@
 //  Send comments and best solutions to :
 //  sokomonk@laposte.net
 
-#include "main.h"
+#include "levels.h"
+#include "picovga.h"
 
 const char* MartelCol1[] = {
 

@@ -6,6 +6,13 @@
 // ****************************************************************************
 
 #include "main.h"
+#include "game.h"
+#include "levels.h"
+#include "select.h"
+
+#include <string.h>
+#include "pico/printf.h"
+#include "hardware/sync.h"
 
 // copy of tiles images
 ALIGNED u8 TilesImg_Copy[sizeof(Tiles32Img)];

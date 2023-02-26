@@ -29,7 +29,8 @@
 // so that they can be played on a display with the size and aspect ratio of
 // a typical mobile phone without rotation.
 
-#include "main.h"
+#include "levels.h"
+#include "picovga.h"
 
 // The Warehouse Volume I - Vertical Mobility 1, (c) Rick Sladkey
 const char* SladkeyCol1[] = {

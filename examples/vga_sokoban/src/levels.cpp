@@ -17,7 +17,8 @@
 //   @ or p = player
 //   + or P = player on mark
 
-#include "main.h"
+#include "levels.h"
+#include "picovga.h"
 
 // intro level (tiles 32x32, board 20x15)
 const char* IntroLevel[] = {

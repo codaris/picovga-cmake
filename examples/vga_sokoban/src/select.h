@@ -8,6 +8,8 @@
 #ifndef _SELECT_H
 #define _SELECT_H
 
+#include "picovga.h"
+
 extern const char SelAuthor[];
 extern const char SelColl[];
 

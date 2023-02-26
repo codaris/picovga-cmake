@@ -5,7 +5,10 @@
 //
 // ****************************************************************************
 
+#include "render.h"
 #include "main.h"
+#include "vector.h"
+#include "sphere.h"
 
 // list of spheres
 Sphere Spheres[] = {
@@ -33,7 +36,7 @@ void Trace(V3* rgb, V3 &orig, V3 &dir, int depth, Sphere* disable)
 	real t1best = TOOFAR, t2best = TOOFAR;
 	Sphere* sbest = NULL;
 	real t1, t2;
-	int i;
+	uint i;
 	for (i = 0; i < OBJNUM; i++)
 	{
 		if (&Spheres[i] == disable) continue;

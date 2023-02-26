@@ -5,7 +5,9 @@
 //
 // ****************************************************************************
 
-#include "main.h"
+#include "levels.h"
+#include "game.h"
+#include "picovga.h"
 
 // level scenes
 const u8 Levels[(LEVNUM+1)*MAPSIZE] = {

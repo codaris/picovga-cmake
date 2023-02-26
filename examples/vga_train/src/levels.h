@@ -8,6 +8,9 @@
 #ifndef _LEVELS_H
 #define _LEVELS_H
 
+#include "picovga.h"
+#include "game.h"
+
 #define LEVNUM	50	// number of levels (without demo scene)
 
 // Item indices (symbols used in level definitions)

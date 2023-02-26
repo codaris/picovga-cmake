@@ -11,7 +11,8 @@
 // distributed for non-commercial use provided they remain unchanged, credited
 // with the author's name and original web site, and provided the author is notified.
 
-#include "main.h"
+#include "levels.h"
+#include "picovga.h"
 
 // MiniCosmos, (c) Aymeric du Peloux
 const char* PelouxCol1[] = {

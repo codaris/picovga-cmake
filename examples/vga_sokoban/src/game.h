@@ -8,6 +8,8 @@
 #ifndef _GAME_H
 #define _GAME_H
 
+#include "picovga.h"
+
 //#define AUTOMODE		// automode - autorun all levels to check solutions
 
 #ifdef AUTOMODE	// automode - autorun all levels to check solutions

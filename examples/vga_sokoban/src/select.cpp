@@ -5,7 +5,11 @@
 //
 // ****************************************************************************
 
+#include "select.h"
+#include "pico/printf.h"
 #include "main.h"
+#include "levels.h"
+#include "game.h"
 
 // print position
 //u8 PrintX, PrintY, PrintCol;

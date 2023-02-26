@@ -8,6 +8,8 @@
 #ifndef _RENDER_H
 #define _RENDER_H
 
+#include "picovga.h"
+
 // render image fast
 void Render3DFast();
 

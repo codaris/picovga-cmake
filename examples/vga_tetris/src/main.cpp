@@ -6,6 +6,8 @@
 // ****************************************************************************
 
 #include "main.h"
+#include "pico/printf.h"
+#include <string.h>
 
 #define BASEBRICKNUM 7	// number of basebricks
 #define BRICKTEMPNUM 19	// number of brick templates

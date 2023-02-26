@@ -8,6 +8,9 @@
 #ifndef _MAIN_H
 #define _MAIN_H
 
+#include "picovga.h"
+#include "game.h"
+
 // Define screen
 #define TILESIZE 32	// tile size in number of pixels
 #define TILEW	(MAPW*TILESIZE) // tiles width (20*32 = 640)

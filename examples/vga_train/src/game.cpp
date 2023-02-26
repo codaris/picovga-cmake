@@ -6,6 +6,11 @@
 // ****************************************************************************
 
 #include "main.h"
+#include "game.h"
+#include "levels.h"
+
+#include <string.h>
+#include "pico/printf.h"
 
 // buffers
 u8 Board[MAPSIZE];	// game board

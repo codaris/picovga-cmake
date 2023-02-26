@@ -8,6 +8,8 @@
 #ifndef _MAIN_H
 #define _MAIN_H
 
+#include "picovga.h"
+
 // program version and copyright
 #define VERSION	"1.0"
 #define COPYRIGHT "(c) 2021 Miroslav Nemecek"

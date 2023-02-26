@@ -6,6 +6,7 @@
 // ****************************************************************************
 
 #include "main.h"
+#include "render.h"
 
 // Draw box
 u8 Box[WIDTHBYTE*HEIGHT] __attribute__ ((aligned(4)));

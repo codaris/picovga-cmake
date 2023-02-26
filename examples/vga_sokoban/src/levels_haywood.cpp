@@ -29,7 +29,8 @@
 // The later puzzles are extremely difficult.
 // The SokHard puzzles are sorted in release order.
 
-#include "main.h"
+#include "levels.h"
+#include "picovga.h"
 
 // SokEvo, (c) Lee J. Haywood
 const char* HaywoodCol1[] = {
