@@ -1,6 +1,11 @@
 # This file should be included in your project to use the picovga library
 # the PICOVGA_PATH variable should be set to the root of the picovga project directory
 
+if (DEFINED ENV{PICOVGA_PATH} AND (NOT PICOVGA_PATH))
+    set(PICOVGA_PATH $ENV{PICOVGA_PATH})
+    message("Using PICOVGA_PATH from environment ('${PICOVGA_PATH}')")
+endif ()
+
 # The macro add_picovga adds the picovga path references to the specified project.
 # PICOVGA_PATH must be set to the root of the picovga project directory
 macro(add_picovga project)

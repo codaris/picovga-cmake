@@ -28,6 +28,8 @@
 
 // compose PC color
 #define PC_COLOR(bg,fg) (((bg)<<4)|(fg))
+#define PC_FGCOLOR(color) ((color) & 0b1111)  // Added by WV
+#define PC_BGCOLOR(color) ((color) >> 4)    // Added by WV
 
 // ASCII characters
 #define CHAR_CR	'\r'
