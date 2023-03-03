@@ -12,6 +12,9 @@
 #ifndef _PICOVGA_H
 #define _PICOVGA_H
 
+//!@addtogroup VideoInit Video Initialization
+//!@addtogroup VideoMode Video mode configuration
+//!@addtogroup Screen Screen layout
 
 typedef signed char s8;
 typedef unsigned char u8;

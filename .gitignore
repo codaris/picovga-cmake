@@ -5,6 +5,7 @@ cmake-*
 build
 .DS_Store
 *.pdf
+docs
 
 ### CMake ###
 CMakeLists.txt.user
@@ -45,3 +46,12 @@ _deps
 elf2uf2
 generated
 pico-sdk
+pioasm
+*.bin
+*.elf
+*.elf.map
+*.hex
+*.dis
+*.uf2
+vga.pio.h
+Makefile

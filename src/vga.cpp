@@ -1058,9 +1058,7 @@ void VgaCore()
 	}
 }
 
-/**
- * @brief Starts the VGA core on core1
- */
+// Starts the VGA core on core1
 void StartVgaCore()
 {
 	// stop VGA core

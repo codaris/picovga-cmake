@@ -14,6 +14,8 @@ add_compile_options(-Wall
         -Wno-maybe-uninitialized
         )
 
+set(EXECUTABLE_OUTPUT_PATH "build")
+
 # Since this is the picovga project set to the path to this directory        
 set(PICOVGA_PATH ${CMAKE_CURRENT_LIST_DIR})
 # Include the picovga.cmake to add the add_picovga() macro 
