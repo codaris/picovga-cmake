@@ -8,10 +8,20 @@
 #ifndef _VGA_VMODE_H
 #define _VGA_VMODE_H
 
-//!@addtogroup VideoMode Video mode configuration
-//!@brief Structures and functions for video modes
-//!@details The video mode can be initialized either simply by the Video function or in more detail by the other functions.
-//!@{
+//! @addtogroup VideoMode
+//! @brief Structures and functions for configuring video modes
+//! @details The sVgaCfg structure contains the required properties of the video mode: the display resolution, 
+//! the minimum processor frequency and the timing of the sVideo signal, possibly also the required overlay mode. 
+//! You can first call the VgaCfgDef() function, which presets the structure to the default parameters. The VgaCfg() 
+//! function prepares the sVmode descriptor structure, which is later passed to the VgaInitReq() function. 
+//! At this point no operations are taking place only the necessary settings are being calculated. After the calculation, 
+//! some items of the sVmode structure can be adjusted. In the library there are global structures Cfg and Vmode that can 
+//! be used for the function. The required screen resolution and signal timing are two independent properties. 
+//! For timing, you are limited only by the number of video lines of the image, but otherwise you can set any screen resolution 
+//! within them. For example, for PAL and NTSC video, you can set a VGA video resolution. To make the program versatile so that 
+//! it can be run on both a VGA monitor and a TV, use a VGA resolution of 640x480 or 320x240 (or 512x400 and 256x192, due to RAM 
+//! limitations). When changing the display, just select VGA/PAL or NTSC timing, the resolution does not change for the program.
+//! @{
 
 #define VIDEO_NAME_LEN	5	//!< length of video timing name
 
@@ -232,21 +242,15 @@ void VgaPrintCfg(const sVmode* vmode);
 
 /**
  * @brief Calculate the structure for setting up the video mode.
- * @details The sVgaCfg structure contains the required properties of the video mode: the display resolution, 
- * the minimum processor frequency and the timing of the sVideo signal, possibly also the required overlay mode. 
- * You can first call the VgaCfgDef function, which presets the structure to the default parameters. The VgaCfg 
- * function prepares the sVmode descriptor structure, which is later passed to the init function. 
- * At this point no operations are taking place only the necessary settings are being calculated. After the calculation, 
- * some items of the sVmode structure can be adjusted. In the library there are global structures Cfg and Vmode that can 
- * be used for the function. The required screen resolution and signal timing are two independent properties. 
- * For timing, you are limited only by the number of video lines of the image, but otherwise you can set any screen resolution 
- * within them. For example, for PAL and NTSC video, you can set a VGA video resolution. To make the program versatile so that 
- * it can be run on both a VGA monitor and a TV, use a VGA resolution of 640x480 or 320x240 (or 512x400 and 256x192, due to RAM 
- * limitations). When changing the display, just select VGA/PAL or NTSC timing, the resolution does not change for the program.
  * @param cfg Source configuration structure
  * @param vmode Destination videomode setup for driver
 */
 void VgaCfg(const sVgaCfg* cfg, sVmode* vmode);
+
+//! @}
+
+//! @addtogroup VideoInit
+//! @{
 
 /**
  * @brief Simplified initialization of the video mode
@@ -267,6 +271,7 @@ void VgaCfg(const sVgaCfg* cfg, sVmode* vmode);
  */
 void Video(u8 dev, u8 res, u8 form, u8* buf, const void* buf2 = FontBoldB8x16);
 
-//!@}
+//! @}
+
 
 #endif // _VGA_VMODE_H
