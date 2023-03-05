@@ -17,6 +17,7 @@
 /// @defgroup Screen Screen Layout
 /// @defgroup Layers Overlay Layers
 /// @defgroup Colors Colors and Palettes
+/// @defgroup Canvas Canvas
 
 typedef signed char s8;
 typedef unsigned char u8;
