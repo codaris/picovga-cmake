@@ -12,9 +12,11 @@
 #ifndef _PICOVGA_H
 #define _PICOVGA_H
 
-//!@addtogroup VideoInit Video/Library Initialization
-//!@addtogroup VideoMode Configurating Video Mode
-//!@addtogroup Screen Screen layout
+/// @defgroup VideoInit Video/Library Initialization
+/// @defgroup VideoMode Configurating Video Mode
+/// @defgroup Screen Screen Layout
+/// @defgroup Layers Overlay Layers
+/// @defgroup Colors Colors and Palettes
 
 typedef signed char s8;
 typedef unsigned char u8;

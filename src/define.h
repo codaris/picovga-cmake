@@ -11,46 +11,51 @@
 
 #define BLACK_MAX	MAXX	// size of buffer with black color (used to clear rest of unused line)
 
+/// @addtogroup Layers Overlay Layers
+/// @{
+
 // VGA PIO program
-#define BASE_OFFSET	17	// offset of base layer program
-#define LAYER_OFFSET	0	// offset of overlapped layer program
+#define BASE_OFFSET	17		///< Offset of base layer PIO program
+#define LAYER_OFFSET	0	///< Offset of overlapped layer PIO program
 
 // layer program
-#define LAYERPROG_BASE	0	// program of base layer (overlapped layers are OFF)
-#define LAYERPROG_KEY	1	// layer with key color
-#define LAYERPROG_BLACK	2	// layer with black key color
-#define LAYERPROG_WHITE	3	// layer with white key color
-#define LAYERPROG_MONO	4	// layer with mono pattern or simple color
-#define LAYERPROG_RLE	5	// layer with RLE compression
+#define LAYERPROG_BASE	0	///< Program of base layer (overlapped layers are OFF)
+#define LAYERPROG_KEY	1	///< Layer with key color
+#define LAYERPROG_BLACK	2	///< Layer with black key color
+#define LAYERPROG_WHITE	3	///< Layer with white key color
+#define LAYERPROG_MONO	4	///< Layer with mono pattern or simple color
+#define LAYERPROG_RLE	5	///< Layer with RLE compression
 
-#define LAYERPROG_NUM	6	// number of layer programs
+#define LAYERPROG_NUM	6	///< Number of layer programs
 
 // layer mode (CPP = clock cycles per pixel)
 //	Control buffer: 16 bytes
 //	Data buffer: 4 bytes
 // fast sprites can be up Control buffer: width*2 bytes
 // sprites Data buffer: width bytes
-#define LAYERMODE_BASE		0	// base layer
-#define LAYERMODE_KEY		1	// layer with key color
-#define LAYERMODE_BLACK		2	// layer with black key color
-#define LAYERMODE_WHITE		3	// layer with white key color
-#define LAYERMODE_MONO		4	// layer with mono pattern
-#define LAYERMODE_COLOR		5	// layer with simple color
-#define LAYERMODE_RLE		6	// layer with RLE compression
-#define LAYERMODE_SPRITEKEY	7	// layer with sprites with key color
-#define LAYERMODE_SPRITEBLACK	8	// layer with sprites with black key color
-#define LAYERMODE_SPRITEWHITE	9	// layer with sprites with white key color
-#define LAYERMODE_FASTSPRITEKEY	10	// layer with fast sprites with key color
-#define LAYERMODE_FASTSPRITEBLACK 11	// layer with fast sprites with black key color
-#define LAYERMODE_FASTSPRITEWHITE 12	// layer with fast sprites with white key color
-#define LAYERMODE_PERSPKEY	13	// layer with key color and image with transformation matrix
-#define LAYERMODE_PERSPBLACK	14	// layer with black key color and image with transformation matrix
-#define LAYERMODE_PERSPWHITE	15	// layer with white key color and image with transformation matrix
-#define LAYERMODE_PERSP2KEY	16	// layer with key color and double-pixel image with transformation matrix
-#define LAYERMODE_PERSP2BLACK	17	// layer with black key color and double-pixel image with transformation matrix
-#define LAYERMODE_PERSP2WHITE	18	// layer with white key color and double-pixel image with transformation matrix
+#define LAYERMODE_BASE		0			///< Base layer
+#define LAYERMODE_KEY		1			///< Layer with key color
+#define LAYERMODE_BLACK		2			///< layer with black key color
+#define LAYERMODE_WHITE		3			///< Layer with white key color
+#define LAYERMODE_MONO		4			///< Layer with mono pattern
+#define LAYERMODE_COLOR		5			///< layer with simple color
+#define LAYERMODE_RLE		6			///< Layer with RLE compression
+#define LAYERMODE_SPRITEKEY	7			///< Layer with sprites with key color
+#define LAYERMODE_SPRITEBLACK	8		///< Layer with sprites with black key color
+#define LAYERMODE_SPRITEWHITE	9		///< Layer with sprites with white key color
+#define LAYERMODE_FASTSPRITEKEY	10		///< Layer with fast sprites with key color
+#define LAYERMODE_FASTSPRITEBLACK 11	///< Layer with fast sprites with black key color
+#define LAYERMODE_FASTSPRITEWHITE 12	///< Layer with fast sprites with white key color
+#define LAYERMODE_PERSPKEY		13		///< Layer with key color and image with transformation matrix
+#define LAYERMODE_PERSPBLACK	14		///< Layer with black key color and image with transformation matrix
+#define LAYERMODE_PERSPWHITE	15		///< Layer with white key color and image with transformation matrix
+#define LAYERMODE_PERSP2KEY		16		///< Layer with key color and double-pixel image with transformation matrix
+#define LAYERMODE_PERSP2BLACK	17		///< Layer with black key color and double-pixel image with transformation matrix
+#define LAYERMODE_PERSP2WHITE	18		///< Layer with white key color and double-pixel image with transformation matrix
 
-#define LAYERMODE_NUM	19	// number of overlapped layer modes
+#define LAYERMODE_NUM	19				///< Number of overlapped layer modes
+
+/// @}
 
 // Structure of sprite sSprite (on change update structure sSprite in vga_layer.h)
 #define SSPRITE_IMG	0	// u8*	img;	// pointer to image data

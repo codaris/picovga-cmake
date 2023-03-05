@@ -8,48 +8,52 @@
 #ifndef _VGA_SCREEN_H
 #define _VGA_SCREEN_H
 
-//!@addtogroup Screen 
-//!@brief Defining the layout of the display
-//!@details When displaying screen image, the default pointer is pScreen for the library. It points to the sScreen structure that 
-//!describes the contents of the display. The Raspberry Pico has a limited RAM size and cannot accommodate a high resolution image. Therefore, the image must be composed of smaller segments to minimize the memory-intensive parts.
-//!@note The following descriptions of the image format only apply to the base image layer 0. It is the only one that can contain 
-//!segments in different formats. Overlay layers 1 through 3 are independent of the base layer format, sharing only the total 
-//!screen area with the base layer but using their own image format.
-//!@{
+/**
+* @addtogroup Screen 
+* @brief Defining the layout of the display
+* @details When displaying screen image, the default pointer is pScreen for the library. It points to the sScreen structure that 
+* describes the contents of the display. The Raspberry Pico has a limited RAM size and cannot accommodate a high resolution image. 
+* Therefore, the image must be composed of smaller segments to minimize the memory-intensive parts.
+* @note The following descriptions of the image format only apply to the base image layer 0. It is the only one that can contain 
+* segments in different formats. Overlay layers 1 through 3 are independent of the base layer format, sharing only the total 
+* screen area with the base layer but using their own image format.
+* @{ 
+*/
 
-//! Video segment (on change update SSEGM_* in define.h)
+
+/// Video segment (on change update SSEGM_* in define.h)
 typedef struct {
-	u16	width;	//!< SSEGM_WIDTH width of this video segment in pixels (must be multiple of 4, 0=inactive segment)
-	u16	wb;		//!< SSEGM_WB pitch - number of bytes between lines
-	s16	offx;	//!< SSEGM_OFFX display offset at X direction (must be multiple of 4)
-	s16	offy;	//!< SSEGM_OFFY display offset at Y direction
-	u16	wrapx;	//!< SSEGM_WRAPX wrap width in X direction (number of pixels, must be multiply of 4 and > 0)
-				//!<	text modes: wrapx must be multiply of 8
-	u16	wrapy;	//!< SSEGM_WRAPY wrap width in Y direction (number of lines, cannot be 0)
-	const void* data; //!< SSEGM_DATA pointer to video buffer with image data
-	u8	form;	//!< SSEGM_FORM graphics format GF_*
-	bool	dbly;	//!< SSEGM_DBLY double Y (2 scanlines per 1 image line)
-	u16	par3;	//!< SSEGM_PAR3 parameter 3
-	u32	par;	//!< SSEGM_PAR parameter 1
-	u32	par2;	//!< SSEGM_PAR2 parameter 2
+	u16	width;	///< SSEGM_WIDTH width of this video segment in pixels (must be multiple of 4, 0=inactive segment)
+	u16	wb;		///< SSEGM_WB pitch - number of bytes between lines
+	s16	offx;	///< SSEGM_OFFX display offset at X direction (must be multiple of 4)
+	s16	offy;	///< SSEGM_OFFY display offset at Y direction
+	u16	wrapx;	///< SSEGM_WRAPX wrap width in X direction (number of pixels, must be multiply of 4 and > 0)
+				///<	text modes: wrapx must be multiply of 8
+	u16	wrapy;	///< SSEGM_WRAPY wrap width in Y direction (number of lines, cannot be 0)
+	const void* data; ///< SSEGM_DATA pointer to video buffer with image data
+	u8	form;	///< SSEGM_FORM graphics format GF_*
+	bool	dbly;	///< SSEGM_DBLY double Y (2 scanlines per 1 image line)
+	u16	par3;	///< SSEGM_PAR3 parameter 3
+	u32	par;	///< SSEGM_PAR parameter 1
+	u32	par2;	///< SSEGM_PAR2 parameter 2
 } sSegm;
 
-//! Video strip (on change update SSTRIP_* in define.h)
+/// Video strip (on change update SSTRIP_* in define.h)
 typedef struct {
-	u16	height;				//!< SSTRIP_HEIGHT height of this strip in number of scanlines
-	u16	num;				//!< SSTRIP_NUM number of video segments
-	sSegm	seg[SEGMAX];	//!< SSTRIP_SEG list of video segments
+	u16	height;				///< SSTRIP_HEIGHT height of this strip in number of scanlines
+	u16	num;				///< SSTRIP_NUM number of video segments
+	sSegm	seg[SEGMAX];	///< SSTRIP_SEG list of video segments
 } sStrip;
 
-//! Video screen (on change update SSCREEN_* in define.h)
+/// Video screen (on change update SSCREEN_* in define.h)
 typedef struct {
-	u16	num;				//!< SSCREEN_NUM number of video strips
-	u16	backup;				//!< SSCREEN_BACKUP backup number of video strips during display OFF
-	sStrip	strip[STRIPMAX]; //!< SSCREEN_STRIP list of video strips
+	u16	num;				///< SSCREEN_NUM number of video strips
+	u16	backup;				///< SSCREEN_BACKUP backup number of video strips during display OFF
+	sStrip	strip[STRIPMAX]; ///< SSCREEN_STRIP list of video strips
 } sScreen;
 
-extern sScreen Screen;		//!< Default video screen
-extern sScreen* pScreen;	//!< Pointer to current video screen
+extern sScreen Screen;		///< Default video screen
+extern sScreen* pScreen;	///< Pointer to current video screen
 
 /**
  * @brief Clear screen (set 0 strips, does not modify sprites)
@@ -546,6 +550,6 @@ void ScreenSegmTilePersp3(sSegm* segm, const u8* map, const u8* tiles, const int
 void ScreenSegmTilePersp4(sSegm* segm, const u8* map, const u8* tiles, const int* mat, 
 	u8 mapwbits, u8 maphbits, u8 tilebits, s8 horizon);
 
-//!@}
+/// @} 
 
 #endif // _VGA_SCREEN_H

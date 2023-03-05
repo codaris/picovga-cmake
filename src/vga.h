@@ -114,10 +114,12 @@ void ScanlineTypePrint(const u8* scan, int lines);
 // - All layer modes must use same layer program (LAYERMODE_BASE = overlapped layers are OFF)
 void VgaInit(const sVmode* vmode); //, u8 layer1mode=LAYERMODE_BASE, u8 layer2mode=LAYERMODE_BASE, u8 layer3mode=LAYERMODE_BASE);
 
-//! @addtogroup VideoInit
-//! @brief Functions for initialzing the library
-//! @details The video mode can be initialized either simply by the Video() function or in more detail by the following functions.
-//! @{
+/**
+ * @addtogroup VideoInit
+ * @brief Functions for initialzing the library
+ * @details The video mode can be initialized either simply by the Video() function or in more detail by the following functions.
+ * @{
+*/
 
 /**
  * @brief Start the VGA processing on core1
@@ -137,15 +139,17 @@ void StartVgaCore();
 */
 void VgaInitReq(const sVmode* vmode);
 
-//! @}
+/// @}
 
-//! @addtogroup Core Second core 
-//! @brief Execute functions on the second core
-//! @details If the 2nd core is not too busy generating the video, it can be passed a request to perform the function. 
-//! This does not affect the video generation, it may just happen that the requested function runs slowly when the 
-//! generator is heavily loaded. The function cannot use interrupts, cannot disable interrupts, and may be restricted 
-//! from using the hardware interpolator (video interrupt does not save its state).
-//! @{
+/** 
+ * @addtogroup Core Second core 
+ * @brief Execute functions on the second core
+ * @details If the 2nd core is not too busy generating the video, it can be passed a request to perform the function. 
+ * This does not affect the video generation, it may just happen that the requested function runs slowly when the 
+ * generator is heavily loaded. The function cannot use interrupts, cannot disable interrupts, and may be restricted 
+ * from using the hardware interpolator (video interrupt does not save its state).
+ * @{
+*/
  
 /**
  * @brief Execute remote function on second core
@@ -163,7 +167,7 @@ Bool Core1Busy();
  */ 
 void Core1Wait();
 
-//!@}
+/// @}
 
 /**
  * @brief Wait for VSync scanline
