@@ -1,15 +1,15 @@
-
-// ****************************************************************************
-//
-//                                 VGA videomodes
-//
-// ****************************************************************************
+/** 
+ * @file 
+ * @brief VGA videomodes
+ * @author Miroslav Nemecek <Panda38@seznam.cz>
+ * @see VideoModeGroup
+*/
 
 #ifndef _VGA_VMODE_H
 #define _VGA_VMODE_H
 
 /**
- * @addtogroup VideoMode
+ * @addtogroup VideoModeGroup
  * @brief Structures and functions for configuring video modes
  * @details The sVgaCfg structure contains the required properties of the video mode: the display resolution, 
  * the minimum processor frequency and the timing of the sVideo signal, possibly also the required overlay mode. 
@@ -251,7 +251,7 @@ void VgaCfg(const sVgaCfg* cfg, sVmode* vmode);
 
 /// @}
 
-/// @addtogroup VideoInit
+/// @addtogroup VideoInitGroup
 /// @{
 
 /**

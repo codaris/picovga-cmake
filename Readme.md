@@ -1,4 +1,4 @@
-# PicoVGA Library - VGA/TV display on Raspberry Pico
+# PicoVGA - VGA/TV display on Raspberry Pico
 
 ## About this Fork
 This is a fork of the [PicoVGA project](https://github.com/Panda381/PicoVGA) created by Miroslav Nemecek (Panda38@seznam.cz).  It has been altered from the original to use the standard Linux-based Pico SDK.

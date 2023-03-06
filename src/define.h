@@ -1,9 +1,8 @@
-
-// ****************************************************************************
-//                                 
-//                     VGA common definitions of C and ASM
-//
-// ****************************************************************************
+/** 
+ * @file 
+ * @brief VGA common definitions of C and ASM
+ * @author Miroslav Nemecek <Panda38@seznam.cz>
+*/
 
 #include "vga_config.h"		// VGA configuration
 

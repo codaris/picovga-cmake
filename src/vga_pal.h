@@ -1,15 +1,15 @@
-
-// ****************************************************************************
-//
-//                           VGA colors and palettes
-//
-// ****************************************************************************
+/** 
+ * @file 
+ * @brief VGA colors and palettes
+ * @author Miroslav Nemecek <Panda38@seznam.cz>
+ * @see ColorsGroup
+*/
 
 #ifndef _VGA_PAL_H
 #define _VGA_PAL_H
 
 /**
- * @addtogroup Colors
+ * @addtogroup ColorsGroup
  * @{
 */
 

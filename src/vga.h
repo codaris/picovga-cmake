@@ -1,9 +1,9 @@
-
-// ****************************************************************************
-//
-//                                 VGA output
-//
-// ****************************************************************************
+/** 
+ * @file 
+ * @brief Video/Library Initialization
+ * @author Miroslav Nemecek <Panda38@seznam.cz>
+ * @see VideoInitGroup
+*/
 
 #ifndef _VGA_H
 #define _VGA_H
@@ -115,7 +115,7 @@ void ScanlineTypePrint(const u8* scan, int lines);
 void VgaInit(const sVmode* vmode); //, u8 layer1mode=LAYERMODE_BASE, u8 layer2mode=LAYERMODE_BASE, u8 layer3mode=LAYERMODE_BASE);
 
 /**
- * @addtogroup VideoInit
+ * @addtogroup VideoInitGroup
  * @brief Functions for initialzing the library
  * @details The video mode can be initialized either simply by the Video() function or in more detail by the following functions.
  * @{
@@ -142,7 +142,7 @@ void VgaInitReq(const sVmode* vmode);
 /// @}
 
 /** 
- * @addtogroup Core Second core 
+ * @addtogroup Core1Group
  * @brief Execute functions on the second core
  * @details If the 2nd core is not too busy generating the video, it can be passed a request to perform the function. 
  * This does not affect the video generation, it may just happen that the requested function runs slowly when the 

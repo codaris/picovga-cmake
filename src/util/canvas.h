@@ -1,9 +1,9 @@
-
-// ****************************************************************************
-//
-//                                   Canvas
-//
-// ****************************************************************************
+/** 
+ * @file 
+ * @brief Canvas
+ * @author Miroslav Nemecek <Panda38@seznam.cz>
+ * @see CanvasGroup
+*/
 
 #ifndef _CANVAS_H
 #define _CANVAS_H
@@ -11,7 +11,7 @@
 #define DRAW_HWINTER	1	// 1=use hardware interpolator to draw images
 
 /**
- * @addtogroup Canvas
+ * @addtogroup CanvasGroup
  * @brief Drawing board for shapes and images
  * @details Canvas is a drawing board. It is a support library for working with graphical surfaces and images (see the canvas.h 
  * file in the _picovga\util folder). The sCanvas structure is a set of parameters that describe the graphical surface, for use 
@@ -209,7 +209,7 @@ enum {
  * @param y Destination vertical position
  * @param w Destination width
  * @param h Destination height
- * @param m Transformation matrix (should be prepared using PrepDrawImg() or PrepDrawPersp() function)
+ * @param m Transformation matrix (should be prepared using cMat2Df::PrepDrawImg() function)
  * @param col Key or border color
 */
 void DrawImgMat(sCanvas* canvas, const sCanvas* src, int x, int y, int w, int h,
@@ -227,7 +227,7 @@ void DrawImgMat(sCanvas* canvas, const sCanvas* src, int x, int y, int w, int h,
  * @param y Destination vertical position
  * @param w Destination width
  * @param h Destination height
- * @param mat Transformation matrix (should be prepared using PrepDrawPersp() function)
+ * @param mat Transformation matrix (should be prepared using cMat2Df::PrepDrawImg() function)
  * @param horizon Horizon offset (0 = do not use perspective projection)
 */
 void DrawTileMap(sCanvas* canvas, const sCanvas* src, const u8* map, int mapwbits, int maphbits,

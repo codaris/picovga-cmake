@@ -1,9 +1,9 @@
-
-// ****************************************************************************
-//
-//                          2D Transformation Matrix
-//
-// ****************************************************************************
+/** 
+ * @file 
+ * @brief 2D Transformation Matrix
+ * @author Miroslav Nemecek <Panda38@seznam.cz>
+ * @see CanvasGroup
+*/
 
 #ifndef _MAT2D_H
 #define _MAT2D_H
@@ -249,7 +249,7 @@ public:
 
 #define TOFRACT(f) ((int)((f)*FRACTMUL + (((f) < 0) ? -0.5f : 0.5f)))
 
-/// @addtogroup Canvas 
+/// @addtogroup CanvasGroup
 /// @{
 
 /**

@@ -1,15 +1,15 @@
-
-// ****************************************************************************
-//
-//                               VGA screen layout
-//
-// ****************************************************************************
+/** 
+ * @file 
+ * @brief VGA screen layout
+ * @author Miroslav Nemecek <Panda38@seznam.cz>
+ * @see ScreenGroup
+*/
 
 #ifndef _VGA_SCREEN_H
 #define _VGA_SCREEN_H
 
 /**
-* @addtogroup Screen 
+* @addtogroup ScreenGroup
 * @brief Defining the layout of the display
 * @details When displaying screen image, the default pointer is pScreen for the library. It points to the sScreen structure that 
 * describes the contents of the display. The Raspberry Pico has a limited RAM size and cannot accommodate a high resolution image. 

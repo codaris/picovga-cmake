@@ -1,9 +1,8 @@
-
-// ****************************************************************************
-//                                 
-//                           Global common definitions
-//
-// ****************************************************************************
+/** 
+ * @file 
+ * @brief Global common definitions
+ * @author Miroslav Nemecek <Panda38@seznam.cz>
+*/
 
 // ----------------------------------------------------------------------------
 //                              Base data types
@@ -12,12 +11,16 @@
 #ifndef _PICOVGA_H
 #define _PICOVGA_H
 
-/// @defgroup VideoInit Video/Library Initialization
-/// @defgroup VideoMode Configurating Video Mode
-/// @defgroup Screen Screen Layout
-/// @defgroup Layers Overlay Layers
-/// @defgroup Colors Colors and Palettes
-/// @defgroup Canvas Canvas
+/// @defgroup VideoInitGroup Video/Library Initialization
+/// @defgroup VideoModeGroup Configurating Video Mode
+/// @defgroup ScreenGroup Screen Layout
+/// @defgroup LayersGroup Overlay Layers and Sprites
+/// @defgroup ColorsGroup Colors and Palettes
+/// @defgroup CanvasGroup Canvas
+/// @defgroup OverclockGroup CPU Overclocking
+/// @defgroup TextGroup Text Printing
+/// @defgroup PWMGroup PWM Audio
+/// @defgroup Core1Group Second Core
 
 typedef signed char s8;
 typedef unsigned char u8;

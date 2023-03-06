@@ -33,3 +33,5 @@ To try out the library, the simplest approach is to take 8 resistors and connect
 * Automatic overclocking of the processor according to the desired resolution
 * The library uses the 2nd core of the processor, the 1st core is reserved for the main program 
 * Additional PWM audio output (not required)
+
+test link LayerSpriteSetup()

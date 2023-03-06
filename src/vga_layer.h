@@ -1,9 +1,9 @@
-
-// ****************************************************************************
-//
-//                                 VGA layers
-//
-// ****************************************************************************
+/** 
+ * @file 
+ * @brief VGA layers
+ * @author Miroslav Nemecek <Panda38@seznam.cz>
+ * @see LayersGroup
+*/
 
 #ifndef _VGA_LAYER_H
 #define _VGA_LAYER_H
@@ -75,7 +75,7 @@ extern sLayerMode CurLayerMode[LAYERS]; // copy of current layer mode
 extern u8 LayerMask;	// mask of active layers
 
 /**
- * @addtogroup Layers
+ * @addtogroup LayersGroup
  * @details The display of the image by the PicoVGA library is performed by the PIO processor controller. PIO0 is used. 
  * The other controller, PIO1, is unused and can be used for other purposes. PIO0 contains a 4 state machine, SM0 to SM3. 
  * All PIO0 state machines use a common program of 32 instructions. Each state machine serves 1 overlay layer. SM0 services 
@@ -84,8 +84,14 @@ extern u8 LayerMask;	// mask of active layers
  * use the other part of the program memory, 17 instructions starting at address 0. This part may change, depending on the mode 
  * of the overlay layers. All 3 overlay layers use a common program and must therefore operate in the same display mode. Some 
  * overlay modes use the same program and can be shared - see the table below for details.
- * @note Only base layer 0 can contain segments in different formats. Overlay layers 1 to 3 are independent of the base layer format, sharing only the total display area with the base layer, but using their own image format, for which only the coordinates and dimensions are specified.
- * describes the contents of the display. The Raspberry Pico has a limited RAM size and cannot accommodate a high resolution image. Therefore, the image must be composed of smaller segments to minimize the memory-intensive parts.
+ * @note Only base layer 0 can contain segments in different formats. Overlay layers 1 to 3 are independent of the base layer 
+ * format, sharing only the total display area with the base layer, but using their own image format, for which only the 
+ * coordinates and dimensions are specified. 
+ * @par 
+ * Overlay layers can use one of the following programs:
+ * * <b>LAYERPROG_BASE</b> - The base layer 0 program. Cannot be used for overlay layers. Using the parameter 
+ * for an overlay layer means that the layer is inactive (not using the program).
+ * * <b>LAYERPROG_KEY</b> - Layer with key color. The specified color is replaced by transparency.
  * @{ 
 */
 
