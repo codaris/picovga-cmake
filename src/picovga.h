@@ -4,10 +4,6 @@
  * @author Miroslav Nemecek <Panda38@seznam.cz>
 */
 
-// ----------------------------------------------------------------------------
-//                              Base data types
-// ----------------------------------------------------------------------------
-
 #ifndef _PICOVGA_H
 #define _PICOVGA_H
 
@@ -20,7 +16,15 @@
 /// @defgroup OverclockGroup CPU Overclocking
 /// @defgroup TextGroup Text Printing
 /// @defgroup PWMGroup PWM Audio
+/// @defgroup RandomGroup Random Number Generator
 /// @defgroup Core1Group Second Core
+/// @defgroup UtilsGroup Utility Functions
+/// @defgroup TypesGroup Base types and Constants
+
+/**
+ * @addtogroup TypesGroup
+ * @{
+*/
 
 typedef signed char s8;
 typedef unsigned char u8;
@@ -108,6 +112,8 @@ typedef unsigned char Bool;
 
 #define PI 3.14159265358979324
 #define PI2 (3.14159265358979324*2)
+
+/// @}
 
 // ----------------------------------------------------------------------------
 //                                   Includes
