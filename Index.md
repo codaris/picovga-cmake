@@ -1,7 +1,7 @@
 # Introduction {#mainpage}
 
 ## About this Fork
-This is a fork of the [PicoVGA project](https://github.com/Panda381/PicoVGA) created by Miroslav Nemecek (Panda38@seznam.cz).  It has been altered from the original to use the standard Linux-based Pico SDK.
+This is a fork of the [PicoVGA project](https://github.com/Panda381/PicoVGA) created by Miroslav Nemecek (Panda38@seznam.cz).  It has been altered from the original to use the standard Linux-based  Raspberry Pi Pico SDK.  The header files have also been altered to support automatically generating documentation.
 
 This fork was created to support the Pico W hardware not supported by SDK included in the original PicoVGA project.   
 
@@ -15,7 +15,9 @@ To try out the library, the simplest approach is to take 8 resistors and connect
 
 ![](www/img/PicoVGA_diagram2.jpg)
 
-*License terms*: The PicoVGA library source code and the PicoVGA library sample programs are freely available for further use and modifications. This does not apply to certain graphics and sounds (such as the sounds in Pac-Man) and scene definitions in Sokoban, as these are subject to third party copyrights and may be subject to different distribution terms.
+### License terms
+
+The PicoVGA library source code and the PicoVGA library sample programs are freely available for further use and modifications. This does not apply to certain graphics and sounds (such as the sounds in Pac-Man) and scene definitions in Sokoban, as these are subject to third party copyrights and may be subject to different distribution terms.
 
 ## Features
 
@@ -34,4 +36,3 @@ To try out the library, the simplest approach is to take 8 resistors and connect
 * The library uses the 2nd core of the processor, the 1st core is reserved for the main program 
 * Additional PWM audio output (not required)
 
-test link LayerSpriteSetup()

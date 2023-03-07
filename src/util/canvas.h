@@ -13,16 +13,16 @@
 /**
  * @addtogroup CanvasGroup
  * @brief Drawing board for shapes and images
- * @details Canvas is a drawing board. It is a support library for working with graphical surfaces and images (see the canvas.h 
- * file in the _picovga\util folder). The sCanvas structure is a set of parameters that describe the graphical surface, for use 
+ * @details Canvas is a drawing board. It is a support library for working with graphical surfaces and images. 
+ * The sCanvas structure is a set of parameters that describe the graphical surface, for use 
  * in drawing functions. A graphical surface can be either a graphical frame buffer or an image, even in Flash. To draw in a 
  * graphical surface, first attach a canvas to it as a definition describing the structure of the area. Likewise, if you want 
  * to draw an image to the surface, first create a canvas for the image with its parameters. The parameters are a pointer to
  * the image data, the image dimensions, and the format. The drawing area can be a graphic area with a depth of 1, 2, 4, 8 bits 
  * or with attributes. In the case of drawing an image to a canvas, the source and target canvas must have the same format. 
  * In the case of transformation matrices, only an 8-bit graphic format can be drawn.
- * @note In PicoVGA, a default canvas 'Canvas' is available. A graphic frame buffer is automatically attached to it when 
- * initialized with the Video function. Otherwise, it can be used arbitrarily in the program.
+ * @note In PicoVGA, a default canvas @link Canvas @endlink is available. A graphic frame buffer is automatically attached to it when 
+ * initialized with the Video() function. Otherwise, it can be used arbitrarily in the program.
  * @{
 */
 

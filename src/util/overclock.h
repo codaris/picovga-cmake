@@ -15,7 +15,7 @@
  * @details Some display functions may be CPU speed intensive and may require overclocking to a higher speed. It should be 
  * understood that overclocking places the processor in areas where proper function is not guaranteed. The PicoVGA library 
  * allows you to control the overclocking of the processor, according to the desired video mode. The minimum and maximum 
- * processor frequency can be specified in the VgaCfg function. By default, the library allows a range of 120 to 270 MHz. 
+ * processor frequency can be specified in the VgaCfg() function. By default, the library allows a range of 120 to 270 MHz. 
  * However, it may happen that at higher frequencies the processor will not operate correctly and it may be necessary to 
  * lower the upper limit.
  * The searched processor frequency can be set with the set_sys_clock_pll() function.

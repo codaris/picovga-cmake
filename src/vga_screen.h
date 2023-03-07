@@ -11,7 +11,7 @@
 /**
 * @addtogroup ScreenGroup
 * @brief Defining the layout of the display
-* @details When displaying screen image, the default pointer is pScreen for the library. It points to the sScreen structure that 
+* @details When displaying screen image, the default pointer is @link pScreen @endlink for the library. It points to the sScreen structure that 
 * describes the contents of the display. The Raspberry Pico has a limited RAM size and cannot accommodate a high resolution image. 
 * Therefore, the image must be composed of smaller segments to minimize the memory-intensive parts.
 * @note The following descriptions of the image format only apply to the base image layer 0. It is the only one that can contain 

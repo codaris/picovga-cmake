@@ -246,6 +246,7 @@ void VgaPrintCfg(const sVmode* vmode);
  * @brief Calculate the structure for setting up the video mode.
  * @param cfg Source configuration structure
  * @param vmode Destination videomode setup for driver
+ * @see VgaInitReq()
 */
 void VgaCfg(const sVgaCfg* cfg, sVmode* vmode);
 
