@@ -10,7 +10,7 @@
 
 #define BLACK_MAX	MAXX	// size of buffer with black color (used to clear rest of unused line)
 
-/// @addtogroup Layers Overlay Layers
+/// @addtogroup LayersGroup
 /// @{
 
 // VGA PIO program

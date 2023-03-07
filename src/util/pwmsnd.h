@@ -10,11 +10,6 @@
 //                                PWM sound output
 //
 // ****************************************************************************
-// Sounds are at format 8-bit unsigned (middle at 128), 22050 samples per second, mono
-// PWM cycle is 256: TOP = 255
-// Required PWM clock: 22050*256 = 5644800 Hz
-
-// GP19 ... MOSI + sound output (PWM1 B)
 
 #ifndef _PWMSND_H
 #define _PWMSND_H

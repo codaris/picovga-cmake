@@ -167,7 +167,7 @@
   <!-- Layout definition for a group page -->
   <group>
     <briefdescription visible="no"/>
-    <detaileddescription title="Description"/>
+    <detaileddescription title="Introduction" />
     <groupgraph visible="$GROUP_GRAPHS"/>
     <memberdecl>
       <nestedgroups visible="yes" title=""/>

@@ -77,21 +77,117 @@ extern u8 LayerMask;	// mask of active layers
 /**
  * @addtogroup LayersGroup
  * @details The display of the image by the PicoVGA library is performed by the PIO processor controller. PIO0 is used. 
- * The other controller, PIO1, is unused and can be used for other purposes. PIO0 contains a 4 state machine, SM0 to SM3. 
+ * The other controller, PIO1, is unused and can be used for other purposes. PIO0 contains a 4 state machines, SM0 to SM3. 
  * All PIO0 state machines use a common program of 32 instructions. Each state machine serves 1 overlay layer. SM0 services 
  * base layer 0, along with servicing the synchronization signal. The base layer service program consists of 15 instructions, 
- * starting at offset 17. This part of the program is immutable and is always used. The other 3 layers, 1 to 3, SM1 to SM3, 
+ * starting at offset 17. This part of the program is immutable and is always used. However, the other 3 layers, 1 to 3, SM1 to SM3, 
  * use the other part of the program memory, 17 instructions starting at address 0. This part may change, depending on the mode 
  * of the overlay layers. All 3 overlay layers use a common program and must therefore operate in the same display mode. Some 
  * overlay modes use the same program and can be shared - see the table below for details.
  * @note Only base layer 0 can contain segments in different formats. Overlay layers 1 to 3 are independent of the base layer 
  * format, sharing only the total display area with the base layer, but using their own image format, for which only the 
  * coordinates and dimensions are specified. 
- * @par 
- * Overlay layers can use one of the following programs:
+ * 
+ * <h3>Overlay layers can use one of the following programs:</h3>
  * * <b>LAYERPROG_BASE</b> - The base layer 0 program. Cannot be used for overlay layers. Using the parameter 
  * for an overlay layer means that the layer is inactive (not using the program).
  * * <b>LAYERPROG_KEY</b> - Layer with key color. The specified color is replaced by transparency.
+ * * <b>LAYERPROG_BLACK</b> - Transparency with black color. Black is replaced by transparency. Compared to the previous mode, 
+ * the advantage is less demanding on processor speed.
+ * * <b>LAYERPROG_WHITE</b> - transparency with white colour. It is faster like the previous function and is suitable for use
+ * where black needs to be preserved but white can be omitted. When preparing the image, the image is not copied from Flash to 
+ * RAM with the memcpy function, but the CopyWhiteImg() function is used. The function ensures that the pixels of the copied 
+ * image are incremented by 1. This changes the white color (with a value of 255) to black (with a value of 0). From this point 
+ * on, the image is treated as if it had transparency with black - e.g. the black color is specified for the sprite rendering 
+ * function. Only when the image enters the program in PIO0, the program makes the pixel transparent as in the case of black, 
+ * but at the same time decrements the pixel value. This reverts the colors back to the original value, the black color becomes 
+ * black and the white color has been used as transparency.
+ * * <b>LAYERPROG_MONO</b> - This programme includes 2 sub-programmes. The first is the display of a monochrome image. For each 
+ * bit of image data, either the selected image color is displayed or the corresponding pixel is transparent. This mode is used 
+ * in the Oscilloscope example to display a grid across the oscilloscope screen. The second subroutine is to display a color 
+ * image without transparency. The color pixels are displayed as they are, with no transparency option, but the dimensions of 
+ * the image rectangle and its coordinate on the display can be defined. Thus, a sort of analogy of a single rectangular sprite 
+ * without transparency.
+ * * <b>LAYERPROG_RLE</b> - RLE compression mode. RLE compression is not a universally valid format. It means that the data 
+ * contains segment length information. In this case, the image data of PicoVGA library contain directly instructions for the 
+ * PIO program. More specifically, the image data is interleaved with the jump addresses inside the program. The image is 
+ * prepared using the RaspPicoRle program and is strongly coupled to the layer program used. If, for example, the instructions 
+ * in the program were shifted, the RLE compression format would stop working. This is also why the program for base layer 0 
+ * is placed at the end of the program memory and the overlay layer programs at the beginning - to reduce the chance that 
+ * changes in the program will change the location of the program in memory, at which point RLE compression would stop working. 
+ * After modifying the RLE program in PIO, the conversion program must also be updated.
+ * 
+ * The desired mode of each overlay layer is specified in the video mode definition using the VgaCfg() function. The layer mode 
+ * is used to derive the program and function used to operate the layer rendering. Multiple layer modes can share the same 
+ * program type. Layer modes have different state machine timing requirements. The configuration function takes this into 
+ * account and adjusts the processor frequency accordingly.
+ * 
+ * <h3>Modes of overlay layers:</h3>
+ * 
+ * *WHITE modes using white transparent color require image preparation using CopyWhiteImg() as specified for LAYERPROG_WHITE.
+ * * <b>LAYERMODE_BASE</b> - Indicates base layer mode 0. Cannot be used for an overlay layer, but is used to indicate an inactive 
+ * disabled overlay layer.
+ * * <b>LAYERMODE_KEY</b> - The layer with the specified key color.
+ * * <b>LAYERMODE_BLACK</b> - Layer with black key color.
+ * * <b>LAYERMODE_WHITE</b> - Layer with white key color.
+ * * <b>LAYERMODE_MONO</b> - Monochromatic image.
+ * * <b>LAYERMODE_COLOR</b> - Colour image (without transparency).
+ * * <b>LAYERMODE_RLE</b> - Image with RLE compression.
+ * * <b>LAYERMODE_SPRITEKEY</b> - Sprays with the specified key color.
+ * * <b>LAYERMODE_SPRITEBLACK</b> - Sprays with black key color.
+ * * <b>LAYERMODE_SPRITEWHITE</b> - Sprays with white key color.
+ * * <b>LAYERMODE_FASTSPRITEKEY</b> - Fast sprites with the specified key colour.
+ * * <b>LAYERMODE_FASTSPRITEBLACK</b> - Fast sprites with black key colour.
+ * * <b>LAYERMODE_FASTSPRITEWHITE</b> - Fast sprites with white key colour.
+ * * <b>LAYERMODE_PERSPKEY</b> - Image with transformation matrix with specified key color.
+ * * <b>LAYERMODE_PERSPBLACK</b> - Image with transformation matrix with black key color.
+ * * <b>LAYERMODE_PERSPWHITE</b> - Image with transformation matrix with white key color.
+ * * <b>LAYERMODE_PERSP2KEY</b> - Image with transformation matrix with specified key color and doubled width.
+ * * <b>LAYERMODE_PERSP2BLACK</b> - Image with transformation matrix with black key color and doubled width.
+ * * <b>LAYERMODE_PERSP2WHITE</b> - Image with transformation matrix with white key color and doubled width.
+ * 
+ * <h3>Shared overlay modes</h3>
+ *
+ * Layer modes can only be combined together if they use the same program. CPP is the minimum required number of SMx clock
+ * cycles per pixel.
+ * |							|PROG_BASE  |PROG_KEY	|PROG_BLACK	|PROG_WHITE	|PROG_MONO	|PROG_RLE	|CPP	|
+ * |----------------------------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:-----:|
+ * |LAYERMODE_BASE 				| X			|			|			|			|  	  	  	| 			| 2		|
+ * |LAYERMODE_KEY 	  			|			| X			|			|			|			| 			| 6		|
+ * |LAYERMODE_BLACK 	  	  	|			|			| X 	  	|			|			|  	  		| 4		|
+ * |LAYERMODE_WHITE 	  	  	|  			|			|			| X 		|			|			| 4		|
+ * |LAYERMODE_MONO 	  	  		|  	  		|			|			|			| X 	  	| 			| 4		|
+ * |LAYERMODE_COLOR 	  	  	|  	  		|			|			|			| X			| 	 	  	| 2		|
+ * |LAYERMODE_RLE 	  	  		|  	  	  	|			|			|			|			| X			| 3		|
+ * |LAYERMODE_SPRITEKEY 	  	|			| X 	  	|			|			|			|			| 6		|
+ * |LAYERMODE_SPRITEBLACK		| 	  	  	|			| X			|			|			|			| 4		|
+ * |LAYERMODE_SPRITEWHITE		| 	  	  	|			|			| X			|			|			| 4		|
+ * |LAYERMODE_FASTSPRITEKEY		|			| X 	  	|			|			|			|			| 6		|
+ * |LAYERMODE_FASTSPRITEBLACK	| 	  	  	|			| X			|			|			|			| 4		|
+ * |LAYERMODE_FASTSPRITEWHITE	| 	  	  	|			|			| X			|			|			| 4		|
+ * |LAYERMODE_PERSPKEY 	  		|			| X 	  	|			|			|			|			| 6		|
+ * |LAYERMODE_PERSPBLACK 		| 	  	  	|			| X			|			|			|			| 4		|
+ * |LAYERMODE_PERSPWHITE 		| 	  	  	|			|			| X			|			|			| 4		|
+ * |LAYERMODE_PERSP2KEY 	  	|			| X 	  	|			|			|			|			| 6		|
+ * |LAYERMODE_PERSP2BLACK 		| 	  	  	|			| X			|			|			|			| 4		|
+ * |LAYERMODE_PERSP2WHITE 		| 	  	  	|			|			| X			|			|			| 4		|
+ * 
+ * <h3>Selection of write planes</h3>
+ * 
+ * By default, the image is output from the layers to all output pins. This can be changed by redefining the LayerFirstPin 
+ * and LayerNumPin fields (in vga_layer.cpp). It is possible to specify for each layer separately which output pins will 
+ * be written to. This can create a kind of pseudo-transparency. For example, one layer will render curves in red, another 
+ * layer in green, and the colors will blend independently. When redefining the pins, however, you must take into account 
+ * that the offset of the pin mapping will shift. The output will always start from the lowest bits of the pixel.
+ * 
+ * <h3>Configure overlay layers</h3>
+ * 
+ * The first step for setting up the overlay layer is to specify the layer mode for the VgaCfg() initialization function. 
+ * The function detects the required program and the required timing. It does not check if the correct layer modes are 
+ * combined together.
+ *
+ * The second step is to initialize the layer descriptor - the sLayer structure in the LayerScreen field. It is convenient 
+ * to use the LayerSetup() initialization function for this.
  * @{ 
 */
 
