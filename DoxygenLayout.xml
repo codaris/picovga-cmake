@@ -4,7 +4,7 @@
   <navindex>
     <tab type="mainpage" visible="yes" title=""/>
     <tab type="pages" visible="yes" title="" intro=""/>
-    <tab type="modules" visible="yes" title="Functions" intro=""/>
+    <tab type="modules" visible="yes" title="API Modules" intro=""/>
     <tab type="namespaces" visible="yes" title="">
       <tab type="namespacelist" visible="yes" title="" intro=""/>
       <tab type="namespacemembers" visible="yes" title="" intro=""/>
@@ -167,7 +167,7 @@
   <!-- Layout definition for a group page -->
   <group>
     <briefdescription visible="no"/>
-    <detaileddescription title="Introduction" />
+    <detaileddescription title="Description" />
     <groupgraph visible="$GROUP_GRAPHS"/>
     <memberdecl>
       <nestedgroups visible="yes" title=""/>

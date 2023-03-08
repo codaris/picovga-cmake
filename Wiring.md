@@ -1,3 +1,4 @@
+
 # Wiring diagram    {#wiring}
 
 I don't present here the overall circuit I used, because the library was created as part of a retro gaming computer with Raspberry Pico and is still under development. Here is a simplified wiring diagram of the VGA monitor output (with added audio PWM output):

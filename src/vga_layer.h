@@ -311,6 +311,69 @@ void LayerSetup(u8 inx, const u8* img, const sVmode* vmode, u16 w, u16 h, u8 col
 void LayerPerspSetup(u8 inx, const u8* img, const sVmode* vmode, u16 w, u16 h, u8 xbits, u8 ybits,
 	s8 horiz, const int* mat, u8 col = 0);
 
+/// @}
+
+/**
+ * @addtogroup SpriteGroup
+ * @details Sprites can be used in overlay planes with KEY, BLACK and WHITE programs. There are two ways to use the sprites:
+ * 
+ * 1. Slow sprites, LAYERMODE_SPRITE* modes. Sprites are software generated. The line rendering function first clears the line 
+ * buffer with a transparent color and then sequentially passes through the array of sprites. It looks for which sprites overlap 
+ * a given Y address and, if so, renders the line into the buffer. Sprites in this mode have the advantage that they can overlap 
+ * arbitrarily (the order of overlapping is based on the order of location in the address array) and can scroll subtly pixel by 
+ * pixel. The main disadvantage is the high rendering overhead. Even a small number of sprites can cause a line rendering time
+ * overflow and thus an video dropout. However, it is important to note that the number of sprites (and their dimensions) on the 
+ * same video line is involved. Sprites at distant Y-coordinates are not affected. To check if the rendering function will 
+ * handle a given number of sprites, place the sprites horizontally next to each other. Conversely, if you want to ensure low 
+ * rendering requirements, ensure that the sprites are not in the same vertical Y coordinates. Or reduce the width of the sprites.
+ * 
+ * 2. Fast sprites, LAYERMODE_FASTSPRITE* modes. Sprites are not software rendered to the render buffer, but are sent directly to 
+ * PIO via DMA transfer. This makes the rendering of sprites very fast and allows multiple sprites to be displayed side by side. 
+ * Of course, this brings disadvantages on the other side. The X-coordinate of the sprites and their width must be a multiple of 4,
+ * and the sprites cannot be scrolled finely on the screen (does not apply to the Y-coordinate). But most importantly, the sprites 
+ * cannot directly overlap. One sprite can continue rendering where the previous sprite left off. Thus, the previous sprite can cut
+ * off the beginning of the next sprite. There is a treatment that can slightly improve the situation. To improve overlays (and 
+ * speed up rendering), the sprite includes a table that indicates how many pixels from the edge the opaque sprite line starts 
+ * and how long it is. The SpritePrepLines() function can be used to generate the table. For fast sprites, this information must be 
+ * a multiple of 4. Thus, if we ensure that the beginnings and ends of the image lines start and end at multiples of 4, the 
+ * sprites will overlap almost correctly (unless they have internal transparency). Otherwise, transparent holes may appear at 
+ * the point of overlap. One of the requirements for fast sprites is that the list of sprites must be sorted by the X coordinate. 
+ * The SortSprite() support function is used for this purpose.
+ * 
+ * When using sprites, the first step will be to specify the LAYERMODE_*SPRITE* layer mode for the VgaCfg() initialization 
+ * function.
+ * 
+ * The second step will be to build an array of sprite pattern line starts and lengths using the SpritePrepLines() function. 
+ * The function will be passed a pointer to the image of each sprite (only 8-bit sprites are supported), the image dimensions, 
+ * the pointers to the array of origin and line lengths (the array dimensions correspond to the height of the sprite), and the 
+ * key transparency color. The function searches for line starts and line ends and writes them into the fields. The 'fast' 
+ * parameter specifies whether the tables are generated for fast sprites, in which case the line starts and lengths are divided 
+ * by 4. For slow sprites, the sprite width must be limited to 255 pixels.
+ * 
+ * The third step is to build a list of sprites and initialize the sprites - especially the pointer to the image, the dimensions 
+ * and coordinates of the sprites. The sprite list is an array of pointers to the sprite. Each sprite can only be in the list 
+ * once, but multiple sprite can share the same sprite image and the same array of line starts and lengths. Slow sprites can have 
+ * coordinates outside the allowed range (they will be cropped), but for fast sprites I recommend not to exceed the horizontal 
+ * limits of the screen, the cropping of the image is not yet properly tuned and the program might crash.
+ * 
+ * While the sprites don't have a parameter to turn them off, they can be turned off by setting the Y coordinate out off screen. 
+ * During rendering, visible sprites are searched for by the Y coordinate, an invalid Y coordinate will ensure that the sprite 
+ * is safely disabled.
+ * 
+ * Fast sprites require sorting the list by the X coordinate. This is done by the SortSprite() function, which is passed a pointer 
+ * to the list of sprites and the number of sprites in the list. This function should be called whenever you change the X 
+ * coordinate of the sprite. Transient conditions (e.g. momentary mis-overlapping of sprites) do not matter, they are just 
+ * short-term optical errors, they do not compromise the program. The function sorts using the bubble method, so it is quite 
+ * slow, but so far it does not seem to harm anything (there are not many sprays).
+ * 
+ * The last step is the initialization of the layer with the sprite. The function was described in the previous chapter.
+ * 
+ * The next step is to turn on layer visibility with LayerOn() and control the sprites by changing their X and Y coordinates and 
+ * changing their img images.
+ * 
+ * @{
+*/
+
 /**
  * @brief Setup overlapped layer 1..3 for LAYERMODE_SPRITE* and LAYERMODE_FASTSPRITE* modes
  * @details It differs from the other setup functions by specifying the coordinate of the sprite area, the pointer to the 
@@ -324,6 +387,7 @@ void LayerPerspSetup(u8 inx, const u8* img, const sVmode* vmode, u16 w, u16 h, u
  * @param w Width of area with sprites (must be multiple of 4)
  * @param h Height of area with sprites
  * @param col Key color (needed for LAYERMODE_SPRITEKEY and LAYERMODE_FASTSPRITEKEY layer mode)
+ * @see LayersGroup
 */
 void LayerSpriteSetup(u8 inx, sSprite** sprite, u16 spritenum, const sVmode* vmode,
 	s16 x, s16 y, u16 w, u16 h, u8 col = 0);

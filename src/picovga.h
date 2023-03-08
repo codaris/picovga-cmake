@@ -10,7 +10,8 @@
 /// @defgroup VideoInitGroup Video/Library Initialization
 /// @defgroup VideoModeGroup Configurating Video Mode
 /// @defgroup ScreenGroup Screen Layout
-/// @defgroup LayersGroup Overlay Layers and Sprites
+/// @defgroup LayersGroup Overlay Layers
+/// @defgroup SpriteGroup Sprites
 /// @defgroup ColorsGroup Colors and Palettes
 /// @defgroup CanvasGroup Canvas
 /// @defgroup OverclockGroup CPU Overclocking
@@ -20,6 +21,7 @@
 /// @defgroup Core1Group Second Core
 /// @defgroup UtilsGroup Utility Functions
 /// @defgroup TypesGroup Base types and Constants
+/// @defgroup FontsGroup Fonts
 
 /**
  * @addtogroup TypesGroup
@@ -119,7 +121,20 @@ typedef unsigned char Bool;
 //                                   Includes
 // ----------------------------------------------------------------------------
 
-// fonts
+/**
+ * @addtogroup FontsGroup
+ * @brief Included fonts
+ * @details The following fonts are ready to use in programs. The fonts in PicoVGA are in monochrome image format 
+ * (i.e. 1 pixel is 1 bit) with 256 characters per line and a character width of 8 pixels. The total width of the 
+ * image is therefore 2048 pixels (256 bytes). The height of the font can be arbitrary, but by default there are 8, 
+ * 14 and 16 line fonts in the library. Fonts are exported by the RaspPicoImg utility to *.cpp source text format, 
+ * and are added to the program as a byte array.
+ * 
+ * Example of font font_bold_8x8:
+ * ![](www/img/font1.jpg)
+ * @{
+*/
+
 extern const ALIGNED u8 FontBold8x8[2048];
 extern const ALIGNED u8 FontBold8x14[3584];
 extern const ALIGNED u8 FontBold8x16[4096];
@@ -132,6 +147,9 @@ extern const ALIGNED u8 FontIbm8x16[4096];
 extern const ALIGNED u8 FontIbmTiny8x8[2048];
 extern const ALIGNED u8 FontItalic8x8[2048];
 extern const ALIGNED u8 FontThin8x8[2048];
+
+/// @}
+
 
 // PicoVGA includes
 #include "define.h"	// common definitions of C and ASM
