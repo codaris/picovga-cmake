@@ -130,7 +130,7 @@ typedef unsigned char Bool;
  * 14 and 16 line fonts in the library. Fonts are exported by the RaspPicoImg utility to *.cpp source text format, 
  * and are added to the program as a byte array.
  * 
- * Example of font font_bold_8x8:
+ * Example of font	FontBold8x8:
  * ![](www/img/font1.jpg)
  * @{
 */
