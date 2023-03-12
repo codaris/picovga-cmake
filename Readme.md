@@ -26,6 +26,12 @@ The RP2040 processor has 264 KB of RAM, which is insufficient for higher resolut
 * The library uses the 2nd core of the processor, the 1st core is reserved for the main program 
 * Additional PWM audio output (not required)
 
+## Documentaton
+
+View the complete PicoVGA documentation by clicking the link below:
+
+* [PicoVGA CMake Documentation](https://codaris.github.io/picovga-cmake/)
+
 ## Examples and Tutorials
 
 To learn about installing and building the library and the examples, check out the **Getting Started** section in the documentation:
@@ -43,12 +49,6 @@ To try out the examples, take 8 resistors and connect them to outputs GP0 to GP7
 For more information on connecting the Pico to a VGA display, check out the **Connections** documentation section:
 
 * [Connections](https://codaris.github.io/picovga-cmake/connections)
-
-## Documentaton
-
-View the complete PicoVGA documentation by clicking the link below:
-
-* [PicoVGA CMake Documentation](https://codaris.github.io/picovga-cmake/)
 
 ## License terms
 
