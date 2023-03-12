@@ -131,7 +131,7 @@ typedef unsigned char Bool;
  * and are added to the program as a byte array.
  * 
  * Example of font	FontBold8x8:
- * ![](www/img/font1.jpg)
+ * ![](pages/img/font1.jpg)
  * @{
 */
 
