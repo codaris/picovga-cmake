@@ -20,12 +20,12 @@ set(EXECUTABLE_OUTPUT_PATH "build")
 set(PICOVGA_PATH ${CMAKE_CURRENT_LIST_DIR})
 # Include the picovga.cmake to add the add_picovga() macro 
 include(picovga.cmake)
-# Our monitor requires vsync so set teh vsync pin
+# If monitor requires vsync, set the vsync pin.
 add_compile_definitions(VGA_GPIO_VSYNC=9)
 
 # Add the examples
 add_subdirectory(examples)
 
-# Control the text output of the examples
+# Control the text output (examples set this as needed)
 #pico_enable_stdio_usb(picovga 0)
 #pico_enable_stdio_uart(picovga 0)
