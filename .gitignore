@@ -5,7 +5,6 @@ cmake-*
 build
 .DS_Store
 *.pdf
-docs
 
 ### CMake ###
 CMakeLists.txt.user
@@ -55,3 +54,5 @@ pioasm
 *.uf2
 vga.pio.h
 Makefile
+CMakeDoxyfile.in
+CMakeDoxygenDefaults.cmake

@@ -1,0 +1,28 @@
+var group__TextGroup =
+[
+    [ "CHAR_FRAME", "group__TextGroup.html#ga08f1603ccb8c82f614bdd49b8c371482", null ],
+    [ "FRAME_L", "group__TextGroup.html#gab86c5f1af32c36d86b3d16f54dd5e0c9", null ],
+    [ "FRAME_U", "group__TextGroup.html#gae28be7bd375dc3e8216ca51661144e15", null ],
+    [ "FRAME_R", "group__TextGroup.html#gad1928b0e991c50af34ed239e9bcec9fe", null ],
+    [ "FRAME_D", "group__TextGroup.html#ga042c91227df698468400046f9f3a43c4", null ],
+    [ "CHAR_FRAME_FIRST", "group__TextGroup.html#ga6f1b1fcf3220fb950d30acc1b41fa9ee", null ],
+    [ "CHAR_FRAME_LAST", "group__TextGroup.html#ga9736253678da381b7d0e76feb155ef4b", null ],
+    [ "CHAR_VLINE", "group__TextGroup.html#ga1526153f29404eae222b6f97b4836ae6", null ],
+    [ "CHAR_HLINE", "group__TextGroup.html#ga8328f65449a77cc11ae0302f709a33b5", null ],
+    [ "PrintSetup", "group__TextGroup.html#ga0275c150a5a12613afaef51f4bec2c89", null ],
+    [ "PrintClear", "group__TextGroup.html#gad7b697700b999077439e537a2fef28f3", null ],
+    [ "PrintHome", "group__TextGroup.html#ga569987e642b3fa23427c126e649774ba", null ],
+    [ "PrintSetPos", "group__TextGroup.html#gacdf79045593025b8b51f841dd696094d", null ],
+    [ "PrintAddPos", "group__TextGroup.html#gaba693e4bd43c731c3c97ca303938a903", null ],
+    [ "PrintSetCol", "group__TextGroup.html#ga7ca8b785cd293ee0e1d20869dedf52a0", null ],
+    [ "PrintChar0", "group__TextGroup.html#ga3c5c271811227b03d974171af2a243c4", null ],
+    [ "PrintChar", "group__TextGroup.html#gad43a32dad63df05f21d3b2254c96f36d", null ],
+    [ "PrintSpc", "group__TextGroup.html#gaf269b76cd7c06b18218aa5274ee3f990", null ],
+    [ "PrintSpcTo", "group__TextGroup.html#ga9794804d1b01d51df73144d3edc0150d", null ],
+    [ "PrintCharRep", "group__TextGroup.html#gab9231ede9d6a979f1b812b7667c34d29", null ],
+    [ "PrintSpcRep", "group__TextGroup.html#ga6862b40c6d8ef741e52e0e9ed1488647", null ],
+    [ "PrintText", "group__TextGroup.html#ga351c19309ced4dc9310112ad2b8bae2c", null ],
+    [ "PrintHLine", "group__TextGroup.html#ga16e185e12dd782e3b69117386fe64dc9", null ],
+    [ "PrintVLine", "group__TextGroup.html#gac11665c9779895b57d0a9f853beff7b2", null ],
+    [ "PrintFrame", "group__TextGroup.html#ga2323e69f1ff2adaadf317eb220bd10db", null ]
+];

@@ -25,7 +25,3 @@ add_compile_definitions(VGA_GPIO_VSYNC=9)
 
 # Add the examples
 add_subdirectory(examples)
-
-# Control the text output (examples set this as needed)
-#pico_enable_stdio_usb(picovga 0)
-#pico_enable_stdio_uart(picovga 0)

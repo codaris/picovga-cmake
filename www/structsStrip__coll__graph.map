@@ -1,0 +1,4 @@
+<map id="sStrip" name="sStrip">
+<area shape="rect" id="node1" title="Video strip (on change update SSTRIP_* in define.h)" alt="" coords="9,95,68,121"/>
+<area shape="rect" id="node2" href="$structsSegm.html" title="Video segment (on change update SSEGM_* in define.h)" alt="" coords="5,5,72,32"/>
+</map>

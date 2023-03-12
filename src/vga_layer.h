@@ -38,7 +38,7 @@
 // align to multiple of 4
 #define ALIGN4(x) ((x) & ~3)
 
-// layer program descriptor
+// Layer program descriptor
 typedef struct {
 	const u16*		ins;		// pointer to program instructions (NULL=layers is OFF)
 	const struct pio_program* prg;		// pointer to program descriptor

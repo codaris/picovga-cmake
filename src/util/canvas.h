@@ -210,7 +210,8 @@ enum {
  * @param w Destination width
  * @param h Destination height
  * @param m Transformation matrix (should be prepared using cMat2Df::PrepDrawImg() function)
- * @param col Key or border color
+ * @param mode Mode enum value
+ * @param color Key or border color
 */
 void DrawImgMat(sCanvas* canvas, const sCanvas* src, int x, int y, int w, int h,
 	const class cMat2Df* m, u8 mode, u8 color);
@@ -246,5 +247,7 @@ void DrawTileMap(sCanvas* canvas, const sCanvas* src, const u8* map, int mapwbit
  * @param ws Source width
 */
 void DrawImgLine(sCanvas* canvas, sCanvas* src, int xd, int yd, int xs, int ys, int wd, int ws);
+
+/// @}
 
 #endif // _CANVAS_H

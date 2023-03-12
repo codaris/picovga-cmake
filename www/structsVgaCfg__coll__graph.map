@@ -1,0 +1,4 @@
+<map id="sVgaCfg" name="sVgaCfg">
+<area shape="rect" id="node1" title="Required configuration to initialize VGA output." alt="" coords="5,95,81,121"/>
+<area shape="rect" id="node2" href="$structsVideo.html" title="Video timings structure." alt="" coords="10,5,77,32"/>
+</map>

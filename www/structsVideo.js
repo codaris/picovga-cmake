@@ -1,0 +1,26 @@
+var structsVideo =
+[
+    [ "htot", "structsVideo.html#a126e10fee81b4de95d2b0ac0b558ada9", null ],
+    [ "hfront", "structsVideo.html#a219273ff67ba5e914e8ffac5cd70465c", null ],
+    [ "hsync", "structsVideo.html#a7789d7e6fb32254385a333ae3d849ae0", null ],
+    [ "hback", "structsVideo.html#a442ca0e066ec4463431e6617f0dee9ce", null ],
+    [ "hfull", "structsVideo.html#a116badb157d070c12dca2f2f48f287bf", null ],
+    [ "vtot", "structsVideo.html#ab1dcd3285c00fae3bbe56b02f655c554", null ],
+    [ "vmax", "structsVideo.html#a2647922c3ea7e4d755dcea563de58891", null ],
+    [ "vsync1", "structsVideo.html#ab541d8aa5ee66d36c1ac2e0cfc552bc3", null ],
+    [ "vpost1", "structsVideo.html#a3a8807c08c0d3fc7f20013696dad46b5", null ],
+    [ "vback1", "structsVideo.html#a29744a484ccfe80d56f919908d44030b", null ],
+    [ "vact1", "structsVideo.html#ac58a50a6615a88427fbb5aa84c362ab4", null ],
+    [ "vfront1", "structsVideo.html#a4c92492c9e53e6591d846103fe6cd46d", null ],
+    [ "vpre1", "structsVideo.html#aa088862ed071b676bf26196794738f34", null ],
+    [ "vsync2", "structsVideo.html#afd4f3e0f07f0b090e0c4b52610630242", null ],
+    [ "vpost2", "structsVideo.html#ae7bf1d76bd9bdc4352d44fb0e84d3d9d", null ],
+    [ "vback2", "structsVideo.html#a16ca5555f56db5e614d514a1d74aac2d", null ],
+    [ "vact2", "structsVideo.html#afb34703b0b9a6c413598625fc5765067", null ],
+    [ "vfront2", "structsVideo.html#a6d41dbc413f100e02f15601e1b8970b8", null ],
+    [ "vpre2", "structsVideo.html#aa03780a43b90177b46660f11219b523b", null ],
+    [ "name", "structsVideo.html#a783f8ced1e3a762ff38707044c758f28", null ],
+    [ "inter", "structsVideo.html#a278a0b423dc54ad1ad33096bf441ba3a", null ],
+    [ "psync", "structsVideo.html#a40e64aaa05eea3faaa8d1a334a37b483", null ],
+    [ "odd", "structsVideo.html#aef2abc3ba53e3fe876316c3eeb134aef", null ]
+];

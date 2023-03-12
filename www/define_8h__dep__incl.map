@@ -1,0 +1,5 @@
+<map id="src/define.h" name="src/define.h">
+<area shape="rect" id="node1" title="VGA common definitions of C and ASM." alt="" coords="11,5,108,32"/>
+<area shape="rect" id="node2" href="$picovga_8h.html" title="Global common definitions." alt="" coords="5,155,113,181"/>
+<area shape="rect" id="node3" href="$mat2d_8h.html" title="2D Transformation Matrix" alt="" coords="48,80,172,107"/>
+</map>
