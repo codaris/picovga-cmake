@@ -1,5 +1,5 @@
-/** 
- * @file 
+/**
+ * @file
  * @brief Canvas
  * @author Miroslav Nemecek <Panda38@seznam.cz>
  * @see CanvasGroup
@@ -13,15 +13,15 @@
 /**
  * @addtogroup CanvasGroup
  * @brief Drawing board for shapes and images
- * @details Canvas is a drawing board. It is a support library for working with graphical surfaces and images. 
- * The sCanvas structure is a set of parameters that describe the graphical surface, for use 
- * in drawing functions. A graphical surface can be either a graphical frame buffer or an image, even in Flash. To draw in a 
- * graphical surface, first attach a canvas to it as a definition describing the structure of the area. Likewise, if you want 
+ * @details Canvas is a drawing board. It is a support library for working with graphical surfaces and images.
+ * The sCanvas structure is a set of parameters that describe the graphical surface, for use
+ * in drawing functions. A graphical surface can be either a graphical frame buffer or an image, even in Flash. To draw in a
+ * graphical surface, first attach a canvas to it as a definition describing the structure of the area. Likewise, if you want
  * to draw an image to the surface, first create a canvas for the image with its parameters. The parameters are a pointer to
- * the image data, the image dimensions, and the format. The drawing area can be a graphic area with a depth of 1, 2, 4, 8 bits 
- * or with attributes. In the case of drawing an image to a canvas, the source and target canvas must have the same format. 
+ * the image data, the image dimensions, and the format. The drawing area can be a graphic area with a depth of 1, 2, 4, 8 bits
+ * or with attributes. In the case of drawing an image to a canvas, the source and target canvas must have the same format.
  * In the case of transformation matrices, only an 8-bit graphic format can be drawn.
- * @note In PicoVGA, a default canvas @link Canvas @endlink is available. A graphic frame buffer is automatically attached to it when 
+ * @note In PicoVGA, a default canvas @link Canvas @endlink is available. A graphic frame buffer is automatically attached to it when
  * initialized with the Video() function. Otherwise, it can be used arbitrarily in the program.
  * @{
 */
@@ -48,7 +48,7 @@ typedef struct {
 } sCanvas;
 
 /**
- * @brief Draw rectangle 
+ * @brief Draw rectangle
  * @param canvas Canvas
  * @param x Horizontal position
  * @param y Veritical position
@@ -102,7 +102,7 @@ void DrawLine(sCanvas* canvas, int x1, int y1, int x2, int y2, u8 col);
  * @param y0 Veritical center coordinate
  * @param r Radius
  * @param col Color (with CANVAS_ATTRIB8 format: bit 0..3 = draw color, bit 4 = draw color is background color)
- * @param mask Mask.  Specifies, using bits 0 to 7, which eighths of the circle are drawn. 
+ * @param mask Mask.  Specifies, using bits 0 to 7, which eighths of the circle are drawn.
  * <pre>
  *         . B2|B1 .
  *       B3 .  |  . B0
@@ -120,7 +120,7 @@ void DrawFillCircle(sCanvas* canvas, int x0, int y0, int r, u8 col, u8 mask=0xff
  * @param y0 Veritical center coordinate
  * @param r Radius
  * @param col Color (with CANVAS_ATTRIB8 format: bit 0..3 = draw color, bit 4 = draw color is background color)
- * @param mask Mask.  Specifies, using bits 0 to 7, which eighths of the circle are drawn. 
+ * @param mask Mask.  Specifies, using bits 0 to 7, which eighths of the circle are drawn.
  * <pre>
  *         . B2|B1 .
  *       B3 .  |  . B0
