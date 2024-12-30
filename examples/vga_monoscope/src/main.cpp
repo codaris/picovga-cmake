@@ -180,11 +180,8 @@ void MonoList()
 
 	// print modes
 	int i;
-	sMono* mono;
-	for (i = 0; i < MONO_NUM; i++)
+	for (i = 0; i < (int)MONO_NUM; i++)
 	{
-		mono = &Mono[i];
-
 		// prepare videomode configuration
 		MonoCfg(i);
 
@@ -239,7 +236,7 @@ void MonoList()
 		int vert = (int)(k/Vmode.htot/Vmode.vtot + 0.5f); // vertical frequency
 		printf("%4u |", vert);
 
-		// system frequency 
+		// system frequency
 		printf("%7u", Vmode.freq);
 
 		// current videomode
@@ -258,7 +255,6 @@ void MonoList()
 int main()
 {
 	char c;
-	int i;
 
 	// run VGA core
 	StartVgaCore();

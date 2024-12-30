@@ -296,7 +296,7 @@ u32* __not_in_flash_func(VgaBufRender)(u32* cbuf, u32* cbuf0, u8* dbuf, int y0)
 					*cbuf2++ = 1;
 					*cbuf2++ = (u32)dbuf2;
 					*(u32*)dbuf2 = s->keycol;
-				}				
+				}
 				else
 				{
 					// decode image
@@ -340,7 +340,7 @@ u32* __not_in_flash_func(VgaBufRender)(u32* cbuf, u32* cbuf0, u8* dbuf, int y0)
 					*cbuf2++ = 1;
 					*cbuf2++ = (u32)dbuf2;
 					*(u32*)dbuf2 = s->keycol;
-				}				
+				}
 				else
 				{
 					// decode image
@@ -590,7 +590,7 @@ void VgaPioInit()
 {
 	int i;
 
-	// clear PIO instruction memory 
+	// clear PIO instruction memory
 	pio_clear_instruction_memory(VGA_PIO);
 
 	// configure main program instructions
@@ -599,7 +599,7 @@ void VgaPioInit()
 	u16 cpp = (u16)CurVmode.cpp; // number of clocks per pixel
 	ins[vga_offset_extra1] |= (cpp-2) << 8; // update waits
 	ins[vga_offset_extra2] |= (cpp-2) << 8; // update waits
-	
+
 	// load main program into PIO's instruction memory
 	struct pio_program prg;
 	prg.instructions = ins;
@@ -618,7 +618,7 @@ void VgaPioInit()
 			if (extra < 0) extra = 0;
 			ins[CurLayerProg.extra[i*2]] |= extra << 8; // update waits
 		}
-	
+
 		// load layer program into PIO's instruction memory
 		prg.instructions = ins;
 		prg.length = CurLayerProg.length;
@@ -644,7 +644,7 @@ void VgaPioInit()
 		// get default config
 		pio_sm_config cfg = pio_get_default_sm_config();
 
-		// map state machine's OUT and MOV pins	
+		// map state machine's OUT and MOV pins
 		sm_config_set_out_pins(&cfg, LayerFirstPin[layer], LayerNumPin[layer]);
 
 		// join FIFO to send only
@@ -655,7 +655,7 @@ void VgaPioInit()
 
 		// shift left, autopull, pull threshold
 		sm_config_set_out_shift(&cfg, false, true, 32);
-	
+
 		// base layer 0
 		if (layer == 0)
 		{
@@ -788,7 +788,7 @@ void VgaTerm()
 		CtrlBufNext[i] = NULL;
 	}
 
-	// clear PIO instruction memory 
+	// clear PIO instruction memory
 	pio_clear_instruction_memory(VGA_PIO);
 }
 
@@ -981,14 +981,10 @@ void VgaInit(const sVmode* vmode)
 	memcpy(&CurLayerMode[0], &LayerMode[LAYERMODE_BASE], sizeof(sLayerMode));
 	memset(&LayerScreen[0], 0, sizeof(sLayer));
 
-	// save layer modes
-	LayerModeInx[1] = vmode->mode[1];
-	LayerModeInx[2] = vmode->mode[2];
-	LayerModeInx[3] = vmode->mode[3];
-
 	LayerMask = B0; // mask of active layers
 	for (i = 1; i < LAYERS; i++)
 	{
+		LayerModeInx[i] = vmode->mode[i];	// save layer modes
 		memcpy(&CurLayerMode[i], &LayerMode[LayerModeInx[i]], sizeof(sLayerMode));
 		if (LayerModeInx[i] != LAYERMODE_BASE) LayerMask |= (1 << i);
 	}

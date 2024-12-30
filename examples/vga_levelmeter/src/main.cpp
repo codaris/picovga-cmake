@@ -113,7 +113,7 @@ void VideoInit()
 
 int main()
 {
-	int i, j, off;
+	int i, j;
 	int a, b;
 
 	// copy images
@@ -150,7 +150,7 @@ int main()
 	{
 		// membranes update (by sound offset)
 		int off = (SNDLEN - SoundCnt) % BEATINT;
-		off = (off < BEATON) ? MEMBOFF : 0;
+		off = (off < (int)BEATON) ? MEMBOFF : 0;
 		LayerSetX(MEMB1LAYER, REPRO1X+MEMB1X+off);
 		LayerSetY(MEMB1LAYER, MEMBY+off);
 		LayerSetX(MEMB2LAYER, REPRO2X+MEMB2X+off);

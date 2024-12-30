@@ -72,7 +72,7 @@ int NewCard()
 {
 	// unlinear randomness - cards with low number will be most plentiful
 	int card = (int)(pow((RandFloat()*0.99f), 1.6f) * CARDTYPES);
-	
+
 	// change organization of card order - 3 groups from weakest to strongest cards
 	card = (card/3) + (card % 3)*10;
 	return card;
@@ -163,7 +163,7 @@ char NumBuf[20];
 // display state of one player
 void DispState1(int player)
 {
-	int i, k;
+	int i;
 	sPlayer* p;
 	p = &Players[player];
 
@@ -248,12 +248,8 @@ void DispFlag()
 {
 	int t = ((int)(time_us_64()/200000)) & 3;
 	int player;
-	int i, k;
-	sPlayer* p;
 	for (player = 0; player < 2; player++)
 	{
-		p = &Players[player];
-
 		// get castle height
 		int h = Players[player].par[PAR_CASTLE]; // h is in range 0..100
 		if (h > CASTLEMAX) h = CASTLEMAX;
@@ -551,8 +547,6 @@ void WinGame(int player)
 	EndGame = player;
 
 	// prepare castle height
-	sPlayer* p = &Players[player];
-
 	// get castle height
 	int h = Players[player].par[PAR_CASTLE]; // h is in range 0..100
 	if (h > CASTLEMAX) h = CASTLEMAX;
@@ -598,9 +592,9 @@ void WinGame(int player)
 
 		// save background
 		DrawImg(&Save4Canvas, &Canvas, 0, 0, x, y, 128, 32);
-		
+
 		// draw image
-		DrawBlit(&Canvas, &WinCanvas, x, y, player*4*128 
+		DrawBlit(&Canvas, &WinCanvas, x, y, player*4*128
 				+ (anim>>2)*128, 0, 128, 32, TRANSCOL);
 		anim++;
 		if (anim >= 16) anim = 0;
@@ -716,7 +710,7 @@ void PutCard(int pos, Bool discard)
 				{
 					// ruin castle
 					snd = RuinCastleSnd;
-					sndlen = sizeof(RuinCastleSnd); 
+					sndlen = sizeof(RuinCastleSnd);
 				}
 				break;
 
@@ -796,7 +790,7 @@ void PutCard(int pos, Bool discard)
 				snd = BuildCastleSnd;
 				sndlen = sizeof(BuildCastleSnd);
 				break;
-				
+
 			// saboteur (enemy stocks -4)
 			case 16:
 				p = &Players[Player ^ 1];
@@ -1003,7 +997,7 @@ int FindCard()
 		}
 	}
 
-	// enabled card not found - find card for discard 
+	// enabled card not found - find card for discard
 	//    (discard expensive cards, they cannot be use for a long time)
 	if (foundinx < 0)
 	{

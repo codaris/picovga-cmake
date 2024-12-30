@@ -33,7 +33,7 @@ V3 BackCol((real)0.4, (real)0.6, 1); // background color in horizon
 void Trace(V3* rgb, V3 &orig, V3 &dir, int depth, Sphere* disable)
 {
 	// find nearest intersection
-	real t1best = TOOFAR, t2best = TOOFAR;
+	real t1best = TOOFAR;
 	Sphere* sbest = NULL;
 	real t1, t2;
 	uint i;
@@ -48,7 +48,6 @@ void Trace(V3* rgb, V3 &orig, V3 &dir, int depth, Sphere* disable)
 			if (t1 < t1best)
 			{
 				t1best = t1;
-				t2best = t2;
 				sbest = &Spheres[i];
 			}
 		}
@@ -87,10 +86,8 @@ void Trace(V3* rgb, V3 &orig, V3 &dir, int depth, Sphere* disable)
 	}
 
 	// if normal and ray direction are not opposited, we are inside sphere, then reverse normal
-	bool inside = false;
 	if (dir.Dot(norm) > 0)
 	{
-		inside = true;
 		norm.Inv();
 	}
 
@@ -191,7 +188,7 @@ void Render3DFast()
 			if (green > 255) green = 255;
 			if (green < 0) green = 0;
 			green &= 0xe0;
-		
+
 			blue += (k<<1) + RandS8MinMax(-3, 4);
 			if (blue > 255) blue = 255;
 			if (blue < 0) blue = 0;
@@ -295,7 +292,7 @@ void Render3D(Bool useaa)
 			if (green > 255) green = 255;
 			if (green < 0) green = 0;
 			green &= 0xe0;
-		
+
 			blue += (k<<1) + RandS8MinMax(-6, 10);
 			if (blue > 255) blue = 255;
 			if (blue < 0) blue = 0;

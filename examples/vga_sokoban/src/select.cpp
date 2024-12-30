@@ -165,7 +165,6 @@ Bool AuthorSelect()
 
 	// select
 	char c;
-	int j;
 	for (;;)
 	{
 		c = WaitChar();
@@ -323,7 +322,6 @@ Bool CollSelect()
 
 	// select
 	char c;
-	int j;
 	for (;;)
 	{
 		c = WaitChar();
@@ -458,7 +456,6 @@ Bool LevSelect()
 
 	// select
 	char c;
-	int j;
 	for (;;)
 	{
 		c = WaitChar();

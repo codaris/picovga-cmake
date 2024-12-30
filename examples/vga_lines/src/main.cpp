@@ -81,7 +81,7 @@ void VideoInit()
 */
 int main()
 {
-	int i, j, k, rr, gg, bb;
+	int i, j, rr, gg, bb;
 	sLine* line;
 
 	// initialize random number generator

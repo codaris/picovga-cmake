@@ -104,7 +104,7 @@ void DispStatus()
 			DrawImg(&Canvas, &StatusCanvas, i*BOTTOMH+2*BOTTOMH, 0, 0, 0, BOTTOMH, BOTTOMH);
 		else
 			DrawRect(&Canvas, i*BOTTOMH+2*BOTTOMH, 0, BOTTOMH, BOTTOMH, COL_BLACK);
-	}	
+	}
 
 	// level
 	j = 0;
@@ -119,7 +119,7 @@ void DispStatus()
 		else
 			DrawRect(&Canvas, WIDTH-3*BOTTOMH-i*BOTTOMH, 0, BOTTOMH, BOTTOMH, COL_BLACK);
 		j++;
-	}	
+	}
 }
 
 // add (and display) score
@@ -143,7 +143,6 @@ void AddScore(int score)
 void BlinkPellets()
 {
 	u8 b = Blink + 1;
-	int i;
 	u8* s;
 
 	if (b == 3)
@@ -234,7 +233,7 @@ Bool Move()
 				{
 					// check distance to ghost
 					ch2 = &Chars[j];
-					if (((ch2->x - ch->x)*(ch2->x - ch->x) + 
+					if (((ch2->x - ch->x)*(ch2->x - ch->x) +
 						(ch2->y - ch->y)*(ch2->y - ch->y)) < SPRITEW*SPRITEH)
 					{
 						// eat ghost
@@ -310,7 +309,7 @@ Bool Move()
 				}
 
 				// collect bonus fruit
-				else if ((FruitCnt > 0) && 
+				else if ((FruitCnt > 0) &&
 					(((ch->x  - FruitSprite.x)*(ch->x  - FruitSprite.x) +
 					((ch->y  - FruitSprite.y)*(ch->y  - FruitSprite.y))) < SPRITEW*SPRITEH))
 				{
@@ -525,7 +524,7 @@ Bool Move()
 						break;
 					}
 				}
-				
+
 				// find best next tile
 				bestdist = 100*100;
 				bestdir = dir;
