@@ -246,7 +246,7 @@ int main()
 		u32* s = &Acu[1];
 		u32 n;
 		Bool ok = True;
-		u8 ch, ch2;
+		u8 ch;
 		int k = 2;
 		int ii = LEN-2;
 		if (ii > (TEXTSIZE-NUMBEG)/8) ii = (TEXTSIZE-NUMBEG)/8;

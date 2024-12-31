@@ -100,7 +100,6 @@ void NewDrop(int i)
 int main()
 {
 	int i, x, y;
-	u8* s;
 	u8* d;
 
 	// initialize random number generator
@@ -140,10 +139,10 @@ int main()
 			for (x = 0; x < TEXTW; x++)
 			{
 				i = (int)((Off[x] - y)/Len[x]*PALLEN + 0.5f);
-				if ((i < 0) || (i >= PALLEN))
+				if ((i < 0) || (i >= (int)PALLEN))
 					*d = COL_BLACK;
 				else
-					*d = Pal[i];			
+					*d = Pal[i];
 				d += 2;
 			}
 		}

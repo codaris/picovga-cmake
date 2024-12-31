@@ -368,7 +368,7 @@ void DrawPoint(sCanvas* canvas, int x, int y, u8 col)
 	case CANVAS_8:
 		canvas->img[x + y*canvas->wb] = col;
 		break;
-	
+
 	// 4-bit pixels
 	case CANVAS_4:
 		{
@@ -1151,9 +1151,9 @@ void DrawImg(sCanvas* canvas, sCanvas* src, int xd, int yd, int xs, int ys, int 
 			u8* s = src->img + xs/4 + ys*wbs;
 			u8* d0;
 			u8* s0;
-			u8 b, b2, ms, md;
-			int i, rs, rd, xs2, xd2;
-			
+			u8 b, b2;
+			int i, rs, rd;
+
 			// faster mode
 			if (((xs & 0x03) == 0) && ((xd & 0x03) == 0) && ((w & 0x03) == 0))
 			{
@@ -1219,9 +1219,9 @@ void DrawImg(sCanvas* canvas, sCanvas* src, int xd, int yd, int xs, int ys, int 
 			u8* s = src->img + xs/8 + ys*wbs;
 			u8* d0;
 			u8* s0;
-			u8 b, b2, ms, md;
-			int i, rs, rd, xs2, xd2;
-			
+			u8 b, b2;
+			int i, rs, rd;
+
 			// faster mode
 			if (((xs & 0x07) == 0) && ((xd & 0x07) == 0) && ((w & 0x07) == 0))
 			{
@@ -1291,9 +1291,9 @@ void DrawImg(sCanvas* canvas, sCanvas* src, int xd, int yd, int xs, int ys, int 
 			u8* d02;
 			u8* s0;
 			u8* s02;
-			u8 b, b2, bb, bb2, ms, md;
-			int i, rs, rd, xs2, xd2;
-			
+			u8 b, b2, bb, bb2;
+			int i, rs, rd;
+
 			// faster mode
 			if (((xs & 0x07) == 0) && ((xd & 0x07) == 0) && ((w & 0x07) == 0))
 			{
@@ -1385,9 +1385,9 @@ void DrawImg(sCanvas* canvas, sCanvas* src, int xd, int yd, int xs, int ys, int 
 			u8* s0;
 			u8* d02;
 			u8* s02;
-			u8 b, b2, bb, ms, md;
-			int i, rs, rd, xs2, xd2;
-			
+			u8 b, b2, bb;
+			int i, rs, rd;
+
 			// faster mode
 			if (((xs & 0x07) == 0) && ((xd & 0x07) == 0) && ((w & 0x07) == 0))
 			{
@@ -1396,7 +1396,7 @@ void DrawImg(sCanvas* canvas, sCanvas* src, int xd, int yd, int xs, int ys, int 
 				for (; h > 0; h--)
 				{
 					memcpy(d, s, w);
-					if (i) 
+					if (i)
 					{
 						memcpy(d2, s2, w);
 						i = False;
@@ -1555,9 +1555,9 @@ void DrawBlit(sCanvas* canvas, sCanvas* src, int xd, int yd, int xs, int ys, int
 			u8* s = src->img + xs/2 + ys*wbs;
 			u8* d0;
 			u8* s0;
-			u8 b, b1, b2, ms, md;
-			int i, rs, rd, xs2, xd2;
-			
+			u8 b, b1, b2;
+			int i, rs, rd;
+
 			for (; h > 0; h--)
 			{
 				d0 = d;
@@ -1611,9 +1611,9 @@ void DrawBlit(sCanvas* canvas, sCanvas* src, int xd, int yd, int xs, int ys, int
 			u8* s = src->img + xs/4 + ys*wbs;
 			u8* d0;
 			u8* s0;
-			u8 b, b1, b2, ms, md;
-			int i, rs, rd, xs2, xd2;
-			
+			u8 b, b1, b2;
+			int i, rs, rd;
+
 			for (; h > 0; h--)
 			{
 				d0 = d;
@@ -1667,9 +1667,9 @@ void DrawBlit(sCanvas* canvas, sCanvas* src, int xd, int yd, int xs, int ys, int
 			u8* s = src->img + xs/8 + ys*wbs;
 			u8* d0;
 			u8* s0;
-			u8 b, b1, b2, ms, md;
-			int i, rs, rd, xs2, xd2;
-			
+			u8 b, b1, b2;
+			int i, rs, rd;
+
 			for (; h > 0; h--)
 			{
 				d0 = d;
@@ -1727,9 +1727,9 @@ void DrawBlit(sCanvas* canvas, sCanvas* src, int xd, int yd, int xs, int ys, int
 			u8* d02;
 			u8* s0;
 			u8* s02;
-			u8 b, b1, b12, b2, bb, bb2, ms, md;
-			int i, rs, rd, xs2, xd2;
-			
+			u8 b, b1, b12, b2, bb, bb2;
+			int i, rs, rd;
+
 			for (; h > 0; h--)
 			{
 				d0 = d;
@@ -1890,7 +1890,7 @@ void DrawImgMat(sCanvas* canvas, const sCanvas* src, int x, int y, int w, int h,
 			{
 				*d++ = *(u8*)interp0->pop[2];
 			}
-	
+
 			y0++;
 			d += wbd;
 		}
@@ -1905,7 +1905,7 @@ void DrawImgMat(sCanvas* canvas, const sCanvas* src, int x, int y, int w, int h,
 		{
 			xy0m = x0*m11 + y0*m12 + m13;
 			yy0m = x0*m21 + y0*m22 + m23;
-		
+
 			for (i = w; i > 0; i--)
 			{
 				x2 = (xy0m>>FRACT) & xmask;
@@ -1953,14 +1953,14 @@ void DrawImgMat(sCanvas* canvas, const sCanvas* src, int x, int y, int w, int h,
 	else if (mode == DRAWIMG_CLAMP)
 	{
 		// source image dimension
-		u32 ww = src->w - 1;
-		u32 hh = src->h - 1;
+		int ww = src->w - 1;
+		int hh = src->h - 1;
 
 		for (; h > 0; h--)
 		{
 			xy0m = x0*m11 + y0*m12 + m13;
 			yy0m = x0*m21 + y0*m22 + m23;
-		
+
 			for (i = w; i > 0; i--)
 			{
 				x2 = xy0m>>FRACT;
@@ -1989,7 +1989,7 @@ void DrawImgMat(sCanvas* canvas, const sCanvas* src, int x, int y, int w, int h,
 		{
 			xy0m = x0*m11 + y0*m12 + m13;
 			yy0m = x0*m21 + y0*m22 + m23;
-		
+
 			for (i = w; i > 0; i--)
 			{
 				x2 = xy0m>>FRACT;
@@ -2018,7 +2018,7 @@ void DrawImgMat(sCanvas* canvas, const sCanvas* src, int x, int y, int w, int h,
 		{
 			xy0m = x0*m11 + y0*m12 + m13;
 			yy0m = x0*m21 + y0*m22 + m23;
-		
+
 			for (i = w; i > 0; i--)
 			{
 				x2 = xy0m>>FRACT;
@@ -2081,7 +2081,7 @@ void DrawImgMat(sCanvas* canvas, const sCanvas* src, int x, int y, int w, int h,
 			{
 				*d++ = *(u8*)interp0->pop[2];
 			}
-	
+
 			y0++;
 			d += wbd;
 		}
@@ -2102,7 +2102,7 @@ void DrawImgMat(sCanvas* canvas, const sCanvas* src, int x, int y, int w, int h,
 
 			xy0m = x0*m11b + y0*m12b + m13;
 			yy0m = x0*m21b + y0*m22b + m23;
-		
+
 			for (i = w; i > 0; i--)
 			{
 				x2 = (xy0m>>FRACT) & xmask;
@@ -2168,20 +2168,23 @@ void DrawTileMap(sCanvas* canvas, const sCanvas* src, const u8* map, int mapwbit
 	mat->ExportInt(m);
 
 	// prepare variables
-	int wbs = src->wb; // source width bytes
 	const u8* s = src->img; // source image
 	int xy0m, yy0m; // temporary Y members
 	u8* d = canvas->img + canvas->wb*y + x; // destination image
 	int wbd = canvas->wb - w; // destination width bytes
-	int i, x2, y2;
-	int tilesize = 1 << tilebits; // tile size
+	int i;
+
+#if DRAW_HWINTER
 	int tilebits2 = tilebits*2;
+#else
+	int tilesize = 1 << tilebits; // tile size
 	int tilemask = tilesize - 1; // tile mask
 	int tileinx; // tile index
 	int mapw = 1<<mapwbits;
 	int maph = 1<<maphbits;
 	int mapmaskx = (mapw * tilesize) - 1; // mask of map width
 	int mapmasky = (maph * tilesize) - 1; // mask of map height
+#endif
 
 #if DRAW_HWINTER // 1=use hardware interpolator
 
@@ -2215,7 +2218,7 @@ void DrawTileMap(sCanvas* canvas, const sCanvas* src, const u8* map, int mapwbit
 
 	for (; h > 0; h--)
 	{
-	
+
 		int m11 = m[0];
 		int m12 = m[1];
 		int m13 = m[2];
@@ -2261,6 +2264,8 @@ void DrawTileMap(sCanvas* canvas, const sCanvas* src, const u8* map, int mapwbit
 
 		for (i = w; i > 0; i--)
 		{
+			int x2, y2;
+
 			// pixel X coordinate on the map
 			x2 = (xy0m>>FRACT) & mapmaskx;
 			xy0m += m11;
@@ -2307,7 +2312,7 @@ void DrawImgLine(sCanvas* canvas, sCanvas* src, int xd, int yd, int xs, int ys, 
 	int wbs = src->wb; // source width bytes
 	u8* d = canvas->img + xd + yd*wbd; // destination address
 	u8* s = src->img + xs + ys*wbs; // source address
-	int i, j;
+	int i;
 
 #if DRAW_HWINTER // 1=use hardware interpolator to draw images
 

@@ -72,7 +72,7 @@ void InfoRow()
 	char buf[10];
 	DecUNum(buf, Score);
 	InfoDispText(sizeof(ScoreHlp), buf, COL_YELLOW);
-	
+
 	// display text ENTER: PSW
 	InfoDispText((TEXTMAX - 10)/2, LevelHlp, COL_RED);
 
@@ -183,7 +183,7 @@ void ClearLevel(u8 tile)
 	{
 		for(y = 0; y < MAPH; y++)
 			Board[x + y*MAPW] = tile;
-		
+
 		sleep_ms(20);
 	}
 }
@@ -203,7 +203,7 @@ void OpenLevel()
 	DrawFrame(&BoxCanvas, FDX1, FDX1, BOXW-2*FDX1, BOXH-2*FDX1, COL_WHITE);
 
 	// display current scene
-	int x, x2;
+	int x;
 	char buf[10];
 	int n = DecUNum(buf, Level);
 	x = (BOXW - (6+n)*16)/2;
@@ -596,7 +596,7 @@ Bool GameLoop()
 	// Esc, restart
 	case KEY_ESC:
 		// break
-		if (State != S_GO) return True; 
+		if (State != S_GO) return True;
 
 		// restart scene
 		InitLevel();

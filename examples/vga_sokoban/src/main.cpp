@@ -43,7 +43,7 @@ void VideoInit()
 	// initialize base layer 0 to tiles
 	ScreenClear(pScreen);
 	sStrip* t = ScreenAddStrip(pScreen, HEIGHT);
-	sSegm* g = ScreenAddSegm(t, WIDTH);
+	(void)ScreenAddSegm(t, WIDTH);
 
 	// setup layer 1 with player image
 	memset(&LayerScreen[1], 0, sizeof(sLayer));

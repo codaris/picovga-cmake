@@ -295,7 +295,7 @@ void Run()
 			b = *s++;
 
 			// 3 -> new cell
-			if (b == 3) 
+			if (b == 3)
 				*d = TILE_FULL;
 
 			// 2 -> unchanged
@@ -343,7 +343,6 @@ void InitSlot()
 
 int main()
 {
-	int i;
 	char ch;
 
 	// copy tiles images to RAM buffer (flash would be too slow)
@@ -419,7 +418,7 @@ int main()
 				if (CurY < 0) CurY = MAPH-1;
 				CurOn(); // set cursor on
 				break;
-		
+
 			// toggle
 			case ' ':
 				CurFlip(); // flip cursor

@@ -13,7 +13,7 @@
 // convert image from 16-color to 8x8 attribute format
 void Attr8Conv(u8* dst, u8* attr, const u8* src, int w, int h, const u8* pal)
 {
-	int x, y, i, j, bestnum, best2num;
+	int x, y, i, bestnum, best2num;
 	int hist[16];
 	u8 b, b2, b3, best, best2, bestcol, best2col;
 	const u8 *s;

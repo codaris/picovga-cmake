@@ -199,9 +199,6 @@ void FlushChar()
 
 int main()
 {
-	int i;
-	char ch;
-
 	// initialize random number generator
 	RandInitSeed();
 

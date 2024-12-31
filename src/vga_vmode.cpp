@@ -8,6 +8,7 @@
 #include "pico/stdlib.h"
 #include "pico/printf.h"
 #include "pico/multicore.h"
+#include "hardware/clocks.h"
 #include "picovga.h"
 
 
@@ -85,7 +86,7 @@ const sVideo VideoPAL = {
 	.hfront=  1.65000f,	// H front porch (after image, before HSYNC) in [us]
 	.hsync=   4.70000f,	// H sync pulse in [us]
 	.hback=   5.70000f,	// H back porch (after HSYNC, before image) in [us]
-	.hfull=  47.36000f,	// H full visible in [us] (formally should be 51.95 us) 
+	.hfull=  47.36000f,	// H full visible in [us] (formally should be 51.95 us)
 
 	// vertical (vertical frequency 50 Hz)
 	.vtot=625,		// total scanlines (both subframes)
@@ -123,7 +124,7 @@ const sVideo VideoPALp = {
 	.hfront=  1.65000f,	// H front porch (after image, before HSYNC) in [us]
 	.hsync=   4.70000f,	// H sync pulse in [us]
 	.hback=   5.70000f,	// H back porch (after HSYNC, before image) in [us]
-	.hfull=  47.36000f,	// H full visible in [us] (formally should be 51.95 us) 
+	.hfull=  47.36000f,	// H full visible in [us] (formally should be 51.95 us)
 
 	// vertical (vertical frequency 50 Hz)
 	.vtot=312,		// total scanlines (both subframes)
@@ -544,11 +545,11 @@ void VgaCfg(const sVgaCfg* cfg, sVmode* vmode)
 	// recalculate frequency if not locked
 	if (!cfg->lockfreq)
 	{
-		int freq2 = (int)(cpp*wfull*1000/hfull + 0.5f) + 200;
+		u32 freq2 = (u32)(cpp*wfull*1000/hfull + 0.5f) + 200;
 		if (freq2 < freq)
 		{
 			cpp++;
-			freq2 = (int)(cpp*wfull*1000/hfull + 0.5f) + 200;
+			freq2 = (u32)(cpp*wfull*1000/hfull + 0.5f) + 200;
 		}
 		if (freq2 >= freq) freq = freq2;
 		if (freq > cfg->fmax) freq = cfg->fmax;
@@ -697,8 +698,8 @@ void VgaCfg(const sVgaCfg* cfg, sVmode* vmode)
 	if (v->inter)
 	{
 		// interlaced
-		vmode->vfirst1 = (vmode->vsync1 + vmode->vpost1)/2 + vmode->vback1 + 1; 
-		vmode->vfirst2 = vmode->vfirst1 + vmode->vact1 + vmode->vfront1 + 
+		vmode->vfirst1 = (vmode->vsync1 + vmode->vpost1)/2 + vmode->vback1 + 1;
+		vmode->vfirst2 = vmode->vfirst1 + vmode->vact1 + vmode->vfront1 +
 			(vmode->vpre1 + vmode->vsync2 + vmode->vpost2)/2 + vmode->vback2;
 	}
 	else

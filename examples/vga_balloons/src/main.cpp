@@ -150,17 +150,20 @@ void VideoInit()
 				for (j = 0; j < i; j++)
 				{
 					spr2 = &BalloonSprites[j+lay*BALLOON_NUM];
-					if ((spr->x < spr2->x + BALLOONW) &&
-						(spr->x + BALLOONW > spr2->x) &&
-
-						((spr->y < spr2->y + BALLOONH) &&
-						(spr->y + BALLOONH > spr2->y)) ||
-
-						((spr->y < spr2->y + HEIGHT + 2*BALLOONH) &&
-						(spr->y + BALLOONH > spr2->y + HEIGHT + BALLOONH)) ||
-
-						((spr->y + HEIGHT + BALLOONH < spr2->y + BALLOONH) &&
-						(spr->y + HEIGHT + 2*BALLOONH > spr2->y)))
+					if (
+						(
+							(spr->x < spr2->x + BALLOONW) &&
+							(spr->x + BALLOONW > spr2->x) &&
+							(spr->y < spr2->y + BALLOONH) &&
+							(spr->y + BALLOONH > spr2->y)
+						) || (
+							(spr->y < spr2->y + HEIGHT + 2*BALLOONH) &&
+							(spr->y + BALLOONH > spr2->y + HEIGHT + BALLOONH)
+						) || (
+							(spr->y + HEIGHT + BALLOONH < spr2->y + BALLOONH) &&
+							(spr->y + HEIGHT + 2*BALLOONH > spr2->y)
+						)
+					)
 						break;
 				}
 			} while (j < i);
@@ -233,7 +236,7 @@ int main()
 			}
 
 			if (x > WIDTH - HOTAIRW)
-			{			
+			{
 				x = WIDTH - HOTAIRW;
 				HotairDX[i] = -RandU8MinMax(HOTAIR_MINSPEED, HOTAIR_MAXSPEED);
 			}
@@ -247,7 +250,7 @@ int main()
 			}
 
 			if (y > HEIGHT - HOTAIRH)
-			{			
+			{
 				y = HEIGHT - HOTAIRH;
 				HotairDY[i] = -RandU8MinMax(HOTAIR_MINSPEED, HOTAIR_MAXSPEED);
 			}

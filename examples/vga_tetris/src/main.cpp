@@ -807,7 +807,7 @@ void Game()
 
 				// check new position
 				if (CheckBrick(BrickX+1, BrickY, Brick)) BrickX++;
-				
+
 				// display brick
 				DispBrick(BrickX, BrickY, Brick);
 				break;
@@ -819,7 +819,7 @@ void Game()
 
 				// check new position
 				if (CheckBrick(BrickX-1, BrickY, Brick)) BrickX--;
-				
+
 				// display brick
 				DispBrick(BrickX, BrickY, Brick);
 				break;
@@ -850,7 +850,7 @@ void Game()
 			case KEY_PAUSE:
 				Pause(False);
 				break;
-	
+
 			case 0:
 				break;
 
@@ -867,7 +867,7 @@ void Game()
 // find demo move
 void FindDemo()
 {
-	int i, rot;
+	int rot;
 	int score, newbrick; // current score
 	int bestscore, bestx, besty, bestbrick; // best move
 	int savex, savey, savebrick; // save state
@@ -939,7 +939,7 @@ void PlayDemo()
 {
 	// start demo moe
 	Demo = True;
-	
+
 	// start new game
 	NewGame();
 
@@ -1006,9 +1006,6 @@ void PlayDemo()
 
 int main()
 {
-	int i;
-	char ch;
-
 	// initialize random number generator
 	RandInitSeed();
 
