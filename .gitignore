@@ -56,3 +56,4 @@ vga.pio.h
 Makefile
 CMakeDoxyfile.in
 CMakeDoxygenDefaults.cmake
+picotool/

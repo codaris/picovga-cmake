@@ -14,8 +14,12 @@
 
 #include <string.h>
 #include "hardware/divider.h"
-#include "hardware/dma.h"
 #include "hardware/sync.h"
+#include "hardware/pio.h"
+#include "hardware/dma.h"
+#include "hardware/irq.h"
+#include "hardware/clocks.h"   // SDK 2.x: ensure clock helpers available
+#include "pico/platform.h"     // memory barriers (__dmb/__dsb)
 
 // scanline type
 u8 ScanlineType[MAXLINE];
@@ -48,8 +52,8 @@ u32	LineBufSync[10];	// vertical synchronization
 ALIGNED u8	LineBuf0[BLACK_MAX]; // line buffer with black color (used to clear rest of scanline)
 
 // control buffers (BufInx = 0 running CtrlBuf1 and preparing CtrlBuf2, BufInx = 1 running CtrlBuf2 and preparing CtrlBuf1)
-u32	CtrlBuf1[CBUF_MAX]; // base layer control pairs: u32 count, read address (must be terminated with [0,0])
-u32	CtrlBuf2[CBUF_MAX]; // base layer control pairs: u32 count, read address (must be terminated with [0,0])
+__attribute__((aligned(8))) u32	CtrlBuf1[CBUF_MAX]; // base layer control pairs: u32 count, read address (must be terminated with [0,0])
+__attribute__((aligned(8))) u32	CtrlBuf2[CBUF_MAX]; // base layer control pairs: u32 count, read address (must be terminated with [0,0])
 
 int	CtrlBufSize[LAYERS_MAX] = { CBUF0_MAX, CBUF1_MAX, CBUF2_MAX, CBUF3_MAX }; // size of control buffers
 
@@ -62,11 +66,20 @@ u32 RenderTextMask[512];
 // saved integer divider state
 hw_divider_state_t DividerState;
 
+// --- DEBUG (USB serial) ---
+// Safe to read from main loop; written by ISR.
+// Define VGA_DEBUG in your build to enable these counters.
+#ifdef VGA_DEBUG
+volatile uint32_t g_isr_count = 0;       // how many times VgaLine() fired
+volatile uint32_t g_last_scanline = 0;   // last ScanLine observed in ISR
+volatile uint32_t g_last_linetype = 0;   // last linetype observed in ISR
+#endif
+
 // process scanline buffers (will save integer divider state into DividerState)
 int __not_in_flash_func(VgaBufProcess)()
 {
 	// Clear the interrupt request for DMA control channel
-	dma_hw->ints0 = (1u << VGA_DMA_PIO0);
+	dma_channel_acknowledge_irq0(VGA_DMA_PIO0);
 
 	// switch current buffer index
 	//   BufInx = 0 running CtrlBuf1 and preparing CtrlBuf2, BufInx = 1 running CtrlBuf2 and preparing CtrlBuf1
@@ -75,6 +88,7 @@ int __not_in_flash_func(VgaBufProcess)()
 	BufInx = bufinx ^ 1;
 
 	// update DMA control channels of base layer, and run it
+    __dmb(); // ensure control words are visible before arming CB0 (SDK 2.x)
 	dma_channel_set_read_addr(VGA_DMA_CB0, CtrlBufNext[0], true);
 
 	// save integer divider state
@@ -182,6 +196,7 @@ int __not_in_flash_func(VgaBufProcess)()
 			pio_sm_exec(VGA_PIO, sm, pio_encode_jmp(CurLayerProg.entry+LAYER_OFFSET));
 
 			// start DMA
+            __dmb();
 			dma_channel_set_read_addr(VGA_DMA_CB(layer), CtrlBufNext[layer], true);
 		}
 	}
@@ -389,6 +404,10 @@ u32* __not_in_flash_func(VgaBufRender)(u32* cbuf, u32* cbuf0, u8* dbuf, int y0)
 // VGA DMA handler - called on end of every scanline
 extern "C" void __not_in_flash_func(VgaLine)()
 {
+    #ifdef VGA_DEBUG
+    g_isr_count++;
+    #endif
+
 	// process scanline buffers (will save integer divider state into DividerState)
 	int bufinx = VgaBufProcess();
 
@@ -485,6 +504,12 @@ extern "C" void __not_in_flash_func(VgaLine)()
 	*cbuf++ = 0; // end mark
 	*cbuf++ = 0; // end mark
 
+    #ifdef VGA_DEBUG
+    // Capture last-known values for printing from main (do NOT printf in ISR)
+    g_last_linetype = linetype;
+    g_last_scanline = (uint32_t)ScanLine; // ScanLine updated in VgaBufProcess()
+    #endif
+
 	// restore integer divider state
 	hw_divider_restore_state(&DividerState);
 }
@@ -513,6 +538,15 @@ void VgaDmaInit()
 
 		// increment address on read from memory
 		channel_config_set_read_increment(&cfg, true);
+
+		// In SDK 2.x do NOT rely on default pacing; force unpaced writes so the two
+		// 32-bit writes (TRANS_COUNT -> READ_ADDR_TRIG) happen back-to-back.
+		// This mirrors the effective behavior under 1.5.1 and avoids stalls where
+		// the control stream blocks waiting for a peripheral TREQ. WV
+		channel_config_set_dreq(&cfg, DREQ_FORCE);
+
+        // Keep CB channel quiet (we don't enable its IRQ anyway). WV
+		channel_config_set_irq_quiet(&cfg, true);
 
 		// increment address on write to DMA port
 		channel_config_set_write_increment(&cfg, true);
@@ -571,12 +605,16 @@ void VgaDmaInit()
 			0,			// number of transfers in u32
 			false			// do not start immediately
 		);
+
+        uint32_t c = dma_hw->ch[VGA_DMA_PIO0].al1_ctrl;
+        printf("DATA.al1_ctrl=0x%08x  treq_sel=%u\n", c, (c >> DMA_CH0_CTRL_TRIG_TREQ_SEL_LSB) & 0x3f);        
 	}
 
 // ==== initialize IRQ0, raised from base layer 0
 
 	// enable DMA channel IRQ0
-	dma_channel_set_irq0_enabled(VGA_DMA_PIO0, true);
+	// dma_channel_set_irq0_enabled(VGA_DMA_PIO0, true);
+    dma_set_irq0_channel_mask_enabled(1u << VGA_DMA_PIO0, true);
 
 	// set DMA IRQ handler
 	irq_set_exclusive_handler(DMA_IRQ_0, VgaLine);
@@ -605,7 +643,18 @@ void VgaPioInit()
 	prg.instructions = ins;
 	prg.length = vga_program.length;
 	prg.origin = BASE_OFFSET;
-	pio_add_program(VGA_PIO, &prg);
+    prg.pio_version = vga_program.pio_version;
+    #if PICO_PIO_VERSION > 0
+    prg.used_gpio_ranges = vga_program.used_gpio_ranges;                     
+    #endif   
+
+	// pio_add_program(VGA_PIO, &prg); // WV 
+    int load_offset = pio_add_program_at_offset(VGA_PIO, &prg, BASE_OFFSET);
+    if (load_offset < 0) {
+        panic("vga_program won't fit at BASE_OFFSET=%d\n", BASE_OFFSET);
+    } else {
+        printf("vga_program loaded at %d\n", load_offset);
+    }
 
 	// load layer program
 	if (LayerProgInx != LAYERPROG_BASE)
@@ -623,7 +672,18 @@ void VgaPioInit()
 		prg.instructions = ins;
 		prg.length = CurLayerProg.length;
 		prg.origin = LAYER_OFFSET;
-		pio_add_program(VGA_PIO, &prg);
+        prg.pio_version = CurLayerProg.prg->pio_version;
+        #if PICO_PIO_VERSION > 0
+        prg.used_gpio_ranges = CurLayerProg.prg->used_gpio_ranges;                     
+        #endif   
+
+        // pio_add_program(VGA_PIO, &prg); // WV
+        int load_offset = pio_add_program_at_offset(VGA_PIO, &prg, LAYER_OFFSET);
+        if (load_offset < 0) {
+            panic("layer program won't fit at LAYER_OFFSET=%d\n", LAYER_OFFSET);
+        } else {
+            printf("layer program loaded at %d\n", load_offset);
+        }       
 	}
 
 	// connect PIO to the pad
@@ -666,6 +726,15 @@ void VgaPioInit()
 			sm_config_set_sideset(&cfg, 1, false, false);
 			sm_config_set_sideset_pins(&cfg, VGA_GPIO_SYNC);
 
+            // --- TEMP: sanity-check clock divider ---
+            float div = CurVmode.div;
+            printf("clk_sys=%u Hz  CurVmode.div=%f  CurVmode.cpp=%u\n",
+                (unsigned)clock_get_hz(clk_sys), div, (unsigned)CurVmode.cpp);
+
+            // If div is bogus, clamp to something safe so the SM will run
+            if (!(div > 0.01f && div < 65536.0f) || !isfinite(div)) div = 1.0f;
+            sm_config_set_clkdiv(&cfg, div);
+
 			// initialize state machine
 			pio_sm_init(VGA_PIO, VGA_SM0, vga_offset_entry+BASE_OFFSET, &cfg);
 		}
@@ -678,6 +747,16 @@ void VgaPioInit()
 			pio_sm_init(VGA_PIO, VGA_SM(layer), CurLayerProg.idle+LAYER_OFFSET, &cfg);
 		}
 	}
+}
+
+static inline uint32_t cw_jump(uint32_t cw_be) {
+    uint32_t cw = __builtin_bswap32(cw_be);
+    return (cw >> 27) & 0x1f;
+}
+
+static inline uint32_t cw_count(uint32_t cw_be) {
+    uint32_t cw = __builtin_bswap32(cw_be);
+    return cw & 0x07ffffff;
 }
 
 // initialize scanline buffers
@@ -752,6 +831,13 @@ void VgaBufInit()
 
 	CtrlBuf2[2] = 0; // stop mark
 	CtrlBuf2[3] = 0; // stop mark
+
+    printf("JUMPS: HsBp[0]=%u  HsBp[3]=%u  Dark[0]=%u  Sync[0]=%u  Sync[1]=%u\n",
+        cw_jump(LineBufHsBp[0]),   // expect 17 (sync)
+        cw_jump(LineBufHsBp[3]),   // expect 28 (output)
+        cw_jump(LineBufDark[0]),   // expect 17 (sync)
+        cw_jump(LineBufSync[0]),   // VGA: expect 17 (sync)
+        cw_jump(LineBufSync[1]));  // VGA: expect 20 (dark)    
 }
 
 // terminate VGA service
@@ -773,7 +859,7 @@ void VgaTerm()
 	dma_channel_set_irq0_enabled(VGA_DMA_PIO0, false);
 
 	// Clear the interrupt request for DMA control channel
-	dma_hw->ints0 = (1u << VGA_DMA_PIO0);
+	dma_channel_acknowledge_irq0(VGA_DMA_PIO0);
 
 	// stop all state machines
 	pio_set_sm_mask_enabled(VGA_PIO, VGA_SMALL, false);
@@ -1008,14 +1094,59 @@ void VgaInit(const sVmode* vmode)
 	// initialize DMA
 	VgaDmaInit();
 
+    // // -- PRIME THE STATE MACHINE --
+
+    // // 1) Make sure SM0 FIFOs are empty
+    // pio_sm_clear_fifos(VGA_PIO, VGA_SM0);
+
+    // // 2) Take the first control word from the stream DMA will send.
+    // //    CtrlBuf1[1] holds the pointer to the first control-word array.
+    // uint32_t *first_stream = (uint32_t*)CtrlBuf1[1];
+
+    // // Your control words in RAM are stored BYTESWAP(...), and the data-DMA
+    // // has bswap enabled, so the SM normally sees the *un*-swapped value.
+    // // Since we’re bypassing DMA here, swap it back once.
+    // uint32_t first_cw = __builtin_bswap32(first_stream[0]);
+
+    // // 3) Stuff that word into TX, then execute a PULL (even while SM disabled)
+    // //    so OSR is primed before the first `out pc,5`.
+    // pio_sm_put_blocking(VGA_PIO, VGA_SM0, first_cw);
+    // pio_sm_exec(VGA_PIO, VGA_SM0, pio_encode_pull(/*block*/false, /*if_empty*/false));
+
+    // // -- -------------------------
+
 	// enable DMA IRQ
-	irq_set_enabled(DMA_IRQ_0, true);
+	// irq_set_enabled(DMA_IRQ_0, true);  // WV removed
 
-	// start DMA with base layer 0
-	dma_channel_start(VGA_DMA_CB0);
+    // Clear any stale IRQ before enabling and starting
+	dma_channel_acknowledge_irq0(VGA_DMA_PIO0);
 
-	// run state machines
+    __dmb();
+	dma_channel_start(VGA_DMA_CB0);    
+
+	// Run state machines FIRST so the PIO is consuming immediately when TX is fed.
+	// (In SDK 2.x this ordering avoids a rare DREQ/chain race seen at start-of-frame.)
 	pio_enable_sm_mask_in_sync(VGA_PIO, LayerMask);
+
+    pio_sm_hw_t *sm = &VGA_PIO->sm[VGA_SM0];
+    printf("EXECCTRL=0x%08x SHIFTCTRL=0x%08x CLKDIV=0x%08x PINCTRL=0x%08x\n",
+         sm->execctrl, sm->shiftctrl, sm->clkdiv, sm->pinctrl);
+
+    // 3) Force the very first control word into OSR, then jump
+    //    (TX FIFO already has data from step 1)
+    pio_sm_exec(VGA_PIO, VGA_SM0, pio_encode_pull(false, false)); // OSR := first CW (non-blocking; FIFO has data)
+    pio_sm_exec(VGA_PIO, VGA_SM0, pio_encode_out(pio_pc, 5));     // jump to first handler (sync/dark/output)
+
+    uint32_t ctrl = VGA_PIO->ctrl;
+    bool sm0_en = !!(ctrl & (1u << (PIO_CTRL_SM_ENABLE_LSB + VGA_SM0)));
+    printf("SM0 enabled=%d  pc=%u  fstat=0x%08x  txlvl=%u\n",
+        sm0_en,
+        (unsigned)pio_sm_get_pc(VGA_PIO, VGA_SM0),
+        (unsigned)VGA_PIO->fstat,
+        (unsigned)pio_sm_get_tx_fifo_level(VGA_PIO, VGA_SM0));
+
+	// Now enable DMA IRQ and kick the first control pair
+	irq_set_enabled(DMA_IRQ_0, true);
 }
 
 const sVmode* volatile VgaVmodeReq = NULL; // request to reinitialize videomode, 1=only stop driver
