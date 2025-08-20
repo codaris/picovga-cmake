@@ -1,5 +1,5 @@
 #add_subdirectory(vga_ants)
-#add_subdirectory(vga_balloons)
+add_subdirectory(vga_balloons)
 #add_subdirectory(vga_draw)
 #add_subdirectory(vga_earth)
 #add_subdirectory(vga_eggs)

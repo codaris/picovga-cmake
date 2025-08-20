@@ -12,7 +12,7 @@ target_include_directories(vga_hello PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/src
 )
 
-pico_enable_stdio_usb(vga_hello 1)
+# pico_enable_stdio_usb(vga_hello 1)
 
 # create map/bin/hex file etc.
 pico_add_extra_outputs(vga_hello)

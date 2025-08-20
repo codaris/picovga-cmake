@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include <string.h>
+#include <hardware/clocks.h>
 
 // clouds copy
 ALIGNED u8 CloudsImg_Copy[sizeof(CloudsImg)];

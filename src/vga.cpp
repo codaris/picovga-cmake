@@ -605,9 +605,6 @@ void VgaDmaInit()
 			0,			// number of transfers in u32
 			false			// do not start immediately
 		);
-
-        uint32_t c = dma_hw->ch[VGA_DMA_PIO0].al1_ctrl;
-        printf("DATA.al1_ctrl=0x%08x  treq_sel=%u\n", c, (c >> DMA_CH0_CTRL_TRIG_TREQ_SEL_LSB) & 0x3f);        
 	}
 
 // ==== initialize IRQ0, raised from base layer 0
@@ -652,9 +649,7 @@ void VgaPioInit()
     int load_offset = pio_add_program_at_offset(VGA_PIO, &prg, BASE_OFFSET);
     if (load_offset < 0) {
         panic("vga_program won't fit at BASE_OFFSET=%d\n", BASE_OFFSET);
-    } else {
-        printf("vga_program loaded at %d\n", load_offset);
-    }
+    } 
 
 	// load layer program
 	if (LayerProgInx != LAYERPROG_BASE)
@@ -681,8 +676,6 @@ void VgaPioInit()
         int load_offset = pio_add_program_at_offset(VGA_PIO, &prg, LAYER_OFFSET);
         if (load_offset < 0) {
             panic("layer program won't fit at LAYER_OFFSET=%d\n", LAYER_OFFSET);
-        } else {
-            printf("layer program loaded at %d\n", load_offset);
         }       
 	}
 
@@ -726,15 +719,6 @@ void VgaPioInit()
 			sm_config_set_sideset(&cfg, 1, false, false);
 			sm_config_set_sideset_pins(&cfg, VGA_GPIO_SYNC);
 
-            // --- TEMP: sanity-check clock divider ---
-            float div = CurVmode.div;
-            printf("clk_sys=%u Hz  CurVmode.div=%f  CurVmode.cpp=%u\n",
-                (unsigned)clock_get_hz(clk_sys), div, (unsigned)CurVmode.cpp);
-
-            // If div is bogus, clamp to something safe so the SM will run
-            if (!(div > 0.01f && div < 65536.0f) || !isfinite(div)) div = 1.0f;
-            sm_config_set_clkdiv(&cfg, div);
-
 			// initialize state machine
 			pio_sm_init(VGA_PIO, VGA_SM0, vga_offset_entry+BASE_OFFSET, &cfg);
 		}
@@ -747,16 +731,6 @@ void VgaPioInit()
 			pio_sm_init(VGA_PIO, VGA_SM(layer), CurLayerProg.idle+LAYER_OFFSET, &cfg);
 		}
 	}
-}
-
-static inline uint32_t cw_jump(uint32_t cw_be) {
-    uint32_t cw = __builtin_bswap32(cw_be);
-    return (cw >> 27) & 0x1f;
-}
-
-static inline uint32_t cw_count(uint32_t cw_be) {
-    uint32_t cw = __builtin_bswap32(cw_be);
-    return cw & 0x07ffffff;
 }
 
 // initialize scanline buffers
@@ -831,13 +805,6 @@ void VgaBufInit()
 
 	CtrlBuf2[2] = 0; // stop mark
 	CtrlBuf2[3] = 0; // stop mark
-
-    printf("JUMPS: HsBp[0]=%u  HsBp[3]=%u  Dark[0]=%u  Sync[0]=%u  Sync[1]=%u\n",
-        cw_jump(LineBufHsBp[0]),   // expect 17 (sync)
-        cw_jump(LineBufHsBp[3]),   // expect 28 (output)
-        cw_jump(LineBufDark[0]),   // expect 17 (sync)
-        cw_jump(LineBufSync[0]),   // VGA: expect 17 (sync)
-        cw_jump(LineBufSync[1]));  // VGA: expect 20 (dark)    
 }
 
 // terminate VGA service
@@ -1094,30 +1061,6 @@ void VgaInit(const sVmode* vmode)
 	// initialize DMA
 	VgaDmaInit();
 
-    // // -- PRIME THE STATE MACHINE --
-
-    // // 1) Make sure SM0 FIFOs are empty
-    // pio_sm_clear_fifos(VGA_PIO, VGA_SM0);
-
-    // // 2) Take the first control word from the stream DMA will send.
-    // //    CtrlBuf1[1] holds the pointer to the first control-word array.
-    // uint32_t *first_stream = (uint32_t*)CtrlBuf1[1];
-
-    // // Your control words in RAM are stored BYTESWAP(...), and the data-DMA
-    // // has bswap enabled, so the SM normally sees the *un*-swapped value.
-    // // Since we’re bypassing DMA here, swap it back once.
-    // uint32_t first_cw = __builtin_bswap32(first_stream[0]);
-
-    // // 3) Stuff that word into TX, then execute a PULL (even while SM disabled)
-    // //    so OSR is primed before the first `out pc,5`.
-    // pio_sm_put_blocking(VGA_PIO, VGA_SM0, first_cw);
-    // pio_sm_exec(VGA_PIO, VGA_SM0, pio_encode_pull(/*block*/false, /*if_empty*/false));
-
-    // // -- -------------------------
-
-	// enable DMA IRQ
-	// irq_set_enabled(DMA_IRQ_0, true);  // WV removed
-
     // Clear any stale IRQ before enabling and starting
 	dma_channel_acknowledge_irq0(VGA_DMA_PIO0);
 
@@ -1127,23 +1070,6 @@ void VgaInit(const sVmode* vmode)
 	// Run state machines FIRST so the PIO is consuming immediately when TX is fed.
 	// (In SDK 2.x this ordering avoids a rare DREQ/chain race seen at start-of-frame.)
 	pio_enable_sm_mask_in_sync(VGA_PIO, LayerMask);
-
-    pio_sm_hw_t *sm = &VGA_PIO->sm[VGA_SM0];
-    printf("EXECCTRL=0x%08x SHIFTCTRL=0x%08x CLKDIV=0x%08x PINCTRL=0x%08x\n",
-         sm->execctrl, sm->shiftctrl, sm->clkdiv, sm->pinctrl);
-
-    // 3) Force the very first control word into OSR, then jump
-    //    (TX FIFO already has data from step 1)
-    pio_sm_exec(VGA_PIO, VGA_SM0, pio_encode_pull(false, false)); // OSR := first CW (non-blocking; FIFO has data)
-    pio_sm_exec(VGA_PIO, VGA_SM0, pio_encode_out(pio_pc, 5));     // jump to first handler (sync/dark/output)
-
-    uint32_t ctrl = VGA_PIO->ctrl;
-    bool sm0_en = !!(ctrl & (1u << (PIO_CTRL_SM_ENABLE_LSB + VGA_SM0)));
-    printf("SM0 enabled=%d  pc=%u  fstat=0x%08x  txlvl=%u\n",
-        sm0_en,
-        (unsigned)pio_sm_get_pc(VGA_PIO, VGA_SM0),
-        (unsigned)VGA_PIO->fstat,
-        (unsigned)pio_sm_get_tx_fifo_level(VGA_PIO, VGA_SM0));
 
 	// Now enable DMA IRQ and kick the first control pair
 	irq_set_enabled(DMA_IRQ_0, true);
