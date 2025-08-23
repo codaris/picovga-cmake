@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include <string.h>
+#include <hardware/clocks.h>
 
 // Draw box
 #if FORMAT==CANVAS_PLANE2

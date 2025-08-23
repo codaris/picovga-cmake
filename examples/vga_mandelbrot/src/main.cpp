@@ -32,6 +32,7 @@ We will use 32-bit integer with highest 7 bits as integer part and 25 lower bits
 #include "fixed.h"
 #include "pico/printf.h"
 #include <string.h>
+#include <hardware/clocks.h>
 
 #define USE_INT	0	// use integer arithmetics
 #define USE_FLT	1	// use float arithmetics

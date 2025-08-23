@@ -13,6 +13,7 @@
 #include <string.h>
 #include "pico/printf.h"
 #include "hardware/sync.h"
+#include <hardware/clocks.h>
 
 // copy of tiles images
 ALIGNED u8 TilesImg_Copy[sizeof(Tiles32Img)];

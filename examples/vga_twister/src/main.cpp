@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include <string.h>
+#include <hardware/clocks.h>
 
 // Draw box
 ALIGNED u8 Box[WIDTHBYTE*HEIGHT];

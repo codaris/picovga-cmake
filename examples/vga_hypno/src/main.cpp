@@ -13,6 +13,7 @@
 // crash on hardfault.
 
 #include "main.h"
+#include <hardware/clocks.h>
 
 // draw box
 ALIGNED u8 Box[IMGW*IMGH];

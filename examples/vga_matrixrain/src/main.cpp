@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include <string.h>
+#include <hardware/clocks.h>
 
 #define DELAY		10	// delay in [ms]
 #define LEN_MIN	 	10	// minimal length of drop

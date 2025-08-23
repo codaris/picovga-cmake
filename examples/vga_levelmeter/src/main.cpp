@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include <string.h>
+#include <hardware/clocks.h>
 
 // copy of images
 ALIGNED u8 Repro1Img_Copy[sizeof(Repro1Img)];

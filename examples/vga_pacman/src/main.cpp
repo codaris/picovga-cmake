@@ -13,6 +13,7 @@
 #include "open.h"		// open screen
 #include "pico/printf.h"
 #include <string.h>
+#include <hardware/clocks.h>
 
 // initialize buffers on program start
 void BufInit()

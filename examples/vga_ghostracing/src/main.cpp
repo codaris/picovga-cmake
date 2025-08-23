@@ -8,6 +8,7 @@
 #include "main.h"
 #include "pico/printf.h"
 #include <string.h>
+#include <hardware/clocks.h>
 
 u8 Text[TEXTMAX]; // row of text
 ALIGNED u8 TextCol[TEXTMAX*8]; // text color gradient

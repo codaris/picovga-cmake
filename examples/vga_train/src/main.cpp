@@ -10,6 +10,7 @@
 #include "levels.h"		// game levels
 #include <string.h>
 #include "pico/printf.h"
+#include <hardware/clocks.h>
 
 u8 Text[TEXTMAX*2]; // 2 rows of text (2nd row is empty, it is used to center line vertically)
 u8 TextCol[TEXTMAX*2*8] __attribute__ ((aligned(4))); // text color gradient
