@@ -1,14 +1,9 @@
 var searchData=
 [
-  ['scanvas_466',['sCanvas',['../structsCanvas.html',1,'']]],
-  ['slayer_467',['sLayer',['../structsLayer.html',1,'']]],
-  ['slayermode_468',['sLayerMode',['../structsLayerMode.html',1,'']]],
-  ['slayerprog_469',['sLayerProg',['../structsLayerProg.html',1,'']]],
-  ['sscreen_470',['sScreen',['../structsScreen.html',1,'']]],
-  ['ssegm_471',['sSegm',['../structsSegm.html',1,'']]],
-  ['ssprite_472',['sSprite',['../structsSprite.html',1,'']]],
-  ['sstrip_473',['sStrip',['../structsStrip.html',1,'']]],
-  ['svgacfg_474',['sVgaCfg',['../structsVgaCfg.html',1,'']]],
-  ['svideo_475',['sVideo',['../structsVideo.html',1,'']]],
-  ['svmode_476',['sVmode',['../structsVmode.html',1,'']]]
+  ['cgaussdrandom_472',['cGaussDRandom',['../classcGaussDRandom.html',1,'']]],
+  ['cgaussfrandom_473',['cGaussFRandom',['../classcGaussFRandom.html',1,'']]],
+  ['cmat2d_474',['cMat2D',['../classcMat2D.html',1,'']]],
+  ['cmat2d_3c_20float_20_3e_475',['cMat2D&lt; float &gt;',['../classcMat2D.html',1,'']]],
+  ['cmat2df_476',['cMat2Df',['../classcMat2Df.html',1,'']]],
+  ['crandom_477',['cRandom',['../classcRandom.html',1,'']]]
 ];

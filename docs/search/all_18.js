@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['zxcol_5f0_453',['ZXCOL_0',['../group__ColorsGroup.html#gaf8c7c3371bab1fcfdde36fb3abba3869',1,'vga_pal.h']]],
+  ['zxcol_5f1_454',['ZXCOL_1',['../group__ColorsGroup.html#ga5e24f31ef961348d92de14b888eb4d82',1,'vga_pal.h']]],
+  ['zxcol_5f10_455',['ZXCOL_10',['../group__ColorsGroup.html#gaf879b5c0237118beac4a8dff04c3ce0f',1,'vga_pal.h']]],
+  ['zxcol_5f11_456',['ZXCOL_11',['../group__ColorsGroup.html#ga1a8ec223d2bb9b0125b96396173452b2',1,'vga_pal.h']]],
+  ['zxcol_5f12_457',['ZXCOL_12',['../group__ColorsGroup.html#ga21d22bdde632741167a9f4e0a0f1348c',1,'vga_pal.h']]],
+  ['zxcol_5f13_458',['ZXCOL_13',['../group__ColorsGroup.html#ga3a5d22e3bfbad59189d68a2bf3472e4f',1,'vga_pal.h']]],
+  ['zxcol_5f14_459',['ZXCOL_14',['../group__ColorsGroup.html#ga3587322c2e584e02d514f133e41acd55',1,'vga_pal.h']]],
+  ['zxcol_5f15_460',['ZXCOL_15',['../group__ColorsGroup.html#ga57bbe8f45c1848fed8fa017cd9b21341',1,'vga_pal.h']]],
+  ['zxcol_5f2_461',['ZXCOL_2',['../group__ColorsGroup.html#gadc8ef66ae4cfecf46b69032fb52faa8e',1,'vga_pal.h']]],
+  ['zxcol_5f3_462',['ZXCOL_3',['../group__ColorsGroup.html#ga9ddd5d8cc8ff2ed5c7f7cc606248aead',1,'vga_pal.h']]],
+  ['zxcol_5f4_463',['ZXCOL_4',['../group__ColorsGroup.html#ga13444a6a36973b53eec97749d7efe1c2',1,'vga_pal.h']]],
+  ['zxcol_5f5_464',['ZXCOL_5',['../group__ColorsGroup.html#ga533f24800a34df26cf9f95086f376998',1,'vga_pal.h']]],
+  ['zxcol_5f6_465',['ZXCOL_6',['../group__ColorsGroup.html#gad6d524039074d3563baf98d7e78096e9',1,'vga_pal.h']]],
+  ['zxcol_5f7_466',['ZXCOL_7',['../group__ColorsGroup.html#ga2b501f4adc5d29f900c91b27f8ff9402',1,'vga_pal.h']]],
+  ['zxcol_5f8_467',['ZXCOL_8',['../group__ColorsGroup.html#gadd567066969c92e59501aa12afd58271',1,'vga_pal.h']]],
+  ['zxcol_5f9_468',['ZXCOL_9',['../group__ColorsGroup.html#ga6b52cf289b5b422ff74fda42d509c8f7',1,'vga_pal.h']]],
+  ['zxpal16_469',['ZXPal16',['../group__ColorsGroup.html#ga1490e980f24dc070c5a31ce104e019bd',1,'ZXPal16():&#160;vga_pal.cpp'],['../group__ColorsGroup.html#ga1490e980f24dc070c5a31ce104e019bd',1,'ZXPal16():&#160;vga_pal.cpp']]]
+];

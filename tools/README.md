@@ -7,24 +7,24 @@ The generated arrays provide graphics and audio data in formats tailored for the
 All tools are lightweight console applications that should compile for all platforms.  Building the library will build these applications into the `tools` folder.
 
 
-* [picovga_img](#picovga_img--image-conversion-tool) – Image Conversion Tool
-* [picovga_rle](#picovga_rle--rle-compression-tool) – RLE Compression Tool
-* [picovga_snd](#picovga_snd--sound-import-tool) – Sound Import Tool
-* [picvovga_pal332](#picvovga_pal332--picovga-8-bit-palette-generator) – PicoVGA 8-bit Palette Generator
+* [picovga_img](#image-conversion-tool---picovga_img) – Image Conversion Tool
+* [picovga_rle](#rle-compression-tool---picovga_rle) – RLE Compression Tool
+* [picovga_snd](#sound-import-tool---picovga_snd) – Sound Import Tool
+* [picvovga_pal332](#8-bit-palette-generator---picvovga_pal332) – 8-bit Palette Generator
 * [palettes](#palettes-1) - A collection of `.act` palette files  for use in image editors.  
 
-## picovga_img – Image Conversion Tool
+## Image Conversion Tool - `picovga_img`
 
-**picovga_img** is a command-line utility that converts Windows BMP images into C array data for use with the PicoVGA library on the Raspberry Pi Pico. It ensures that images are properly formatted and optimized for 8-bit, 4-bit, 2-bit, or 1-bit palette graphics.
+`picovga_img` is a command-line utility that converts Windows BMP images into C array data for use with the PicoVGA library on the Raspberry Pi Pico. It ensures that images are properly formatted and optimized for 8-bit, 4-bit, 2-bit, or 1-bit palette graphics.
 
 ### Usage
 ```bash
 picovga_img input.bmp output.cpp arrayname
 ```
 
-- **input.bmp** – Source image file (must be a Windows BMP format).  
-- **output.cpp** – Destination C++ file containing the image data.  
-- **arrayname** – Name of the C++ array that will hold the image data.  
+- `input.bmp` – Source image file (must be a Windows BMP format).  
+- `output.cpp` – Destination C++ file containing the image data.  
+- `arrayname` – Name of the C++ array that will hold the image data.  
 
 The tool reads the BMP image, validates its format, and writes the pixel data into a `const u8[]` array that can be directly included in PicoVGA projects.
 
@@ -68,19 +68,19 @@ const u8 myimage[8192] __attribute__ ((aligned(4))) = {
 
 This array can be included in your PicoVGA project and drawn directly to the screen.
 
-## picovga_rle – RLE Compression Tool
+## RLE Compression Tool - `picovga_rle`
 
-**picovga_rle** is a command-line utility that compresses 8-bit PicoVGA images into a run-length encoded (RLE) format suitable for use with the PicoVGA library on the Raspberry Pi Pico. The compression significantly reduces image size while maintaining compatibility with the RLE PIO routines in PicoVGA.
+`picovga_rle` is a command-line utility that compresses 8-bit PicoVGA images into a run-length encoded (RLE) format suitable for use with the PicoVGA library on the Raspberry Pi Pico. The compression significantly reduces image size while maintaining compatibility with the RLE PIO routines in PicoVGA.
 
 ### Usage
 ```bash
 picovga_rle input.bmp output.c arrayname transparent_color
 ```
 
-- **input.bmp** – Source image file (must be an 8-bit BMP using the PicoVGA palette `pal332.act`).  
-- **output.cpp** – Destination C++ file containing the compressed image data.  
-- **arrayname** – Name of the generated C array.  
-- **transparent_color** – Index of the color to be used as transparency (0–255). Use `-1` for no transparency.  
+- `input.bmp` – Source image file (must be an 8-bit BMP using the PicoVGA palette `pal332.act`).  
+- `output.cpp` – Destination C++ file containing the compressed image data.  
+- `arrayname` – Name of the generated C array.  
+- `transparent_color` – Index of the color to be used as transparency (0–255). Use `-1` for no transparency.  
 
 The tool reads the BMP image, compresses it using RLE, and outputs a set of C arrays containing both pixel data and row offsets.
 
@@ -141,18 +141,18 @@ Each scanline is terminated with an `idle` command and aligned to 32-bit boundar
 ### Compatibility Warning
 The compressed output is tightly coupled with the **RLE PIO program** in PicoVGA. Since the instruction format may change between library versions, **always use picovga_rle from the same release as your PicoVGA library** to avoid incompatibility issues.
 
-## picovga_snd – Sound Import Tool
+## Sound Import Tool - `picovga_snd`
 
-**picovga_snd** is a command-line utility that converts WAV audio files into C array data for playback with the PicoVGA library on the Raspberry Pi Pico. It ensures that sound effects or music are properly formatted for the Pico’s audio playback routines.
+`picovga_snd` is a command-line utility that converts WAV audio files into C array data for playback with the PicoVGA library on the Raspberry Pi Pico. It ensures that sound effects or music are properly formatted for the Pico’s audio playback routines.
 
 ### Usage
 ```bash
 picovga_snd input.wav output.cpp arrayname
 ```
 
-- **input.wav** – Source WAV file.  
-- **output.cpp** – Destination C++ file containing the audio data array.  
-- **arrayname** – Name of the generated C array.  
+- `input.wav` – Source WAV file.  
+- `output.cpp` – Destination C++ file containing the audio data array.  
+- `arrayname` – Name of the generated C array.  
 
 The tool validates the WAV file format and writes its sample data into a `const u8[]` array that can be directly included in PicoVGA projects.
 
@@ -186,9 +186,9 @@ const u8 mysound[1024] __attribute__ ((aligned(4))) = {
 
 This array can be compiled into your PicoVGA program and played back using the sound routines in the library.
 
-## picvovga_pal332 – PicoVGA 8-bit Palette Generator
+## 8-bit Palette Generator - `picvovga_pal332`
 
-**picvovga_pal332** is a utility program used to generate the standard 8-bit PicoVGA palette. This palette is the foundation for all 8-bit graphics in PicoVGA and defines a total of 256 colors based on a **3-3-2 bit RGB model**:
+`picvovga_pal332` is a utility program used to generate the standard 8-bit PicoVGA palette. This palette is the foundation for all 8-bit graphics in PicoVGA and defines a total of 256 colors based on a **3-3-2 bit RGB model**:
 - **3 bits red (0–7 levels)**
 - **3 bits green (0–7 levels)**
 - **2 bits blue (0–3 levels)**
@@ -196,10 +196,10 @@ This array can be compiled into your PicoVGA program and played back using the s
 This RGB332 format allows compact color representation while providing a broad enough spectrum for retro-style graphics.
 
 ### Output Files
-When you run **picvovga_pal332**, it generates two important files:
+When you run `picvovga_pal332`, it generates two important files:
 
-- **pal332.act** – Adobe Color Table file containing the 256-color PicoVGA palette. This file can be imported into image editors such as Photoshop or GIMP to ensure images are created using PicoVGA’s 8-bit colors.
-- **pal332.csv** – A CSV table with detailed color information. Each row includes:
+- `pal332.act` – Adobe Color Table file containing the 256-color PicoVGA palette. This file can be imported into image editors such as Photoshop or GIMP to ensure images are created using PicoVGA’s 8-bit colors.
+- `pal332.csv` – A CSV table with detailed color information. Each row includes:
   - **Palette index (0–255)**
   - **RGB hex value**
   - **Individual red, green, and blue component values**
@@ -217,22 +217,22 @@ Index, HEX, R, G, B
 - In **Photoshop** or **GIMP**, load `pal332.act` as the palette before saving your image as an 8-bit BMP. This ensures the image uses the exact PicoVGA colors.
 - If you identify a color in an image by its **HEX code** (e.g., `#8080FF`), you can use `pal332.csv` to look up which PicoVGA color index corresponds to that HEX value.
 
-This is especially useful when working with transparency or when preparing assets for use with other PicoVGA tools such as [picovga_img](#picovga_img--image-conversion-tool) or [picovga_rle](#picovga_rle--rle-compression-tool).
+This is especially useful when working with transparency or when preparing assets for use with other PicoVGA tools such as `picovga_img` or `picovga_rle`.
 
 ## Palettes
 The PicoVGA project includes a set of predefined palettes located in the `tools\palettes` folder. These palettes (`*.act` files) can be used in Photoshop, GIMP, or other graphics editors to ensure images match PicoVGA’s supported color sets.
 
 ### Available Palettes
-- **pal332.act** – The primary 8-bit PicoVGA palette. This file defines the 256 standard colors used by PicoVGA.  
-- **pal4_PC.act** – Standard CGA 16-color palette.  
-- **pal4_ZX.act** – ZX Spectrum–style 16-color palette.  
-- **palcga\*.act** – Variants of CGA palettes for different modes (used for 2-bit conversions).  
-- **pal1.act** – Black & white palette for 1-bit images.  
+- `pal332.act` – The primary 8-bit PicoVGA palette. This file defines the 256 standard colors used by PicoVGA.  
+- `pal4_PC.act` – Standard CGA 16-color palette.  
+- `pal4_ZX.act` – ZX Spectrum–style 16-color palette.  
+- `palcga*.act` – Variants of CGA palettes for different modes (used for 2-bit conversions).  
+- `pal1.act` – Black & white palette for 1-bit images.  
 
 ### Palette Details
-The most important palette is **pal332.act**, which represents the 3-3-2 bit RGB layout (3 bits red, 3 bits green, 2 bits blue). It is generated by the `pal332.exe` tool and comes with an additional CSV file:
+The most important palette is `pal332.act`, which represents the 3-3-2 bit RGB layout (3 bits red, 3 bits green, 2 bits blue). It is generated by the `picovga_pal332` tool and comes with an additional CSV file:
 
-- **pal332.csv** – Contains detailed information about each color entry:
+- `pal332.csv` – Contains detailed information about each color entry:
   - Color index (palette order number).  
   - RGB value of the color.  
   - Separate red, green, and blue component values.  

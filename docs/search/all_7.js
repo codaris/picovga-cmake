@@ -1,12 +1,13 @@
 var searchData=
 [
-  ['h_129',['h',['../structsCanvas.html#aadf39060378fd1ee013359b6db6894e0',1,'sCanvas::h()'],['../structsLayer.html#ab09958f929bd6dc21a1bb65cc063a62a',1,'sLayer::h()'],['../structsSprite.html#a09b6b2fa088bfedf8ac3fd8581f2c1b5',1,'sSprite::h()']]],
-  ['hback_130',['hback',['../structsVideo.html#a442ca0e066ec4463431e6617f0dee9ce',1,'sVideo::hback()'],['../structsVmode.html#a996b50ffee4b50d764f4379451dbcb36',1,'sVmode::hback()']]],
-  ['height_131',['height',['../structsStrip.html#ab90dc5ad7d8df6c4c30fae4bfea71be7',1,'sStrip::height()'],['../structsVgaCfg.html#a8c10f3a92b1e6114bb0bded8b1d9bb19',1,'sVgaCfg::height()'],['../structsVmode.html#a9b6919dab765e7cec78110985c8633bd',1,'sVmode::height()']]],
-  ['hfreq_132',['hfreq',['../structsVmode.html#a7526cf0105dfb120c5488920922b6037',1,'sVmode']]],
-  ['hfront_133',['hfront',['../structsVideo.html#a219273ff67ba5e914e8ffac5cd70465c',1,'sVideo::hfront()'],['../structsVmode.html#ac245efd073247efab96996b2faf9242d',1,'sVmode::hfront()']]],
-  ['hfull_134',['hfull',['../structsVideo.html#a116badb157d070c12dca2f2f48f287bf',1,'sVideo']]],
-  ['horiz_135',['horiz',['../structsLayer.html#a7faa17573c513e11a8b2db896faa39c1',1,'sLayer']]],
-  ['hsync_136',['hsync',['../structsVideo.html#a7789d7e6fb32254385a333ae3d849ae0',1,'sVideo::hsync()'],['../structsVmode.html#a3bc58953bb3bb854906e4c7b4d05ef78',1,'sVmode::hsync()']]],
-  ['htot_137',['htot',['../structsVideo.html#a126e10fee81b4de95d2b0ac0b558ada9',1,'sVideo::htot()'],['../structsVmode.html#ad1225a090bdce73dffce6698518d2bd3',1,'sVmode::htot()']]]
+  ['gauss_120',['Gauss',['../classcGaussDRandom.html#a8467456ac74344dfa7a45b1f8cd1193f',1,'cGaussDRandom::Gauss()'],['../classcGaussFRandom.html#a59f87e9efe6d3b7595b62708283c96cd',1,'cGaussFRandom::Gauss()']]],
+  ['gaussdrand_121',['GaussDRand',['../group__RandomGroup.html#ga740266dbe415e191bed40fda800eacf3',1,'GaussDRand():&#160;rand.cpp'],['../group__RandomGroup.html#ga740266dbe415e191bed40fda800eacf3',1,'GaussDRand():&#160;rand.cpp']]],
+  ['gaussfrand_122',['GaussFRand',['../group__RandomGroup.html#ga991f2471f186ea87e2b27fc481c924e5',1,'GaussFRand():&#160;rand.cpp'],['../group__RandomGroup.html#ga991f2471f186ea87e2b27fc481c924e5',1,'GaussFRand():&#160;rand.cpp']]],
+  ['gengrad_123',['GenGrad',['../group__ColorsGroup.html#ga80912f84c604fc199e620ade216da0fb',1,'GenGrad(u8 *dst, int w):&#160;vga_pal.cpp'],['../group__ColorsGroup.html#ga80912f84c604fc199e620ade216da0fb',1,'GenGrad(u8 *dst, int w):&#160;vga_pal.cpp']]],
+  ['genpal16trans_124',['GenPal16Trans',['../group__ScreenGroup.html#ga63c742a5535d26ecdf6d85f3d9b9d5ff',1,'GenPal16Trans(u16 *trans, const u8 *pal):&#160;vga_screen.cpp'],['../group__ScreenGroup.html#ga63c742a5535d26ecdf6d85f3d9b9d5ff',1,'GenPal16Trans(u16 *trans, const u8 *pal):&#160;vga_screen.cpp']]],
+  ['genpal4plane_125',['GenPal4Plane',['../group__ScreenGroup.html#ga415f2e80d3d6e92cb026401cba09331f',1,'GenPal4Plane(u32 *trans, const u8 *pal):&#160;vga_screen.cpp'],['../group__ScreenGroup.html#ga415f2e80d3d6e92cb026401cba09331f',1,'GenPal4Plane(u32 *trans, const u8 *pal):&#160;vga_screen.cpp']]],
+  ['genpal4trans_126',['GenPal4Trans',['../group__ScreenGroup.html#ga0e50909cbf3fb62b0f274880bce1bac4',1,'GenPal4Trans(u32 *trans, const u8 *pal):&#160;vga_screen.cpp'],['../group__ScreenGroup.html#ga0e50909cbf3fb62b0f274880bce1bac4',1,'GenPal4Trans(u32 *trans, const u8 *pal):&#160;vga_screen.cpp']]],
+  ['getting_20started_127',['Getting Started',['../gettingstarted.html',1,'']]],
+  ['getx_128',['GetX',['../classcMat2D.html#aca9180cae53757382050e363b9d8eaa0',1,'cMat2D']]],
+  ['gety_129',['GetY',['../classcMat2D.html#afa5390c7e164a77456d61477b5f152b1',1,'cMat2D']]]
 ];

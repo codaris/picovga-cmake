@@ -83,7 +83,7 @@ Run the command `cmake .` to generate the makefiles for the project and `make` t
 The `vga_config.h` contains the PicoVGA library settings, such as the size of the render buffers. You usually do not need to pay attention to this file. You usually only have to modify it in the following cases:
 
 * When you use a display resolution greater than 640x480 pixels. Typically, the configuration file sets the maximum resolution to 640x480. This must be adjusted at higher resolutions to allow the library to reserve larger buffers for rendering functions.
-* If there is not enough RAM. There is still some headroom where you can save some memory. First, you can reduce the MAXX, MAXY, and MAXLINE resolution settings down to a real values. Next, you can reduce the number of LAYERS down to the actual value used (in the range of 1 to 4). Finally, you can reduce the number of segments and stripes to the actual value SEGMAX and STRIPMAX (minimum is 1).
+* If there is not enough RAM. There is still some headroom where you can save some memory. First, you can reduce the `MAXX`, `MAXY`, and `MAXLINE` resolution settings down to a real values. Next, you can reduce the number of LAYERS down to the actual value used (in the range of 1 to 4). Finally, you can reduce the number of segments and stripes to the actual value `SEGMAX` and `STRIPMAX` (minimum is 1).
 *  The third case is to use of a large number of display stripes and segments. Normally, the values here are set to 8 stripes (=horizontal strips) and 8 segments (=vertical division of each strip).
 
 If you have an older monitor that requires VGA VSync, uncomment the line the `CMakeLists.txt` file that sets the vsync pin:

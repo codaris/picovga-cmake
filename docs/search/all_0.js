@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['attr8conv_0',['Attr8Conv',['../group__UtilsGroup.html#gab8207741ed267ed4fbaa28c4d5a7bad9',1,'Attr8Conv(u8 *dst, u8 *attr, const u8 *src, int w, int h, const u8 *pal):&#160;vga_util.cpp'],['../group__UtilsGroup.html#gab8207741ed267ed4fbaa28c4d5a7bad9',1,'Attr8Conv(u8 *dst, u8 *attr, const u8 *src, int w, int h, const u8 *pal):&#160;vga_util.cpp']]]
+  ['_5fbmpbitmapfileheader_0',['_bmpBITMAPFILEHEADER',['../struct__bmpBITMAPFILEHEADER.html',1,'']]],
+  ['_5fbmpbitmapinfoheader_1',['_bmpBITMAPINFOHEADER',['../struct__bmpBITMAPINFOHEADER.html',1,'']]]
 ];

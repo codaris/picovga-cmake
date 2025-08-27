@@ -1,10 +1,12 @@
 var searchData=
 [
-  ['img_138',['img',['../structsCanvas.html#a70218053500dde9fd0b394b1b0d62895',1,'sCanvas::img()'],['../structsLayer.html#a0a9fb9453c46f2cca3418f72eb255137',1,'sLayer::img()'],['../structsSprite.html#a395f270243a525a82e1372f4fe3a7730',1,'sSprite::img()']]],
-  ['img2_139',['img2',['../structsCanvas.html#a24284d903d37f0ed891bf8973ece6543',1,'sCanvas']]],
-  ['imginvert_140',['ImgInvert',['../group__UtilsGroup.html#ga268e6976f0e415330c26c1f3d4d73cc9',1,'ImgInvert(u8 *dst, int num):&#160;vga_util.cpp'],['../group__UtilsGroup.html#ga268e6976f0e415330c26c1f3d4d73cc9',1,'ImgInvert(u8 *dst, int num):&#160;vga_util.cpp']]],
-  ['introduction_141',['Introduction',['../index.html',1,'']]],
-  ['init_142',['init',['../structsLayer.html#a15444149d14ab00cd1a9db118ec25fc4',1,'sLayer']]],
-  ['initseed_143',['InitSeed',['../classcRandom.html#a3558b3b83ea9a3066ad2f88defb210bd',1,'cRandom']]],
-  ['inter_144',['inter',['../structsVideo.html#a278a0b423dc54ad1ad33096bf441ba3a',1,'sVideo::inter()'],['../structsVmode.html#ab408ab8567899ae9b67321b71172132d',1,'sVmode::inter()']]]
+  ['h_130',['h',['../structsLayer.html#ab09958f929bd6dc21a1bb65cc063a62a',1,'sLayer::h()'],['../structsSprite.html#a09b6b2fa088bfedf8ac3fd8581f2c1b5',1,'sSprite::h()'],['../structsCanvas.html#aadf39060378fd1ee013359b6db6894e0',1,'sCanvas::h()']]],
+  ['hback_131',['hback',['../structsVideo.html#a442ca0e066ec4463431e6617f0dee9ce',1,'sVideo::hback()'],['../structsVmode.html#a996b50ffee4b50d764f4379451dbcb36',1,'sVmode::hback()']]],
+  ['height_132',['height',['../structsStrip.html#ab90dc5ad7d8df6c4c30fae4bfea71be7',1,'sStrip::height()'],['../structsVgaCfg.html#a8c10f3a92b1e6114bb0bded8b1d9bb19',1,'sVgaCfg::height()'],['../structsVmode.html#a9b6919dab765e7cec78110985c8633bd',1,'sVmode::height()']]],
+  ['hfreq_133',['hfreq',['../structsVmode.html#a7526cf0105dfb120c5488920922b6037',1,'sVmode']]],
+  ['hfront_134',['hfront',['../structsVideo.html#a219273ff67ba5e914e8ffac5cd70465c',1,'sVideo::hfront()'],['../structsVmode.html#ac245efd073247efab96996b2faf9242d',1,'sVmode::hfront()']]],
+  ['hfull_135',['hfull',['../structsVideo.html#a116badb157d070c12dca2f2f48f287bf',1,'sVideo']]],
+  ['horiz_136',['horiz',['../structsLayer.html#a7faa17573c513e11a8b2db896faa39c1',1,'sLayer']]],
+  ['hsync_137',['hsync',['../structsVideo.html#a7789d7e6fb32254385a333ae3d849ae0',1,'sVideo::hsync()'],['../structsVmode.html#a3bc58953bb3bb854906e4c7b4d05ef78',1,'sVmode::hsync()']]],
+  ['htot_138',['htot',['../structsVideo.html#a126e10fee81b4de95d2b0ac0b558ada9',1,'sVideo::htot()'],['../structsVmode.html#ad1225a090bdce73dffce6698518d2bd3',1,'sVmode::htot()']]]
 ];

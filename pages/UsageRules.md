@@ -1,19 +1,58 @@
 # Usage Rules {#usagerules}
 
-Image generation on the Raspberry Pico is a matter of processor utilization limits and other processor activities must be subordinated to it. When using the PicoVGA library, there are several principles to keep in mind:
+Image generation on the Raspberry Pi Pico with PicoVGA is highly demanding on processor resources. The VGA signal must always be generated on time, which means other processor activities must be carefully designed around it. The following principles are critical for stable and reliable operation of the library:
 
-The library always runs on the second core of the processor and the program on the first core. Rendering the image can completely overload the CPU core and is usually unusable for other use. The separation of core functions also has the advantage that the cores do not affect each other and there is no need for mutual locking. The first core simply uses write to the frame buffers and the second core displays the contents of the frame buffers without any communication between them. This makes the overall work easier and faster.
+## Core Utilization
+- The PicoVGA library always runs on the **second core (core 1)**, while your application code runs on the **first core (core 0)**. This separation ensures that rendering does not interfere with your main program logic.
+- Rendering can fully saturate core 1, making it unsuitable for other tasks in most cases. Your main program should interact with PicoVGA by writing to frame buffers on core 0, while core 1 continuously handles video output without synchronization overhead.
+- In lightweight modes (e.g., 8-bit graphics rendered via DMA transfers), core 1 may have spare capacity. Code dispatched to core 1 through the library should not use interrupts, be careful with the interpolation unit (its state is not preserved by the renderer), and never disable interrupts.
 
-If the second core is not very busy (e.g. when displaying 8-bit graphics that are simply transferred using DMA transfer), it can also be used for the main program work. However, some limitations should be taken into account - the program in the second core should not use interrupts (it would interfere with the rendering function), the interpolation unit should be used with caution (the rendering function does not save its state) and it must not disable interrupts.
+## Memory Rules
+- All data accessed by PicoVGA (images, fonts, tile patterns, etc.) must be stored in **RAM**, not flash. Flash memory is too slow and will cause video dropouts.
+- If assets are stored in external flash, copy them into a RAM buffer before passing them to the rendering functions.
 
-An important rule is that all data to be accessed by the PicoVGA library **must be stored in the RAM memory**. External flash memory is slow and cannot be used for rendering functions. For example, if a flash image is to be displayed, it must first be copied to a buffer in RAM, and then a pointer to the RAM copy of the image will be passed to the rendering function. If a pointer to the image in flash were passed to it, slow access to flash would cause video dropouts. In addition to images, this also applies to fonts and tile patterns, for example.
+## Rendering Performance
+- Some modes (e.g., 8-bit DMA transfers) render very quickly, while others (e.g., sprite rendering in slow mode) are CPU-intensive.
+- Rendering is performed per line. If a mode is too demanding, individual scanlines may fail to render on time, breaking video synchronization.
+- **If rendering is too slow:**
+  - Switch to a faster video mode.  
+  - Reduce the resolution or rendered area.  
+  - Mix modes (e.g., add tile borders around the display area).  
+  - Increase the CPU clock speed.  
 
-The limited rendering speed must be taken into account when scheduling screen layout. Some modes render very fast (e.g. 8-bit graphics are just transferred from the frame buffer using DMA) and some modes are very rendering intensive - e.g. rendering sprites in slow mode. When using demanding rendering, some video lines may not render fast enough in the required time and the video image will break (drop out of sync). In such cases, it is necessary to use another mode, or to reduce the rendered area (add other modes, faster ones - e.g. add tile controls on the sides of the screen), reduce the screen resolution or increase the CPU clock speed. Video lines are rendered separately and therefore it is always just content on one video line about, video lines do not affect each other. For example, you can test the speed of sprite rendering by placing all the sprites horizontally next to each other (the most challenging case) and check if the video synchronization fails.
+A good stress test is to render many sprites side by side horizontally, which creates the most demanding case.
 
-Care must also be taken when using DMA transfer. DMA is used to transfer data to the PIO. Although the transfer uses a FIFO cache, using a different DMA channel may cause the render DMA channel to be delayed and thus cause the video to drop out. A DMA overload can occur, for example, when a large block of data in RAM is transferred quickly. However, the biggest load is the DMA transfer of data from flash memory. In this case, the DMA channel waits for data to be read from flash via QSPI and thus blocks the DMA render channel.
+## DMA Considerations
+- PicoVGA uses DMA to stream pixel data into the PIO. Even though the PIO has a TX **FIFO**, competing DMA traffic can delay the render DMA and cause **video dropouts**.
+- **Conflicts to watch:**
+  - Large, fast **RAM↔RAM** transfers on other DMA channels.  
+  - **QSPI flash** reads (e.g., XIP or DMA from external flash). In these cases, the non-render DMA may stall waiting on flash, effectively **blocking** the render DMA channel.
+- Minimize or schedule other DMA operations so they do not overlap with active rendering.
 
-The CPU clock frequency must also be subordinated to the image generator. Before initializing the video node, the library calculates the required system clock frequency so that the timing matches the requirements and the processor speed is sufficient for the required image resolution. It is a good idea to initially print out the calculated clock frequency for checking on the console. It is possible to prohibit the library from changing the system clock, or to prescribe only a certain range, in which case some modes may be unreachable (or the video image may break up).
+## CPU Clock Frequency
+- Before initializing video output, PicoVGA calculates and sets the required system clock frequency to ensure precise timing.
+- You should print the calculated frequency to the console at startup to verify configuration.
+- You may restrict the library from changing the system clock or limit its range. However, this can make some video modes unavailable or unstable.
 
-Image buffers must be aligned to 4 bytes (32-bit CPU word) and image segments must be horizontally aligned to 4 pixels - this refers to the horizontal position of the segment, its width, alignment (wrapx) and offset (offx). Alignment does not apply to the vertical direction. This restriction is necessary because the image information is transferred to the PIO controller using a 32-bit DMA transfer, and this must be aligned to a 32-bit word. One 32-bit word contains 4 pixels (1 pixel has 8 bits), so the horizontal data in the image must also be aligned to 4 pixels. So you cannot do fine horizontal scrolling of the image in 1 pixel increments (the restriction does not apply to vertical scrolling), but only in 4 pixel increments. The exception to this is slow sprites, which are software rendered to the video line and can therefore be scrolled in 1 pixel increments. Similarly, the restriction does not apply to software rendering to framebuffer (e.g. rendering an image to video memory can be done to any coordinate).
+## Memory Alignment
+- Image buffers must be aligned to **4 bytes** (32-bit words).
+- Image **segments must be horizontally aligned to 4 pixels**. This applies to the segment’s **X position**, **width**, **wrapping** (**wrapx**), and **horizontal offset** (**offx**). Vertical alignment has no such restriction.
+- Pixel data is transferred to the PIO using 32‑bit DMA words; each word packs **4× 8‑bit pixels**, so horizontal data must start on a 4‑pixel boundary.
+- Horizontal scrolling is limited to **4‑pixel steps**. Exceptions:
+  - **Slow sprites** – software-rendered per scanline; can scroll at **1‑pixel** precision.
+  - **Framebuffer software rendering** – drawing directly into video memory allows **any pixel coordinate**.
 
-The display of the image by the PicoVGA library is performed by the PIO controller (PIO0).  The other controller, PIO1, is unused and can be used for other purposes. 
+## PIO Usage
+- PicoVGA exclusively uses **PIO0** for video output.
+- The second controller, **PIO1**, remains free and can be used for other purposes in your program.
+
+## Summary
+To use PicoVGA effectively:
+1. Treat core 1 as dedicated to rendering.  
+2. Keep all rendering assets in RAM.  
+3. Match your rendering mode to the available performance.  
+4. Avoid DMA conflicts and verify clock settings.  
+5. Respect memory alignment rules (including **wrapx** and **offx**) for stable operation.  
+
+Following these principles ensures smooth VGA output and stable integration of PicoVGA into your Raspberry Pi Pico projects.
+

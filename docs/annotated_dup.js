@@ -1,5 +1,7 @@
 var annotated_dup =
 [
+    [ "_bmpBITMAPFILEHEADER", "struct__bmpBITMAPFILEHEADER.html", "struct__bmpBITMAPFILEHEADER" ],
+    [ "_bmpBITMAPINFOHEADER", "struct__bmpBITMAPINFOHEADER.html", "struct__bmpBITMAPINFOHEADER" ],
     [ "cGaussDRandom", "classcGaussDRandom.html", "classcGaussDRandom" ],
     [ "cGaussFRandom", "classcGaussFRandom.html", "classcGaussFRandom" ],
     [ "cMat2D", "classcMat2D.html", "classcMat2D" ],
@@ -15,5 +17,8 @@ var annotated_dup =
     [ "sStrip", "structsStrip.html", "structsStrip" ],
     [ "sVgaCfg", "structsVgaCfg.html", "structsVgaCfg" ],
     [ "sVideo", "structsVideo.html", "structsVideo" ],
-    [ "sVmode", "structsVmode.html", "structsVmode" ]
+    [ "sVmode", "structsVmode.html", "structsVmode" ],
+    [ "WAVDATA_", "structWAVDATA__.html", "structWAVDATA__" ],
+    [ "WAVFORMAT_", "structWAVFORMAT__.html", "structWAVFORMAT__" ],
+    [ "WAVHEAD_", "structWAVHEAD__.html", "structWAVHEAD__" ]
 ];

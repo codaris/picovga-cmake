@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['usage_20rules_842',['Usage Rules',['../usagerules.html',1,'']]]
+  ['tools_20and_20palettes_861',['Tools and Palettes',['../tools.html',1,'']]]
 ];

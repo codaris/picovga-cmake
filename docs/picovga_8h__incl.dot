@@ -1,0 +1,40 @@
+digraph "src/picovga.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/picovga.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Global common definitions."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="define.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$define_8h.html",tooltip="VGA common definitions of C and ASM."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="vga_config.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$vga__config_8h_source.html",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="util/canvas.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$canvas_8h.html",tooltip="Canvas."];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="util/overclock.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$overclock_8h.html",tooltip="Overclock."];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="pico/stdlib.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="util/print.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$print_8h.html",tooltip="Print to attribute text buffer."];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="util/rand.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$rand_8h.html",tooltip="Random number generator."];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="util/mat2d.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$mat2d_8h.html",tooltip="2D Transformation Matrix"];
+  Node9 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="pico/double.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node9 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="util/pwmsnd.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$pwmsnd_8h.html",tooltip="PWM sound output."];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="vga_pal.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$vga__pal_8h.html",tooltip="VGA colors and palettes."];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="vga_vmode.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$vga__vmode_8h.html",tooltip="VGA videomodes."];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="vga_layer.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$vga__layer_8h.html",tooltip="VGA layers."];
+  Node1 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="vga_screen.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$vga__screen_8h.html",tooltip="VGA screen layout."];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="vga_util.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$vga__util_8h.html",tooltip="VGA utilities."];
+  Node1 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="vga.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$vga_8h.html",tooltip="Video/Library Initialization."];
+}
