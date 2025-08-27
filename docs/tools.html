@@ -105,7 +105,7 @@ $(document).ready(function(){initNavTree('tools.html',''); initResizable(); });
 <h1><a class="anchor" id="picovga_img"></a>
 Image Conversion Tool</h1>
 <p><code>picovga_img</code> is a command-line utility that converts Windows BMP images into C array data for use with the PicoVGA library on the Raspberry Pi Pico. It ensures that images are properly formatted and optimized for 8-bit, 4-bit, 2-bit, or 1-bit palette graphics.</p>
-<h2><a class="anchor" id="autotoc_md13"></a>
+<h2><a class="anchor" id="autotoc_md14"></a>
 Usage</h2>
 <div class="fragment"><div class="line">picovga_img input.bmp output.cpp arrayname</div>
 </div><!-- fragment --><ul>
@@ -117,7 +117,7 @@ Usage</h2>
 </li>
 </ul>
 <p>The tool reads the BMP image, validates its format, and writes the pixel data into a <code>const u8[]</code> array that can be directly included in PicoVGA projects.</p>
-<h2><a class="anchor" id="autotoc_md14"></a>
+<h2><a class="anchor" id="autotoc_md15"></a>
 Supported Image Formats</h2>
 <ul>
 <li><b>8-bit palette BMP</b> – Uses a 256-color palette. <br  />
@@ -137,7 +137,7 @@ Supported Image Formats</h2>
 <li><b>Saved with flipped row order</b> (so that PicoVGA interprets the image correctly) <br  />
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md15"></a>
+<h2><a class="anchor" id="autotoc_md16"></a>
 Palettes</h2>
 <p>When exporting from your image editor, always apply the correct palette (<code>.act</code> files) before saving: <br  />
 </p>
@@ -152,7 +152,7 @@ Palettes</h2>
 </li>
 </ul>
 <p>⚠️ <b>Note:</b> BMP does not natively support 2-bit images. Save as a 4-bit BMP with a 4-color palette, and RaspPicoImg will automatically detect and convert it to 2-bit format.</p>
-<h2><a class="anchor" id="autotoc_md16"></a>
+<h2><a class="anchor" id="autotoc_md17"></a>
 Output</h2>
 <p>The generated <code>.c</code> file contains:</p><ul>
 <li>Image metadata (bit depth, width, height, pitch). <br  />
@@ -171,7 +171,7 @@ Output</h2>
 <h1><a class="anchor" id="picovga_rle"></a>
 RLE Compression Tool</h1>
 <p><code>picovga_rle</code> is a command-line utility that compresses 8-bit PicoVGA images into a run-length encoded (RLE) format suitable for use with the PicoVGA library on the Raspberry Pi Pico. The compression significantly reduces image size while maintaining compatibility with the RLE PIO routines in PicoVGA.</p>
-<h2><a class="anchor" id="autotoc_md17"></a>
+<h2><a class="anchor" id="autotoc_md18"></a>
 Usage</h2>
 <div class="fragment"><div class="line">picovga_rle input.bmp output.c arrayname transparent_color</div>
 </div><!-- fragment --><ul>
@@ -185,7 +185,7 @@ Usage</h2>
 </li>
 </ul>
 <p>The tool reads the BMP image, compresses it using RLE, and outputs a set of C arrays containing both pixel data and row offsets.</p>
-<h2><a class="anchor" id="autotoc_md18"></a>
+<h2><a class="anchor" id="autotoc_md19"></a>
 Input Requirements</h2>
 <ul>
 <li><b>Format:</b> Windows BMP. <br  />
@@ -198,7 +198,7 @@ Input Requirements</h2>
 </li>
 </ul>
 <p>⚠️ If the input image does not meet these conditions, the tool will reject it.</p>
-<h2><a class="anchor" id="autotoc_md19"></a>
+<h2><a class="anchor" id="autotoc_md20"></a>
 Transparency</h2>
 <p>The fourth parameter specifies which color index should be treated as transparent. <br  />
 </p>
@@ -210,7 +210,7 @@ Transparency</h2>
 </ul>
 <p>Example: </p><div class="fragment"><div class="line">picovga_rle sprite.bmp sprite.c mysprite 120</div>
 </div><!-- fragment --><p> This command compresses <code>sprite.bmp</code>, outputs to <code>sprite.c</code>, creates an array named <code>mysprite</code>, and treats color index 120 as transparent.</p>
-<h2><a class="anchor" id="autotoc_md20"></a>
+<h2><a class="anchor" id="autotoc_md21"></a>
 Output</h2>
 <p>The generated <code>.cpp</code> file contains:</p><ul>
 <li><b>Image metadata</b> – format, transparency, width, height, size, and compression ratio. <br  />
@@ -235,7 +235,7 @@ Output</h2>
 <div class="line"><span class="keyword">const</span> u8 mysprite[1536] __attribute__ ((aligned(4))) = {</div>
 <div class="line">    0x34, 0x07, 0x12, 0x56, ...</div>
 <div class="line">};</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md21"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md22"></a>
 Internal Encoding</h2>
 <p>The RLE compression encodes pixel sequences into tokens:</p><ul>
 <li><b>skip</b> – Transparent runs of 2–257 pixels. <br  />
@@ -248,13 +248,13 @@ Internal Encoding</h2>
 </li>
 </ul>
 <p>Each scanline is terminated with an <code>idle</code> command and aligned to 32-bit boundaries for efficient processing on the Pico.</p>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md23"></a>
 Compatibility Warning</h2>
 <p>The compressed output is tightly coupled with the <b>RLE PIO program</b> in PicoVGA. Since the instruction format may change between library versions, <b>always use picovga_rle from the same release as your PicoVGA library</b> to avoid incompatibility issues.</p>
 <h1><a class="anchor" id="picovga_snd"></a>
 Sound Import Tool</h1>
 <p><code>picovga_snd</code> is a command-line utility that converts WAV audio files into C array data for playback with the PicoVGA library on the Raspberry Pi Pico. It ensures that sound effects or music are properly formatted for the Pico’s audio playback routines.</p>
-<h2><a class="anchor" id="autotoc_md23"></a>
+<h2><a class="anchor" id="autotoc_md24"></a>
 Usage</h2>
 <div class="fragment"><div class="line">picovga_snd input.wav output.cpp arrayname</div>
 </div><!-- fragment --><ul>
@@ -266,7 +266,7 @@ Usage</h2>
 </li>
 </ul>
 <p>The tool validates the WAV file format and writes its sample data into a <code>const u8[]</code> array that can be directly included in PicoVGA projects.</p>
-<h2><a class="anchor" id="autotoc_md24"></a>
+<h2><a class="anchor" id="autotoc_md25"></a>
 Input Requirements</h2>
 <p>The input WAV file must meet <b>strict format requirements</b>:</p><ul>
 <li><b>Format:</b> PCM (uncompressed). <br  />
@@ -279,7 +279,7 @@ Input Requirements</h2>
 </li>
 </ul>
 <p>⚠️ If the file does not meet these conditions, the tool will reject it.</p>
-<h3><a class="anchor" id="autotoc_md25"></a>
+<h3><a class="anchor" id="autotoc_md26"></a>
 Recommended Editors</h3>
 <ul>
 <li><b>Audacity</b> (free) – provides full editing and sound effects, and supports exporting WAV in the correct format. <br  />
@@ -288,7 +288,7 @@ Recommended Editors</h3>
 </li>
 </ul>
 <p>These tools allow trimming, resampling, and converting audio to the exact format needed for PicoVGA.</p>
-<h2><a class="anchor" id="autotoc_md26"></a>
+<h2><a class="anchor" id="autotoc_md27"></a>
 Output</h2>
 <p>The generated <code>.cpp</code> file contains:</p><ul>
 <li>A header comment describing the sound format. <br  />
@@ -309,7 +309,7 @@ Output</h2>
 <li><b>2 bits blue (0–3 levels)</b></li>
 </ul>
 <p>This RGB332 format allows compact color representation while providing a broad enough spectrum for retro-style graphics.</p>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md28"></a>
 Output Files</h2>
 <p>When you run <code>picvovga_pal332</code>, it generates two important files:</p>
 <ul>
@@ -326,7 +326,7 @@ Output Files</h2>
 <div class="line">1, #000055, 0, 0, 85</div>
 <div class="line">2, #0000AA, 0, 0, 170</div>
 <div class="line">...</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md28"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md29"></a>
 Usage in Image Editors</h2>
 <ul>
 <li>In <b>Photoshop</b> or <b>GIMP</b>, load <code>pal332.act</code> as the palette before saving your image as an 8-bit BMP. This ensures the image uses the exact PicoVGA colors.</li>
@@ -336,7 +336,7 @@ Usage in Image Editors</h2>
 <h1><a class="anchor" id="palettes"></a>
 Palettes</h1>
 <p>The PicoVGA project includes a set of predefined palettes located in the <code>tools\palettes</code> folder. These palettes (<code>*.act</code> files) can be used in Photoshop, GIMP, or other graphics editors to ensure images match PicoVGA’s supported color sets.</p>
-<h2><a class="anchor" id="autotoc_md29"></a>
+<h2><a class="anchor" id="autotoc_md30"></a>
 Available Palettes</h2>
 <ul>
 <li><code>pal332.act</code> – The primary 8-bit PicoVGA palette. This file defines the 256 standard colors used by PicoVGA. <br  />
@@ -350,7 +350,7 @@ Available Palettes</h2>
 <li><code>pal1.act</code> – Black &amp; white palette for 1-bit images. <br  />
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md30"></a>
+<h2><a class="anchor" id="autotoc_md31"></a>
 Palette Details</h2>
 <p>The most important palette is <code>pal332.act</code>, which represents the 3-3-2 bit RGB layout (3 bits red, 3 bits green, 2 bits blue). It is generated by the <code>picovga_pal332</code> tool and comes with an additional CSV file:</p>
 <ul>

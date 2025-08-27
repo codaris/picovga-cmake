@@ -30,8 +30,9 @@ var NAVTREE =
       [ "About PicoVGA", "index.html#autotoc_md8", null ],
       [ "Features", "index.html#autotoc_md9", null ],
       [ "Examples and Tutorials", "index.html#autotoc_md10", null ],
-      [ "License terms", "index.html#autotoc_md11", null ],
-      [ "Getting Help", "index.html#autotoc_md12", null ]
+      [ "Tools", "index.html#autotoc_md11", null ],
+      [ "License terms", "index.html#autotoc_md12", null ],
+      [ "Getting Help", "index.html#autotoc_md13", null ]
     ] ],
     [ "Connections", "connections.html", [
       [ "How to Connect to VGA display", "connections.html#autotoc_md0", null ],
@@ -46,44 +47,44 @@ var NAVTREE =
     ] ],
     [ "Tools and Palettes", "tools.html", [
       [ "Image Conversion Tool", "tools.html#picovga_img", [
-        [ "Usage", "tools.html#autotoc_md13", null ],
-        [ "Supported Image Formats", "tools.html#autotoc_md14", null ],
-        [ "Palettes", "tools.html#autotoc_md15", null ],
-        [ "Output", "tools.html#autotoc_md16", null ]
+        [ "Usage", "tools.html#autotoc_md14", null ],
+        [ "Supported Image Formats", "tools.html#autotoc_md15", null ],
+        [ "Palettes", "tools.html#autotoc_md16", null ],
+        [ "Output", "tools.html#autotoc_md17", null ]
       ] ],
       [ "RLE Compression Tool", "tools.html#picovga_rle", [
-        [ "Usage", "tools.html#autotoc_md17", null ],
-        [ "Input Requirements", "tools.html#autotoc_md18", null ],
-        [ "Transparency", "tools.html#autotoc_md19", null ],
-        [ "Output", "tools.html#autotoc_md20", null ],
-        [ "Internal Encoding", "tools.html#autotoc_md21", null ],
-        [ "Compatibility Warning", "tools.html#autotoc_md22", null ]
+        [ "Usage", "tools.html#autotoc_md18", null ],
+        [ "Input Requirements", "tools.html#autotoc_md19", null ],
+        [ "Transparency", "tools.html#autotoc_md20", null ],
+        [ "Output", "tools.html#autotoc_md21", null ],
+        [ "Internal Encoding", "tools.html#autotoc_md22", null ],
+        [ "Compatibility Warning", "tools.html#autotoc_md23", null ]
       ] ],
       [ "Sound Import Tool", "tools.html#picovga_snd", [
-        [ "Usage", "tools.html#autotoc_md23", null ],
-        [ "Input Requirements", "tools.html#autotoc_md24", [
-          [ "Recommended Editors", "tools.html#autotoc_md25", null ]
+        [ "Usage", "tools.html#autotoc_md24", null ],
+        [ "Input Requirements", "tools.html#autotoc_md25", [
+          [ "Recommended Editors", "tools.html#autotoc_md26", null ]
         ] ],
-        [ "Output", "tools.html#autotoc_md26", null ]
+        [ "Output", "tools.html#autotoc_md27", null ]
       ] ],
       [ "8-bit Palette Generator", "tools.html#picvovga_pal332", [
-        [ "Output Files", "tools.html#autotoc_md27", null ],
-        [ "Usage in Image Editors", "tools.html#autotoc_md28", null ]
+        [ "Output Files", "tools.html#autotoc_md28", null ],
+        [ "Usage in Image Editors", "tools.html#autotoc_md29", null ]
       ] ],
       [ "Palettes", "tools.html#palettes", [
-        [ "Available Palettes", "tools.html#autotoc_md29", null ],
-        [ "Palette Details", "tools.html#autotoc_md30", null ]
+        [ "Available Palettes", "tools.html#autotoc_md30", null ],
+        [ "Palette Details", "tools.html#autotoc_md31", null ]
       ] ]
     ] ],
     [ "Usage Rules", "usagerules.html", [
-      [ "Core Utilization", "usagerules.html#autotoc_md31", null ],
-      [ "Memory Rules", "usagerules.html#autotoc_md32", null ],
-      [ "Rendering Performance", "usagerules.html#autotoc_md33", null ],
-      [ "DMA Considerations", "usagerules.html#autotoc_md34", null ],
-      [ "CPU Clock Frequency", "usagerules.html#autotoc_md35", null ],
-      [ "Memory Alignment", "usagerules.html#autotoc_md36", null ],
-      [ "PIO Usage", "usagerules.html#autotoc_md37", null ],
-      [ "Summary", "usagerules.html#autotoc_md38", null ]
+      [ "Core Utilization", "usagerules.html#autotoc_md32", null ],
+      [ "Memory Rules", "usagerules.html#autotoc_md33", null ],
+      [ "Rendering Performance", "usagerules.html#autotoc_md34", null ],
+      [ "DMA Considerations", "usagerules.html#autotoc_md35", null ],
+      [ "CPU Clock Frequency", "usagerules.html#autotoc_md36", null ],
+      [ "Memory Alignment", "usagerules.html#autotoc_md37", null ],
+      [ "PIO Usage", "usagerules.html#autotoc_md38", null ],
+      [ "Summary", "usagerules.html#autotoc_md39", null ]
     ] ],
     [ "API Modules", "modules.html", "modules" ],
     [ "Data Structures", "annotated.html", [
@@ -116,7 +117,7 @@ var NAVTREEINDEX =
 "group__CanvasGroup.html#ga8b38b2530c058e70233c8ae6c622cfef",
 "group__OverclockGroup.html",
 "group__TextGroup.html#gac91910c7276ceff7cb48fa6733a1e343",
-"structsLayer.html#a8cfe006acd74ac0a1266fea6640a01f1"
+"structsLayer.html#a7faa17573c513e11a8b2db896faa39c1"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

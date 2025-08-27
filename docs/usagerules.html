@@ -91,20 +91,20 @@ $(document).ready(function(){initNavTree('usagerules.html',''); initResizable();
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_pages_UsageRules"></a> Image generation on the Raspberry Pi Pico with PicoVGA is highly demanding on processor resources. The VGA signal must always be generated on time, which means other processor activities must be carefully designed around it. The following principles are critical for stable and reliable operation of the library:</p>
-<h1><a class="anchor" id="autotoc_md31"></a>
+<h1><a class="anchor" id="autotoc_md32"></a>
 Core Utilization</h1>
 <ul>
 <li>The PicoVGA library always runs on the <b>second core (core 1)</b>, while your application code runs on the <b>first core (core 0)</b>. This separation ensures that rendering does not interfere with your main program logic.</li>
 <li>Rendering can fully saturate core 1, making it unsuitable for other tasks in most cases. Your main program should interact with PicoVGA by writing to frame buffers on core 0, while core 1 continuously handles video output without synchronization overhead.</li>
 <li>In lightweight modes (e.g., 8-bit graphics rendered via DMA transfers), core 1 may have spare capacity. Code dispatched to core 1 through the library should not use interrupts, be careful with the interpolation unit (its state is not preserved by the renderer), and never disable interrupts.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md32"></a>
+<h1><a class="anchor" id="autotoc_md33"></a>
 Memory Rules</h1>
 <ul>
 <li>All data accessed by PicoVGA (images, fonts, tile patterns, etc.) must be stored in <b>RAM</b>, not flash. Flash memory is too slow and will cause video dropouts.</li>
 <li>If assets are stored in external flash, copy them into a RAM buffer before passing them to the rendering functions.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md33"></a>
+<h1><a class="anchor" id="autotoc_md34"></a>
 Rendering Performance</h1>
 <ul>
 <li>Some modes (e.g., 8-bit DMA transfers) render very quickly, while others (e.g., sprite rendering in slow mode) are CPU-intensive.</li>
@@ -122,7 +122,7 @@ Rendering Performance</h1>
 </li>
 </ul>
 <p>A good stress test is to render many sprites side by side horizontally, which creates the most demanding case.</p>
-<h1><a class="anchor" id="autotoc_md34"></a>
+<h1><a class="anchor" id="autotoc_md35"></a>
 DMA Considerations</h1>
 <ul>
 <li>PicoVGA uses DMA to stream pixel data into the PIO. Even though the PIO has a TX <b>FIFO</b>, competing DMA traffic can delay the render DMA and cause <b>video dropouts</b>.</li>
@@ -134,14 +134,14 @@ DMA Considerations</h1>
 </li>
 <li>Minimize or schedule other DMA operations so they do not overlap with active rendering.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md35"></a>
+<h1><a class="anchor" id="autotoc_md36"></a>
 CPU Clock Frequency</h1>
 <ul>
 <li>Before initializing video output, PicoVGA calculates and sets the required system clock frequency to ensure precise timing.</li>
 <li>You should print the calculated frequency to the console at startup to verify configuration.</li>
 <li>You may restrict the library from changing the system clock or limit its range. However, this can make some video modes unavailable or unstable.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md36"></a>
+<h1><a class="anchor" id="autotoc_md37"></a>
 Memory Alignment</h1>
 <ul>
 <li>Image buffers must be aligned to <b>4 bytes</b> (32-bit words).</li>
@@ -153,13 +153,13 @@ Memory Alignment</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md37"></a>
+<h1><a class="anchor" id="autotoc_md38"></a>
 PIO Usage</h1>
 <ul>
 <li>PicoVGA exclusively uses <b>PIO0</b> for video output.</li>
 <li>The second controller, <b>PIO1</b>, remains free and can be used for other purposes in your program.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md38"></a>
+<h1><a class="anchor" id="autotoc_md39"></a>
 Summary</h1>
 <p>To use PicoVGA effectively:</p><ol type="1">
 <li>Treat core 1 as dedicated to rendering. <br  />

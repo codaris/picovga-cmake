@@ -54,6 +54,12 @@ For more information on connecting the Pico to a VGA display, check out the **Co
 
 * [Connections](https://codaris.github.io/picovga-cmake/connections)
 
+## Tools
+
+The `tools` folder contains the support programs used to prepare images, palettes, and sounds for use with the **PicoVGA** library.
+
+* [Tools and Palettes](https://codaris.github.io/picovga-cmake/tools)
+
 ## License terms
 
 The PicoVGA library source code and the PicoVGA library sample programs are freely available for further use and modifications. This does not apply to certain graphics and sounds (such as the sounds in Pac-Man) and scene definitions in Sokoban, as these are subject to third party copyrights and may be subject to different distribution terms.
