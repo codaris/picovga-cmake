@@ -3,6 +3,10 @@
 ## About this Fork
 This is a fork of the [PicoVGA project](https://github.com/Panda381/PicoVGA) created by Miroslav Nemecek (Panda38@seznam.cz).  It has been altered from the original to use the standard Linux-based  Raspberry Pi Pico SDK.  The header files have also been altered to support automatically generating this documentation.
 
+This version is compatible with the [Raspberry Pi Pico SDK 2.2.0](https://github.com/raspberrypi/pico-sdk).
+
+* [Change Log](https://github.com/codaris/picovga-cmake/CHANGELOG.md)
+
 ## About PicoVGA
 
 The PicoVGA library enables the Raspberry Pico to output to a VGA monitor or PAL/NTSC TV with ease, making it ideal for technical and gaming applications. It provides four graphic overlay layers with transparency and supports nearly 30 frame buffer formats that can be freely combined while using limited RAM memory. The output is limited to 8 bits, which helps to save on RAM.

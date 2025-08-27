@@ -25,3 +25,34 @@ add_compile_definitions(VGA_GPIO_VSYNC=9)
 
 # Add the examples
 add_subdirectory(examples)
+
+# --- Host tool build (native) -----------------------------------------------
+include(ExternalProject)
+
+# Toggle if you want (optional)
+option(BUILD_HOST_TOOLS "Build native host tools into the tools/ directory" ON)
+
+if(BUILD_HOST_TOOLS)
+  # Where to drop the compiled host binaries:
+  set(HOST_TOOLS_OUT_DIR "${CMAKE_SOURCE_DIR}/tools")
+
+  # Configure and build a separate native CMake project in /host_tools
+  ExternalProject_Add(host_tools_proj
+    SOURCE_DIR        "${CMAKE_SOURCE_DIR}/tools/src"
+    BINARY_DIR        "${CMAKE_BINARY_DIR}/tools"
+    CMAKE_ARGS
+      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+      -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${HOST_TOOLS_OUT_DIR}
+      # (Optional) Propagate your host compiler if you like:
+      # -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+      # -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+    INSTALL_COMMAND   ""      # we copy via RUNTIME_OUTPUT_DIRECTORY instead
+    BUILD_ALWAYS      TRUE    # rebuild if any host tool changes
+  )
+
+  # Make a nice top-level target so you can do: cmake --build . --target tools
+  add_custom_target(tools ALL
+    DEPENDS host_tools_proj
+    COMMENT "Building native host tools into ${HOST_TOOLS_OUT_DIR}"
+  )
+endif()

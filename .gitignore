@@ -57,3 +57,6 @@ Makefile
 CMakeDoxyfile.in
 CMakeDoxygenDefaults.cmake
 picotool/
+
+# Ignore the compiled pico tools
+tools/picovga_*
