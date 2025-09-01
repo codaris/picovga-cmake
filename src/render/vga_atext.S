@@ -14,7 +14,6 @@
 
 	.syntax unified
 	.section .time_critical.Render, "ax"
-	.cpu cortex-m0plus
 	.thumb			// use 16-bit instructions
 
 // render font pixel mask
@@ -32,6 +31,7 @@
 // 320 pixels takes 11.9 us on 151 MHz.
 
 .thumb_func
+.type   RenderAText, %function
 .global RenderAText
 RenderAText:
 
@@ -56,12 +56,20 @@ RenderAText:
 	ldr	r4,[sp,#36]	// load video segment -> R4
 
 	// start divide Y/font height
-	ldr	r6,RenderAText_pSioBase // get address of SIO base -> R6
-	str	r2,[r6,#SIO_DIV_UDIVIDEND_OFFSET] // store dividend, Y coordinate
-	ldrh	r2,[r4,#SSEGM_PAR3] // font height -> R2
-	str	r2,[r6,#SIO_DIV_UDIVISOR_OFFSET] // store divisor, font height
-
-// - now we must wait at least 8 clock cycles to get result of division
+    #if PICO_RP2040
+	    ldr	    r6,=SIO_BASE // get address of SIO base -> R6
+	    str	    r2,[r6,#SIO_DIV_UDIVIDEND_OFFSET] // store dividend, Y coordinate
+	    ldrh	r2,[r4,#SSEGM_PAR3] // font height -> R2
+	    str	    r2,[r6,#SIO_DIV_UDIVISOR_OFFSET] // store divisor, font height
+        // - now we must wait at least 8 clock cycles to get result of division
+    #else 
+        // RP2350 (M33): use core divide; no SIO references
+        ldrh    r7, [r4, #SSEGM_PAR3]        // r7 = font height
+        udiv    r6, r2, r7                   // r6 = quotient = Y / font_height
+        mul     r5, r6, r7                   // r5 = quotient * font_height
+        subs    r5, r2, r5                   // r5 = remainder
+        mov     r2, r6                       // r2 = quotient (as expected later)    
+    #endif
 
 	// [6] get wrap width -> [SP+36]
 	ldrh	r5,[r4,#SSEGM_WRAPX] // [2] get wrap width
@@ -78,8 +86,12 @@ RenderAText:
 
 	// load result of division Y/font_height -> R6 Y relative at row, R7 Y row
 	//  Note: QUOTIENT must be read last
-	ldr	r5,[r6,#SIO_DIV_REMAINDER_OFFSET] // get remainder of result -> R5, Y coordinate relative to current row
-	ldr	r2,[r6,#SIO_DIV_QUOTIENT_OFFSET] // get quotient-> R2, index of row
+    #if PICO_RP2040
+	    ldr	r5,[r6,#SIO_DIV_REMAINDER_OFFSET] // get remainder of result -> R5, Y coordinate relative to current row
+	    ldr	r2,[r6,#SIO_DIV_QUOTIENT_OFFSET] // get quotient-> R2, index of row
+    #else
+        // RP2350 path already set r5 = remainder and r2 = quotient
+    #endif
 
 	// pointer to font line -> R3
 	lsls	r5,#8		// multiply Y relative * 256 (1 font line is 256 bytes long)
@@ -103,7 +115,7 @@ RenderAText:
 	mov	r8,r5		// save pointer to palette table
 
 	// prepare pointer to conversion table -> LR
-	ldr	r5,RenderAText_Addr // get pointer to conversion table -> R5
+	ldr	r5,=RenderTextMask // get pointer to conversion table -> R5
 	mov	lr,r5		// conversion table -> LR
 
 // ---- render 2nd half of first character
@@ -355,8 +367,4 @@ RenderAText_InLoop:
 	ldr	r2,[sp,#8]	// get base pointer to text data -> R2
 	b	RenderAText_OutLoop // go back to outer loop
 
-	.align 2
-RenderAText_Addr:
-	.word	RenderTextMask
-RenderAText_pSioBase:
-	.word	SIO_BASE	// addres of SIO base
+

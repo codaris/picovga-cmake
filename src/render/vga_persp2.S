@@ -35,7 +35,6 @@
 
 	.syntax unified
 	.section .time_critical.Render, "ax"
-	.cpu cortex-m0plus
 	.thumb			// use 16-bit instructions
 
 // extern "C" void RenderPersp2(u8* dbuf, int y, sLayer* scr)
@@ -68,7 +67,6 @@ RenderPersp2:
 // R2 ... sLayer
 
 	// load horizon offset -> R4, check if use perspective
-	ldr	r6,RenderPersp_pSioBase // get address of SIO base -> R6
 	ldrh	r5,[r2,#SLAYER_H] // get destination height -> R5
 	ldrb	r4,[r2,#SLAYER_HORIZ] // get horizon offset -> R4
 	sxtb	r4,r4		// signed extension
@@ -81,10 +79,14 @@ RenderPersp2:
 	mov	r12,r1		// current coordinate Y0 = y - h/2 -> R12
 
 	// prepare divide result to get 1<<FRACT
-	movs	r5,#1		// R5 <- 1
-	str	r5,[r6,#SIO_DIV_UDIVISOR_OFFSET] // divisor = 1
-	lsls	r5,#FRACT	// constant 1<<FRACT -> R5
-	str	r5,[r6,#SIO_DIV_UDIVIDEND_OFFSET] // dividend = FRACTMUL
+    #if PICO_RP2040
+        ldr	r6,=SIO_BASE // get address of SIO base -> R6
+        movs	r5,#1		// R5 <- 1
+        str	r5,[r6,#SIO_DIV_UDIVISOR_OFFSET] // divisor = 1
+        lsls	r5,#FRACT	// constant 1<<FRACT -> R5
+        str	r5,[r6,#SIO_DIV_UDIVIDEND_OFFSET] // dividend = FRACTMUL
+    #endif
+
 	b	4f
 
 	// using perspective, check ceilling mode
@@ -98,10 +100,12 @@ RenderPersp2:
 	mov	r12,r7		// store current coordinate Y0 -> R12
 
 	// start calculating distance coefficient dist = FRACTMUL*h/(y + horiz)
-	lsls	r5,#FRACT	// destination height * FRACTMUL -> R5
-	str	r5,[r6,#SIO_DIV_UDIVIDEND_OFFSET] // store dividend, FRACTMUL*h
-	adds	r1,r4		// horizon + y -> R2
-	str	r1,[r6,#SIO_DIV_UDIVISOR_OFFSET] // store divisor, y + horiz
+    #if PICO_RP2040
+	    lsls	r5,#FRACT	// destination height * FRACTMUL -> R5
+	    str	r5,[r6,#SIO_DIV_UDIVIDEND_OFFSET] // store dividend, FRACTMUL*h
+	    adds	r1,r4		// horizon + y -> R2
+	    str	r1,[r6,#SIO_DIV_UDIVISOR_OFFSET] // store divisor, y + horiz
+    #endif
 
 // R0 ... pointer to destination data buffer
 // R2 ... sLayer
@@ -123,7 +127,7 @@ RenderPersp2:
 	ldrb	r4,[r2,#SLAYER_YBITS] // number of bits of image height -> R4
 
 	// prepare address of interpolator base -> R3
-	ldr	r3,RenderPersp_Interp // get address of interpolator base -> R3
+	ldr	r3,=(SIO_BASE + SIO_INTERP1_ACCUM0_OFFSET)            // get address of interpolator base -> R3
 
 // R0 ... pointer to destination data buffer
 // R1 ... number of bits of image width xbits
@@ -141,7 +145,7 @@ RenderPersp2:
 	str	r6,[r3,#BASE2_OFFSET]	// set image base
 
 	// set control word of lane 1 - add raw lane base back to accumulator, shift "FRACT-xbits", mask xbits...xbits+ybits-1
-	ldr	r6,RenderPersp_Ctrl	// load control word
+	ldr	r6,=(SIO_INTERP1_CTRL_LANE0_ADD_RAW_BITS | (FRACT<<SIO_INTERP1_CTRL_LANE0_SHIFT_LSB))	// load control word
 	subs	r6,r1			// FRACT - xbits (SIO_INTERP0_CTRL_LANE0_SHIFT_LSB = 0, no shift required)
 	lsls	r5,r1,#SIO_INTERP1_CTRL_LANE0_MASK_LSB_LSB // shift xbits to mask LSB position -> R5
 	orrs	r6,r5			// add xbits to control word
@@ -160,7 +164,7 @@ RenderPersp2:
 // R12 ... current coordinate Y0
 
 	// set control word of lane 0 - add raw lane base back to accumulator, shift "FRACT", mask 0..xbits-1
-	ldr	r6,RenderPersp_Ctrl	// load control word
+	ldr	r6,=(SIO_INTERP1_CTRL_LANE0_ADD_RAW_BITS | (FRACT<<SIO_INTERP1_CTRL_LANE0_SHIFT_LSB))	// load control word
 	lsls	r1,#SIO_INTERP1_CTRL_LANE0_MASK_MSB_LSB // shift xbits-1 to mask MSB position
 	orrs	r6,r1			// add to control word
 	str	r6,[r3,#CTRL_LANE0_OFFSET] // set control word of lane 0
@@ -178,8 +182,30 @@ RenderPersp2:
 	ldr	r4,[r2,#SLAYER_PAR]	// get pointer to matrix -> R4
 
 	// get distance coefficient dist -> R1
-	ldr	r1,RenderPersp_pSioBase // get address of SIO base -> R1
-	ldr	r1,[r1,#SIO_DIV_QUOTIENT_OFFSET] // get quotient-> R1, distance coefficient
+    #if PICO_RP2040
+	    ldr	r1,=SIO_BASE // get address of SIO base -> R1
+	    ldr	r1,[r1,#SIO_DIV_QUOTIENT_OFFSET] // get quotient-> R1, distance coefficient
+    #else
+        // RP2350: recompute dist from current state (no stack)
+        // denom = Y0 + h + |horiz*4| ; numerator = h << FRACT
+        ldrh    r6,[r2,#SLAYER_H]                // R6 = h
+        ldrb    r7,[r2,#SLAYER_HORIZ]            // horizon (q/4)
+        sxtb    r7,r7
+        lsls    r7,#2                            // horiz*4
+        asrs    r5,r7,#31                        // sign mask
+        eors    r7,r5
+        subs    r7,r5                            // R7 = |horiz*4|
+        adds    r1,r12,r6                        // R1 = Y0 + h
+        adds    r1,r1,r7                         // R1 += |horiz*4|
+        cmp     r7,#0
+        bne     0f
+        movs    r1,#1
+        lsls    r1,#FRACT                        // dist = 1<<FRACT
+        b       1f
+    0:  lsls    r6,#FRACT                        // numerator = h<<FRACT
+        udiv    r1,r6,r1                         // dist
+    1:
+    #endif    
 
 // r4+0 ... m11
 // r4+4 ... m12
@@ -323,15 +349,3 @@ RenderPersp2:
 
 	// pop registers
 8:	pop	{r4-r7,pc}
-
-	.align 2
-// pointer to SIO base
-RenderPersp_pSioBase:
-	.word	SIO_BASE	// addres of SIO base
-
-// pointer to Interp1 base
-RenderPersp_Interp:
-	.word	SIO_BASE+SIO_INTERP1_ACCUM0_OFFSET // addres of interpolator base
-
-RenderPersp_Ctrl:		// lane control word
-	.word	SIO_INTERP1_CTRL_LANE0_ADD_RAW_BITS | (FRACT<<SIO_INTERP1_CTRL_LANE0_SHIFT_LSB)

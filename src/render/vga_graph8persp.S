@@ -34,7 +34,6 @@
 
 	.syntax unified
 	.section .time_critical.Render, "ax"
-	.cpu cortex-m0plus
 	.thumb			// use 16-bit instructions
 
 // extern "C" u32* RenderGraph8Persp(u32* cbuf, int x, int y, int w, sSegm* segm);
@@ -79,14 +78,18 @@ RenderGraph8Persp:
 	mov	r12,r2		// store current coordinate Y0 -> R12
 
 	// start calculating distance coefficient dist = FRACTMUL*h/(y - h + horiz + 1)
-	lsls	r6,r1,#FRACT	// segment height * FRACTMUL -> R6
-	ldr	r5,RenderGraph8Persp_pSioBase // get address of SIO base -> R5
-	str	r6,[r5,#SIO_DIV_UDIVIDEND_OFFSET] // store dividend, FRACTMUL*h
-	ldrh	r6,[r4,#SSEGM_PAR3] // horizon offset -> R6
-	adds	r2,r1		// y = current Y coordinate
-	adds	r6,r2		// horizon + y -> R6
-	adds	r6,#1		// horizon + y + 1 -> R6
-	str	r6,[r5,#SIO_DIV_UDIVISOR_OFFSET] // store divisor, y + horiz + 1
+    #if PICO_RP2040
+        lsls	r6,r1,#FRACT	// segment height * FRACTMUL -> R6
+        ldr	    r5,=SIO_BASE // get address of SIO base -> R5
+        str	    r6,[r5,#SIO_DIV_UDIVIDEND_OFFSET] // store dividend, FRACTMUL*h
+        ldrh	r6,[r4,#SSEGM_PAR3] // horizon offset -> R6
+        adds	r2,r1		// y = current Y coordinate
+        adds	r6,r2		// horizon + y -> R6
+        adds	r6,#1		// horizon + y + 1 -> R6
+        str	r6,[r5,#SIO_DIV_UDIVISOR_OFFSET] // store divisor, y + horiz + 1
+    #else
+        // RP2350: no SIO divider; we'll compute 'dist' later (when it's needed)
+    #endif    
 
 	// prepare start coordinate X0 = -w/2 -> LR
 	lsrs	r5,r3,#1	// width/2
@@ -103,7 +106,7 @@ RenderGraph8Persp:
 	ldrh	r2,[r4,#SSEGM_PAR2+2] // number of bits of image height -> R2
 
 	// prepare address of interpolator base -> R3
-	ldr	r3,RenderGraph8Persp_Interp // get address of interpolator base -> R3
+	ldr	r3,=(SIO_BASE+SIO_INTERP1_ACCUM0_OFFSET) // get address of interpolator base -> R3
 
 // R0 ... pointer to data buffer
 // R1 ... number of bits of image width xbits
@@ -121,7 +124,7 @@ RenderGraph8Persp:
 	str	r6,[r3,#BASE2_OFFSET]	// set image base
 
 	// set control word of lane 1 - add raw lane base back to accumulator, shift "FRACT-xbits", mask xbits...xbits+ybits-1
-	ldr	r6,RenderGraph8Persp_Ctrl // load control word
+	ldr	r6,=(SIO_INTERP0_CTRL_LANE0_ADD_RAW_BITS | (FRACT<<SIO_INTERP0_CTRL_LANE0_SHIFT_LSB)) // load control word
 	subs	r6,r1			// FRACT - xbits (SIO_INTERP0_CTRL_LANE0_SHIFT_LSB = 0, no shift required)
 	lsls	r5,r1,#SIO_INTERP0_CTRL_LANE0_MASK_LSB_LSB // shift xbits to mask LSB position -> R5
 	orrs	r6,r5			// add xbits to control word
@@ -140,7 +143,7 @@ RenderGraph8Persp:
 // R12 ... current coordinate Y0
 
 	// set control word of lane 0 - add raw lane base back to accumulator, shift "FRACT", mask 0..xbits-1
-	ldr	r6,RenderGraph8Persp_Ctrl // load control word
+	ldr	r6,=(SIO_INTERP0_CTRL_LANE0_ADD_RAW_BITS | (FRACT<<SIO_INTERP0_CTRL_LANE0_SHIFT_LSB)) // load control word
 	lsls	r1,#SIO_INTERP0_CTRL_LANE0_MASK_MSB_LSB // shift xbits-1 to mask MSB position
 	orrs	r6,r1			// add to control word
 	str	r6,[r3,#CTRL_LANE0_OFFSET] // set control word of lane 0
@@ -158,8 +161,22 @@ RenderGraph8Persp:
 	ldr	r4,[r4,#SSEGM_PAR]	// get pointer to matrix -> R4
 
 	// get distance coefficient dist -> R1
-	ldr	r1,RenderGraph8Persp_pSioBase // get address of SIO base -> R1
-	ldr	r1,[r1,#SIO_DIV_QUOTIENT_OFFSET] // get quotient-> R1, distance coefficient
+    #if PICO_RP2040
+	    ldr	r1,=SIO_BASE // get address of SIO base -> R1
+	    ldr	r1,[r1,#SIO_DIV_QUOTIENT_OFFSET] // get quotient-> R1, distance coefficient
+    #else
+        // RP2350: dist = (h<<FRACT) / ( (y-h) + h + horiz + 1 )
+        // r12 holds (y - h) from earlier; segm is still on stack at [sp,#20]
+        ldr     r6,[sp,#20]               // r6 = segm
+        ldrh    r1,[r6,#SSEGM_WRAPY]      // r1 = h
+        mov     r5,r1
+        lsls    r5,r5,#FRACT              // r5 = h * FRACTMUL (numerator)
+        ldrh    r6,[r6,#SSEGM_PAR3]       // r6 = horizon
+        adds    r6,r12                    // (y - h) + horizon
+        adds    r6,r1                     // y + horizon
+        adds    r6,#1                     // y + horizon + 1 (denominator)
+        udiv    r1,r5,r6                  // r1 = dist
+    #endif
 
 // r4+0 ... m11
 // r4+4 ... m12
@@ -327,14 +344,3 @@ RenderGraph8Persp:
 	// pop registers
 8:	pop	{r4-r7,pc}
 
-	.align 2
-// pointer to SIO base
-RenderGraph8Persp_pSioBase:
-	.word	SIO_BASE	// addres of SIO base
-
-// pointer to Interp1 base
-RenderGraph8Persp_Interp:
-	.word	SIO_BASE+SIO_INTERP1_ACCUM0_OFFSET // addres of interpolator base
-
-RenderGraph8Persp_Ctrl:		// lane control word
-	.word	SIO_INTERP0_CTRL_LANE0_ADD_RAW_BITS | (FRACT<<SIO_INTERP0_CTRL_LANE0_SHIFT_LSB)

@@ -9,7 +9,6 @@
 
 	.syntax unified
 	.section .time_critical.Render, "ax"
-	.cpu cortex-m0plus
 	.thumb			// use 16-bit instructions
 
 // extern "C" u32* RenderFastSprite(u32* cbuf, int y, sLayer* scr, u8* buf)

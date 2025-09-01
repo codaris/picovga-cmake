@@ -38,14 +38,31 @@ macro(add_picovga project)
         ${PICOVGA_PATH}/src/render/vga_sprite.S
         ${PICOVGA_PATH}/src/render/vga_tile.S
         ${PICOVGA_PATH}/src/render/vga_tile2.S
-        ${PICOVGA_PATH}/src/render/vga_tilepersp.S
-        ${PICOVGA_PATH}/src/render/vga_tilepersp15.S
-        ${PICOVGA_PATH}/src/render/vga_tilepersp2.S
-        ${PICOVGA_PATH}/src/render/vga_tilepersp3.S
-        ${PICOVGA_PATH}/src/render/vga_tilepersp4.S
         ${PICOVGA_PATH}/src/vga_blitkey.S
         ${PICOVGA_PATH}/src/vga_render.S    
+    )
 
+    if(PICO_PLATFORM STREQUAL "rp2040")
+        target_sources(${project} PRIVATE 
+            ${PICOVGA_PATH}/src/render/vga_tilepersp.S
+            ${PICOVGA_PATH}/src/render/vga_tilepersp15.S
+            ${PICOVGA_PATH}/src/render/vga_tilepersp2.S
+            ${PICOVGA_PATH}/src/render/vga_tilepersp3.S
+            ${PICOVGA_PATH}/src/render/vga_tilepersp4.S
+        )
+    elseif(PICO_PLATFORM STREQUAL "rp2350-arm-s")
+        target_sources(${project} PRIVATE 
+            ${PICOVGA_PATH}/src/render/vga_tilepersp.rp2350.S
+            ${PICOVGA_PATH}/src/render/vga_tilepersp15.rp2350.S
+            ${PICOVGA_PATH}/src/render/vga_tilepersp2.rp2350.S
+            ${PICOVGA_PATH}/src/render/vga_tilepersp3.rp2350.S
+            ${PICOVGA_PATH}/src/render/vga_tilepersp4.rp2350.S
+        )
+    else()
+        message(FATAL_ERROR "Unsupported PICO_PLATFORM='${PICO_PLATFORM}'")
+    endif()    
+
+    target_sources(${project} PRIVATE
         ${PICOVGA_PATH}/src/vga.cpp
         ${PICOVGA_PATH}/src/vga_layer.cpp
         ${PICOVGA_PATH}/src/vga_pal.cpp

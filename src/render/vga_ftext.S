@@ -14,7 +14,6 @@
 
 	.syntax unified
 	.section .time_critical.Render, "ax"
-	.cpu cortex-m0plus
 	.thumb			// use 16-bit instructions
 
 // render font pixel mask
@@ -53,10 +52,15 @@ RenderFText:
 	ldr	r4,[sp,#32]	// load video segment -> R4
 
 	// start divide Y/font height
-	ldr	r6,RenderFText_pSioBase // get address of SIO base -> R6
-	str	r2,[r6,#SIO_DIV_UDIVIDEND_OFFSET] // store dividend, Y coordinate
-	ldrh	r2,[r4,#SSEGM_PAR3] // font height -> R2
-	str	r2,[r6,#SIO_DIV_UDIVISOR_OFFSET] // store divisor, font height
+    #if PICO_RP2040
+	    ldr	r6,=SIO_BASE // get address of SIO base -> R6
+	    str	r2,[r6,#SIO_DIV_UDIVIDEND_OFFSET] // store dividend, Y coordinate
+	    ldrh	r2,[r4,#SSEGM_PAR3] // font height -> R2
+	    str	r2,[r6,#SIO_DIV_UDIVISOR_OFFSET] // store divisor, font height
+    #else
+        // RP2350: stash Y in R6 and compute later with UDIV
+        mov     r6,r2                // R6 = Y
+    #endif    
 
 // - now we must wait at least 8 clock cycles to get result of division
 
@@ -74,9 +78,17 @@ RenderFText:
 	str	r3,[sp,#8]	// [2] save new width
 
 	// load result of division Y/font_height -> R6 Y relative at row, R7 Y row
-	//  Note: QUOTIENT must be read last
-	ldr	r5,[r6,#SIO_DIV_REMAINDER_OFFSET] // get remainder of result -> R5, Y coordinate relative to current row
-	ldr	r2,[r6,#SIO_DIV_QUOTIENT_OFFSET] // get quotient-> R2, index of row
+    #if PICO_RP2040
+	    //  Note: QUOTIENT must be read last
+	    ldr	r5,[r6,#SIO_DIV_REMAINDER_OFFSET] // get remainder of result -> R5, Y coordinate relative to current row
+	    ldr	r2,[r6,#SIO_DIV_QUOTIENT_OFFSET] // get quotient-> R2, index of row
+    #else 
+        // RP2350: compute quotient and remainder now
+        ldrh    r7,[r4,#SSEGM_PAR3]  // R7 = font height
+        udiv    r2,r6,r7             // R2 = Y / font_height
+        mul     r5,r2,r7             // temp = (Y/font_height)*font_height
+        subs    r5,r6,r5             // R5 = Y % font_height
+    #endif    
 
 	// pointer to font line -> R3
 	lsls	r5,#8		// multiply Y relative * 256 (1 font line is 256 bytes long)
@@ -103,7 +115,7 @@ RenderFText:
 	orrs	r4,r5		// color expanded to 32 bits
 
 	// prepare pointer to conversion table -> LR
-	ldr	r5,RenderFText_Addr // get pointer to conversion table -> R5
+	ldr	r5,=RenderTextMask // get pointer to conversion table -> R5
 	mov	lr,r5		// conversion table -> LR
 
 // ---- render 2nd half of first character
@@ -305,9 +317,3 @@ RenderFText_InLoop:
 	beq	RenderFText_Last // render 1st half of last character
 	ldr	r2,[sp,#4]	// get base pointer to text data -> R2
 	b	RenderFText_OutLoop // go back to outer loop
-
-	.align 2
-RenderFText_Addr:
-	.word	RenderTextMask
-RenderFText_pSioBase:
-	.word	SIO_BASE	// addres of SIO base

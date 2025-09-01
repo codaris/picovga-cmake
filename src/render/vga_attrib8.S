@@ -9,7 +9,6 @@
 
 	.syntax unified
 	.section .time_critical.Render, "ax"
-	.cpu cortex-m0plus
 	.thumb			// use 16-bit instructions
 
 // render font pixel mask
@@ -28,6 +27,7 @@
 
 .thumb_func
 .global RenderAttrib8
+.type   RenderAttrib8, %function
 RenderAttrib8:
 
 	// push registers
@@ -88,7 +88,7 @@ RenderAttrib8:
 	mov	r8,r5		// save pointer to palette table
 
 	// prepare pointer to conversion table -> LR
-	ldr	r5,RenderAttrib8_Addr // get pointer to conversion table -> R5
+	ldr	r5,=RenderTextMask // get pointer to conversion table -> R5
 	mov	lr,r5		// conversion table -> LR
 
 // ---- render 2nd half of first character
@@ -340,7 +340,3 @@ RenderAttrib8_InLoop:
 	beq	RenderAttrib8_Last // render 1st half of last character
 	ldr	r2,[sp,#4]	// get base pointer to pixel data -> R2
 	b	RenderAttrib8_OutLoop // go back to outer loop
-
-	.align 2
-RenderAttrib8_Addr:
-	.word	RenderTextMask

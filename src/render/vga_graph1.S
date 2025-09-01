@@ -9,7 +9,6 @@
 
 	.syntax unified
 	.section .time_critical.Render, "ax"
-	.cpu cortex-m0plus
 	.thumb			// use 16-bit instructions
 
 // render font pixel mask
@@ -90,7 +89,7 @@ RenderGraph1:
 	eors	r6,r4		// [1] XOR foreground color with background color
 
 	// prepare pointer to conversion table -> R3
-	ldr	r3,RenderGraph1_Addr // get pointer to conversion table -> R3
+	ldr	r3,=RenderTextMask // get pointer to conversion table -> R3
 
 // ---- render 2nd half of first character
 //  R0 ... pointer to destination data buffer
@@ -253,6 +252,3 @@ RenderGraph1_InLoop:
 	mov	r2,lr		// get base pointer to image data -> R2
 	b	RenderGraph1_OutLoop // go back to outer loop
 
-	.align 2
-RenderGraph1_Addr:
-	.word	RenderTextMask
