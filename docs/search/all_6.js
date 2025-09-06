@@ -2,7 +2,7 @@ var searchData=
 [
   ['fbdiv_88',['fbdiv',['../structsVmode.html#a48cce5be624a75841f8f5d2780131c98',1,'sVmode']]],
   ['findsysclock_89',['FindSysClock',['../group__OverclockGroup.html#ga5264c2d64500b5cb904a1fe219881085',1,'FindSysClock(u32 reqkhz, u32 *outkhz, u32 *outvco, u16 *outfbdiv, u8 *outpd1, u8 *outpd2):&#160;overclock.cpp'],['../group__OverclockGroup.html#ga5264c2d64500b5cb904a1fe219881085',1,'FindSysClock(u32 reqkhz, u32 *outkhz, u32 *outvco, u16 *outfbdiv, u8 *outpd1, u8 *outpd2):&#160;overclock.cpp']]],
-  ['flashspeedsetup_90',['FlashSpeedSetup',['../group__OverclockGroup.html#gaf9d1d6fad0d19be3df1b10882c03e99f',1,'FlashSpeedSetup(int baud):&#160;overclock.cpp'],['../group__OverclockGroup.html#gaf9d1d6fad0d19be3df1b10882c03e99f',1,'FlashSpeedSetup(int baud):&#160;overclock.cpp']]],
+  ['flashspeedsetup_90',['FlashSpeedSetup',['../group__OverclockGroup.html#gaf9d1d6fad0d19be3df1b10882c03e99f',1,'overclock.h']]],
   ['flipx_91',['FlipX',['../classcMat2D.html#ac08bd03c42e3a4d193f0bcdb04185f51',1,'cMat2D']]],
   ['flipy_92',['FlipY',['../classcMat2D.html#aebb11b71a3767fed49c1cec087610814',1,'cMat2D']]],
   ['float_93',['Float',['../classcRandom.html#a82d8d6d26b037d8dc9a16bd07253f11a',1,'cRandom']]],

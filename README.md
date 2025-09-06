@@ -1,46 +1,58 @@
 # PicoVGA - VGA/TV display on Raspberry Pico
 
 ## About this Fork
-This is a fork of the [PicoVGA project](https://github.com/Panda381/PicoVGA) created by Miroslav Nemecek (Panda38@seznam.cz).  It has been altered from the original to use the standard Linux-based  Raspberry Pi Pico SDK.  The header files have also been altered to support automatically generating the documentation.
 
-This version is compatible with the [Raspberry Pi Pico SDK 2.2.0](https://github.com/raspberrypi/pico-sdk).
+This is a fork of the original [PicoVGA project](https://github.com/Panda381/PicoVGA) by Miroslav Nemecek  (Panda38@seznam.cz).  
 
-* [Change Log](CHANGELOG.md)
+Changes in this fork:
 
-## About PicoVGA
+* Uses the standard **Linux-based Raspberry Pi Pico SDK** toolchain (CMake).
+* Header files are updated to **auto-generate documentation**.
+* **Now supports both RP2040 and RP2350** devices with the same source tree.
+* Tested with [Raspberry Pi Pico SDK 2.2.0](https://github.com/raspberrypi/pico-sdk).
+* Full [Change Log](CHANGELOG.md)
 
-The PicoVGA library enables the Raspberry Pico to output to a VGA monitor or PAL/NTSC TV with ease, making it ideal for technical and gaming applications. It provides four graphic overlay layers with transparency and supports nearly 30 frame buffer formats that can be freely combined while using limited RAM memory. The output is limited to 8 bits, which helps to save on RAM.
+## What is PicoVGA?
 
-The RP2040 processor has 264 KB of RAM, which is insufficient for higher resolution image output. Therefore, it's essential to use RAM sparingly. For technical practice and retro games (the processor cannot handle more advanced games), 8-bit graphics output in R3G3B2 format (red 3 bits, green 3 bits, and blue 2 bits) is adequate. Outputting in 16 or 24 bits is not practical since the Raspberry Pico does not have enough memory or power to handle such large amounts of data, except for short demos. The dithering technique can be used to achieve interesting display results even with 8-bit output.
+The PicoVGA library enables the Raspberry Pi Pico output to VGA or PAL/NTSC TVs.  It is great for retro-inspired computing projects like pixel-art games, emulators, and interfacing with homebrew computers.  The library provides one base layer plus three overlays with transparency and supports nearly 30 framebuffer formats that can be freely combined -- all while keeping RAM use low. 
+
+On the RP2040 (264 KB RAM) and the RP2350 (520 KB RAM), limited RAM makes high-resolution framebuffers impractical. PicoVGA embraces those constraints by targeting 8-bit R3G3B2 color, tile/text formats, and layered sprites to deliver crisp, retro visuals with a small memory footprint and deterministic timing. 
 
 ## Features
 
-* 1 base layer and 3 overlay layers with transparency, using the PIO0 module
-* 8-bit output in R3G3B2 format
-* VGA monitor output in 256x192 to 1280x960 resolution output to a TV in PAL or NTSC interlaced mode at resolutions up to 1024x576 or 848x480
-* Nearly 30 frame buffer formats: 8/4/2/1 bit graphics, tiles, text, special formats (charts)
-* Colour palettes for text modes and graphics formats with limited bit depth
-* Frame buffers of different formats can be combined together in strips and segments in the image
-* RLE image compression (suitable for drawings)
-* Transparency modes with selectable key colour
-* Hardware sprites in overlay layers
-* Layer output only to designated output pins (color planes)
-* Automatic configuration of the video mode according to the specified resolution and timing
-* Automatic overclocking of the processor according to the desired resolution
-* The library uses the 2nd core of the processor, the 1st core is reserved for the main program 
-* Additional PWM audio output (not required)
+* **Layers:** 1 base + 3 overlay layers with transparency (driven by PIO0).
+* **Color:** 8-bit R3G3B2 output.
+* **Outputs:**
+  * VGA: from \~256×192 up to 1280×960 (mode-dependent).
+  * TV: PAL/NTSC interlaced up to 1024×576 or 848×480.
+* **Framebuffers:** \~30 formats (8/4/2/1-bit graphics, tiles, text, charts/special).
+* **Palettes:** For text modes & limited-bit-depth graphics.
+* **Composability:** Mix formats in strips or segments within a single frame.
+* **Transparency** with selectable key color modes.
+* **Sprites:** Hardware sprites in overlay layers.
+* **Color Planes:** Layer output only to designated output pins.
+* **RLE image compression** for drawings and static art.
+* **Automatic configuration** of the video mode according to the specified resolution and timing
+* **Automatic overclocking** according to the desired resolution
+* **Uses only 2nd core.** The 1st core is reserved for the main program 
+* **Audio:** Optional PWM audio.
+
+## Supported MCUs & boards
+
+* **RP2040** (e.g., Raspberry Pi Pico, Pico W, and compatible boards)
+* **RP2350** (e.g., Raspberry Pi Pico 2, Pico 2 W, etc.)
+
+The library auto-detects the MCU via the Pico SDK configuration. In CMake, set `PICO_BOARD` to your actual board (e.g., `pico`, `pico_w`, or an RP2350 board such as `pimoroni_pga2350`). No code changes required.
 
 ## Documentaton
 
-View the complete PicoVGA documentation by clicking the link below:
+Full documentation for this fork:
 
 * [PicoVGA CMake Documentation](https://codaris.github.io/picovga-cmake/)
 
 ## Examples and Tutorials
 
-To learn about installing and building the library and the examples, check out the **Getting Started** section in the documentation:
-
-* [Getting Started](https://codaris.github.io/picovga-cmake/gettingstarted.html)
+To learn about installing and building the library and the examples, check out the [Getting Started](https://codaris.github.io/picovga-cmake/gettingstarted.html) section in the documentation.
 
 The library includes a comprehensive set of examples that demonstrate many of the library features:
 
@@ -48,11 +60,10 @@ The library includes a comprehensive set of examples that demonstrate many of th
 
 * [Hello World project](https://github.com/codaris/picovga-helloworld)
 
-To try out the examples, take 8 resistors and connect them to outputs GP0 to GP7 and the RGB connector of a VGA or SCART TV. Then, connect HSync (CSync) to GP8, headphones to GP19, and load the demo program via USB. If keyboard control is needed, a serial terminal program can be used, but most programs work without a keyboard.
+To try out the examples, take 8 resistors and connect them to outputs GP0 to GP7 and the RGB connector of a VGA or SCART TV. Then, connect HSync (CSync) to GP8, headphones to GP19, and load the demo program via USB. If keyboard control is needed, a serial terminal program can be used, but most examples work without a keyboard.
 
-For more information on connecting the Pico to a VGA display, check out the **Connections** documentation section:
+For more information on connecting the Pico to a VGA display, check out the [Connections](https://codaris.github.io/picovga-cmake/connections) documentation section.
 
-* [Connections](https://codaris.github.io/picovga-cmake/connections)
 
 ## Tools
 

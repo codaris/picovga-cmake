@@ -1,3 +1,6 @@
+# 1.2.2 (2025-09-05)
+* Include support for **RP2350** (Pico 2)
+
 # 1.2.1 (2025-08-26)
 * Includes and builds the PicoVGA tools
 * Documentation improvements

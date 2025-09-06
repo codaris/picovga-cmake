@@ -93,59 +93,69 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="textblock"><p><a class="anchor" id="mainpage"></a> </p>
 <h1><a class="anchor" id="autotoc_md7"></a>
 About this Fork</h1>
-<p>This is a fork of the <a href="https://github.com/Panda381/PicoVGA">PicoVGA project</a> created by Miroslav Nemecek (<a href="#" onclick="location.href='mai'+'lto:'+'Pan'+'da'+'38@'+'se'+'zna'+'m.'+'cz'; return false;">Panda<span style="display: none;">.nosp@m.</span>38@s<span style="display: none;">.nosp@m.</span>eznam<span style="display: none;">.nosp@m.</span>.cz</a>). It has been altered from the original to use the standard Linux-based Raspberry Pi Pico SDK. The header files have also been altered to support automatically generating this documentation.</p>
-<p>This version is compatible with the <a href="https://github.com/raspberrypi/pico-sdk">Raspberry Pi Pico SDK 2.2.0</a>.</p>
+<p>This is a fork of the original <a href="https://github.com/Panda381/PicoVGA">PicoVGA project</a> by Miroslav Nemecek (<a href="#" onclick="location.href='mai'+'lto:'+'Pan'+'da'+'38@'+'se'+'zna'+'m.'+'cz'; return false;">Panda<span style="display: none;">.nosp@m.</span>38@s<span style="display: none;">.nosp@m.</span>eznam<span style="display: none;">.nosp@m.</span>.cz</a>). <br  />
+</p>
+<p>Changes in this fork:</p>
 <ul>
-<li><a href="https://github.com/codaris/picovga-cmake/CHANGELOG.md">Change Log</a></li>
+<li>Uses the standard <b>Linux-based Raspberry Pi Pico SDK</b> toolchain (CMake).</li>
+<li>Header files are updated to <b>auto-generate documentation</b>.</li>
+<li><b>Now supports both RP2040 and RP2350</b> devices with the same source tree.</li>
+<li>Tested with <a href="https://github.com/raspberrypi/pico-sdk">Raspberry Pi Pico SDK 2.2.0</a>.</li>
+<li>Full <a href="https://github.com/codaris/picovga-cmake/CHANGELOG.md">Change Log</a></li>
 </ul>
 <h1><a class="anchor" id="autotoc_md8"></a>
-About PicoVGA</h1>
-<p>The PicoVGA library enables the Raspberry Pico to output to a VGA monitor or PAL/NTSC TV with ease, making it ideal for technical and gaming applications. It provides four graphic overlay layers with transparency and supports nearly 30 frame buffer formats that can be freely combined while using limited RAM memory. The output is limited to 8 bits, which helps to save on RAM.</p>
-<p>The RP2040 processor has 264 KB of RAM, which is insufficient for higher resolution image output. Therefore, it's essential to use RAM sparingly. For technical practice and retro games (the processor cannot handle more advanced games), 8-bit graphics output in R3G3B2 format (red 3 bits, green 3 bits, and blue 2 bits) is adequate. Outputting in 16 or 24 bits is not practical since the Raspberry Pico does not have enough memory or power to handle such large amounts of data, except for short demos. The dithering technique can be used to achieve interesting display results even with 8-bit output.</p>
+What is PicoVGA?</h1>
+<p>The PicoVGA library enables the Raspberry Pi Pico output to VGA or PAL/NTSC TVs. It is great for retro-inspired computing projects like pixel-art games, emulators, and interfacing with homebrew computers. The library provides one base layer plus three overlays with transparency and supports nearly 30 framebuffer formats that can be freely combined &ndash; all while keeping RAM use low.</p>
+<p>On the RP2040 (264 KB RAM) and the RP2350 (520 KB RAM), limited RAM makes high-resolution framebuffers impractical. PicoVGA embraces those constraints by targeting 8-bit R3G3B2 color, tile/text formats, and layered sprites to deliver crisp, retro visuals with a small memory footprint and deterministic timing.</p>
 <h1><a class="anchor" id="autotoc_md9"></a>
 Features</h1>
 <ul>
-<li>1 base layer and 3 overlay layers with transparency, using the PIO0 module</li>
-<li>8-bit output in R3G3B2 format</li>
-<li>VGA monitor output in 256x192 to 1280x960 resolution output to a TV in PAL or NTSC interlaced mode at resolutions up to 1024x576 or 848x480</li>
-<li>Nearly 30 frame buffer formats: 8/4/2/1 bit graphics, tiles, text, special formats (charts)</li>
-<li>Colour palettes for text modes and graphics formats with limited bit depth</li>
-<li>Frame buffers of different formats can be combined together in strips and segments in the image</li>
-<li>RLE image compression (suitable for drawings)</li>
-<li>Transparency modes with selectable key colour</li>
-<li>Hardware sprites in overlay layers</li>
-<li>Layer output only to designated output pins (color planes)</li>
-<li>Automatic configuration of the video mode according to the specified resolution and timing</li>
-<li>Automatic overclocking of the processor according to the desired resolution</li>
-<li>The library uses the 2nd core of the processor, the 1st core is reserved for the main program</li>
-<li>Additional PWM audio output (not required)</li>
+<li><b>Layers:</b> 1 base + 3 overlay layers with transparency (driven by PIO0).</li>
+<li><b>Color:</b> 8-bit R3G3B2 output.</li>
+<li><b>Outputs:</b><ul>
+<li>VGA: from256×192 up to 1280×960 (mode-dependent).</li>
+<li>TV: PAL/NTSC interlaced up to 1024×576 or 848×480.</li>
+</ul>
+</li>
+<li><b>Framebuffers:</b>30 formats (8/4/2/1-bit graphics, tiles, text, charts/special).</li>
+<li><b>Palettes:</b> For text modes &amp; limited-bit-depth graphics.</li>
+<li><b>Composability:</b> Mix formats in strips or segments within a single frame.</li>
+<li><b>Transparency</b> with selectable key color modes.</li>
+<li><b>Sprites:</b> Hardware sprites in overlay layers.</li>
+<li><b>Color Planes:</b> Layer output only to designated output pins.</li>
+<li><b>RLE image compression</b> for drawings and static art.</li>
+<li><b>Automatic configuration</b> of the video mode according to the specified resolution and timing</li>
+<li><b>Automatic overclocking</b> according to the desired resolution</li>
+<li><b>Uses only 2nd core.</b> The 1st core is reserved for the main program</li>
+<li><b>Audio:</b> Optional PWM audio.</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md10"></a>
-Examples and Tutorials</h1>
-<p>To learn about installing and building the library and the examples, check out the <b>Getting Started</b> section in the documentation:</p>
+Supported MCUs &amp; boards</h1>
 <ul>
-<li><a class="el" href="gettingstarted.html">Getting Started</a></li>
+<li><b>RP2040</b> (e.g., Raspberry Pi Pico, Pico W, and compatible boards)</li>
+<li><b>RP2350</b> (e.g., Raspberry Pi Pico 2, Pico 2 W, etc.)</li>
 </ul>
+<p>The library auto-detects the MCU via the Pico SDK configuration. In CMake, set <code>PICO_BOARD</code> to your actual board (e.g., <code>pico</code>, <code>pico_w</code>, or an RP2350 board such as <code>pimoroni_pga2350</code>). No code changes required.</p>
+<h1><a class="anchor" id="autotoc_md11"></a>
+Examples and Tutorials</h1>
+<p>To learn about installing and building the library and the examples, check out the *<a class="el" href="gettingstarted.html">Getting Started</a> section in this documentation.</p>
 <p>The library includes a comprehensive set of examples that demonstrate many of the library features:</p>
 <ul>
 <li><a href="https://github.com/codaris/picovga-cmake/tree/main/examples">Example projects</a></li>
 <li><a href="https://github.com/codaris/picovga-helloworld">Hello World project</a></li>
 </ul>
 <p>To try out the examples, take 8 resistors and connect them to outputs GP0 to GP7 and the RGB connector of a VGA or SCART TV. Then, connect HSync (CSync) to GP8, headphones to GP19, and load the demo program via USB. If keyboard control is needed, a serial terminal program can be used, but most programs work without a keyboard.</p>
-<p>For more information on connecting the Pico to a VGA display, check out the <b>Connections</b> documentation section:</p>
-<ul>
-<li><a class="el" href="connections.html">Connections</a></li>
-</ul>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<p>For more information on connecting the Pico to a VGA display, check out the <a class="el" href="connections.html">Connections</a> documentation section.</p>
+<h1><a class="anchor" id="autotoc_md12"></a>
 Tools</h1>
 <p>The <code>tools</code> folder contains the support programs used to prepare images, palettes, and sounds for use with the <b>PicoVGA</b> library.</p>
 <ul>
 <li><a class="el" href="tools.html">Tools and Palettes</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md12"></a>
+<h1><a class="anchor" id="autotoc_md13"></a>
 License terms</h1>
 <p>The PicoVGA library source code and the PicoVGA library sample programs are freely available for further use and modifications. This does not apply to certain graphics and sounds (such as the sounds in Pac-Man) and scene definitions in Sokoban, as these are subject to third party copyrights and may be subject to different distribution terms.</p>
-<h1><a class="anchor" id="autotoc_md13"></a>
+<h1><a class="anchor" id="autotoc_md14"></a>
 Getting Help</h1>
 <p>You can get help with this library using the <a href="https://github.com/Panda381/PicoVGA/issues">Issues tab</a> in the <a href="https://github.com/Panda381/PicoVGA">original PicoVGA project</a>. For issues related to this fork of the library, please use the <a href="https://github.com/codaris/picovga-cmake/issues">Issues tab</a> for PicoVGA-cmake.</p>
 <p>How to inform about found defects:</p>
