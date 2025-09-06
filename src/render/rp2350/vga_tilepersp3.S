@@ -11,7 +11,7 @@
 // wb ... LOW8=number of bits of tile map width, HIGH8=number of bits of tile map height
 // wrapy ... segment height
 
-#include "../define.h"		// common definitions of C and ASM
+#include "../../define.h"		// common definitions of C and ASM
 #include "hardware/regs/sio.h"	// registers of hardware divider
 #include "hardware/regs/addressmap.h" // SIO base address
 

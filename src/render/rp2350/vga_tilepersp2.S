@@ -1,7 +1,7 @@
 
 // ****************************************************************************
 //
-//                              VGA render GF_TILEPERSP
+//                              VGA render GF_TILEPERSP2
 //
 // ****************************************************************************
 // data ... tile map
@@ -11,7 +11,7 @@
 // wb ... LOW8=number of bits of tile map width, HIGH8=number of bits of tile map height
 // wrapy ... segment height
 
-#include "../define.h"		// common definitions of C and ASM
+#include "../../define.h"		// common definitions of C and ASM
 #include "hardware/regs/sio.h"	// registers of hardware divider
 #include "hardware/regs/addressmap.h" // SIO base address
 
@@ -32,13 +32,14 @@
 #define ACCUM1_ADD_OFFSET0	56
 #define BASE_1AND0_OFFSET0	60
 
+
 	.syntax unified
 	.section .time_critical.Render, "ax"
 	.thumb			// use 16-bit instructions
 
-// extern "C" u32* RenderTilePersp(u32* cbuf, int x, int y, int w, sSegm* segm);
+// extern "C" u32* RenderTilePersp2(u32* cbuf, int x, int y, int w, sSegm* segm);
 
-// render tiles with perspective GF_TILEPERSP
+// render tiles with perspective GF_TILEPERSP2, double pixels
 // using hardware interpolator inter0 and inter1 (their state is not saved during interrup)
 //  R0 ... pointer to destination data buffer
 //  R1 ... start X coordinate (not used)
@@ -49,8 +50,8 @@
 // 320 pixels takes ?? us on 151 MHz.
 
 .thumb_func
-.global RenderTilePersp
-RenderTilePersp:
+.global RenderTilePersp2
+RenderTilePersp2:
 
 // Input registers and stack:
 //  R0 ... pointer to destination data buffer
@@ -61,8 +62,8 @@ RenderTilePersp:
 //  SP+8: R5
 //  SP+12: R6
 //  SP+16: R7
-//  SP+20: R10   (added)
-//  SP+24: R11   (added)
+//  SP+20: R10     (added)
+//  SP+24: R11     (added)
 //  SP+28: LR
 //  SP+32: video segment
 
@@ -92,7 +93,10 @@ RenderTilePersp:
 	mov	r12,r2		// current coordinate Y0 = y - h/2 -> R12
 
 	// prepare divide result to get 1<<FRACT
+    movs	r10,#1
+    lsls	r10,#FRACT                          // R10 = dist = 1<<FRACT
 	b	4f
+
 
 	// using perspective, check ceilling mode
 2:	bpl	3f		// horizon is not negative
@@ -104,6 +108,10 @@ RenderTilePersp:
 3:	subs	r7,r2,r5	// y - h = current Y coordinate -> R7
 	mov	r12,r7		// store current coordinate Y0 -> R12
 
+	// start calculating distance coefficient dist = FRACTMUL*h/(y + horiz)
+    lsls	r5,#FRACT      // h<<FRACT
+    adds	r2,r1          // y + horiz
+    udiv	r10,r5,r2      // R10 = dist
 
 // R0 ... pointer to data buffer
 // R3 ... remaining width
@@ -119,8 +127,8 @@ RenderTilePersp:
 	lsrs	r7,r3,#2	// width/4 -> R7
 
 	// prepare address of interpolator 0 base -> R3
-    ldr     r3, =(SIO_BASE + SIO_INTERP0_ACCUM0_OFFSET)
-    ldr     r11,=(SIO_BASE + SIO_INTERP1_ACCUM0_OFFSET)
+    ldr	r3,=(SIO_BASE+SIO_INTERP0_ACCUM0_OFFSET) // get address of interpolator 0 base -> R3
+    ldr	r11,=(SIO_BASE+SIO_INTERP1_ACCUM0_OFFSET) // get address of interpolator 1 base -> R11
 
 // R0 ... pointer to data buffer
 // R3 ... interpolator base
@@ -191,26 +199,7 @@ RenderTilePersp:
 	ldr	r4,[r4,#SSEGM_PAR2]	// get pointer to matrix -> R4
 
 	// get distance coefficient dist -> R1
-    // RP2350: dist = (h<<FRACT) / (h + Y0 + |horiz|); if horiz==0 => 1<<FRACT
-    ldr     r6,[sp,#24]          // segm again
-    ldrh    r2,[r6,#SSEGM_WRAPY] // h
-    ldrb    r5,[r6,#SSEGM_PAR3+1]// horizon/4
-    sxtb    r5,r5
-    lsls    r5,#2                // horizon
-    cmp     r5,#0
-    beq     9f
-    bpl     0f
-    negs    r5,r5                // |horiz|
-0:
-    adds    r6,r2,r12            // h + Y0
-    adds    r6,r5                // denom
-    mov     r1,r2
-    lsls    r1,#FRACT            // numer = h<<FRACT
-    udiv    r1,r1,r6             // dist
-    b       10f
-9:  movs    r1,#1
-    lsls    r1,#FRACT            // dist = 1<<FRACT
-10:
+    mov	r1,r10
 
 // r4+0 ... m11
 // r4+4 ... m12
@@ -222,16 +211,18 @@ RenderTilePersp:
 	// set m11 -> R5 base0
 	ldr	r5,[r4,#0]	// load m11
 	muls	r5,r1		// m11*dist
-	asrs	r5,#FRACT	// (m11*dist)>>FRACT
+	asrs	r5,#FRACT-1	// (m11*dist)>>(FRACT-1) ... 2*delta
 	str	r5,[r3,#BASE0_OFFSET0] // set base0
 	str	r5,[r11,#BASE0_OFFSET0] // set base0
+	asrs	r5,#1		// (m11*dist)>>FRACT
 
 	// set m21 -> R6 base1
 	ldr	r6,[r4,#12]	// load m21
 	muls	r6,r1		// m21*dist
-	asrs	r6,#FRACT	// (m21*dist)>>FRACT
+	asrs	r6,#FRACT-1	// (m21*dist)>>(FRACT-1) ... 2*delta
 	str	r6,[r3,#BASE1_OFFSET0] // set base1
 	str	r6,[r11,#BASE1_OFFSET0] // set base1
+	asrs	r6,#1		// (m21*dist)>>FRACT
 
 // R0 ... pointer to data buffer
 // R1 ... distance coefficient
@@ -301,23 +292,16 @@ RenderTilePersp:
 	lsrs	r7,#1		// width/4/2
 	bcc	2f		// no odd 4-pixel
 
-	// [7] load 1st pixel
+	// [9] load 1st pixel
 	ldr	r4,[r3,#POP_FULL_OFFSET0] // [1] get pointer to tile map
 	ldrb	r4,[r4,#0]	// [2] load tile index
 	lsls	r4,r6		// [1] tile index * tile size
 	ldr	r5,[r11,#POP_FULL_OFFSET0] // [1] get pointer to tile image
 	ldrb	r1,[r5,r4]	// [2] load pixel
-
-	// [9] load 2nd pixel
-	ldr	r4,[r3,#POP_FULL_OFFSET0] // [1] get pointer to tile map
-	ldrb	r4,[r4,#0]	// [2] load tile index
-	lsls	r4,r6		// [1] tile index * tile size
-	ldr	r5,[r11,#POP_FULL_OFFSET0] // [1] get pointer to tile image
-	ldrb	r4,[r5,r4]	// [2] load pixel
-	lsls	r4,#8		// [1] shift 1 byte left
+	lsls	r4,r1,#8	// [1] shift 1 byte left
 	orrs	r1,r4		// [1] add pixel to accumulator
 
-	// [9] load 3rd pixel
+	// [11] load 2nd pixel
 	ldr	r4,[r3,#POP_FULL_OFFSET0] // [1] get pointer to tile map
 	ldrb	r4,[r4,#0]	// [2] load tile index
 	lsls	r4,r6		// [1] tile index * tile size
@@ -325,14 +309,7 @@ RenderTilePersp:
 	ldrb	r4,[r5,r4]	// [2] load pixel
 	lsls	r4,#16		// [1] shift 2 bytes left
 	orrs	r1,r4		// [1] add pixel to accumulator
-
-	// [9] load 4th pixel
-	ldr	r4,[r3,#POP_FULL_OFFSET0] // [1] get pointer to tile map
-	ldrb	r4,[r4,#0]	// [2] load tile index
-	lsls	r4,r6		// [1] tile index * tile size
-	ldr	r5,[r11,#POP_FULL_OFFSET0] // [1] get pointer to tile image
-	ldrb	r4,[r5,r4]	// [2] load pixel
-	lsls	r4,#24		// [1] shift 3 bytes left
+	lsls	r4,#8		// [1] shift 1 byte left
 	orrs	r1,r4		// [1] add pixel to accumulator
 
 	// [2] store 4 pixels
@@ -342,7 +319,7 @@ RenderTilePersp:
 2:	tst	r7,r7		// check number of pixels
 	beq	8f		// end
 
-// ---- [74 per 8 pixels] inner loop
+// ---- [46 per 8 pixels] inner loop
 //  R0 ... pointer to destination data buffer
 //  R1 ... (temporary - pixel accumulator 1)
 //  R2 ... (temporary - pixel accumulator 2)
@@ -352,23 +329,16 @@ RenderTilePersp:
 //  R6 ... tilebits*2
 //  R7 ... width/8 (loop counter)
 
-	// [7] load 1st pixel
+	// [9] load 1st pixel
 6:	ldr	r4,[r3,#POP_FULL_OFFSET0] // [1] get pointer to tile map
 	ldrb	r4,[r4,#0]	// [2] load tile index
 	lsls	r4,r6		// [1] tile index * tile size
 	ldr	r5,[r11,#POP_FULL_OFFSET0] // [1] get pointer to tile image
 	ldrb	r1,[r5,r4]	// [2] load pixel
-
-	// [9] load 2nd pixel
-	ldr	r4,[r3,#POP_FULL_OFFSET0] // [1] get pointer to tile map
-	ldrb	r4,[r4,#0]	// [2] load tile index
-	lsls	r4,r6		// [1] tile index * tile size
-	ldr	r5,[r11,#POP_FULL_OFFSET0] // [1] get pointer to tile image
-	ldrb	r4,[r5,r4]	// [2] load pixel
-	lsls	r4,#8		// [1] shift 1 byte left
+	lsls	r4,r1,#8	// [1] shift 1 byte left
 	orrs	r1,r4		// [1] add pixel to accumulator
 
-	// [9] load 3rd pixel
+	// [11] load 2nd pixel
 	ldr	r4,[r3,#POP_FULL_OFFSET0] // [1] get pointer to tile map
 	ldrb	r4,[r4,#0]	// [2] load tile index
 	lsls	r4,r6		// [1] tile index * tile size
@@ -376,33 +346,19 @@ RenderTilePersp:
 	ldrb	r4,[r5,r4]	// [2] load pixel
 	lsls	r4,#16		// [1] shift 2 bytes left
 	orrs	r1,r4		// [1] add pixel to accumulator
-
-	// [9] load 4th pixel
-	ldr	r4,[r3,#POP_FULL_OFFSET0] // [1] get pointer to tile map
-	ldrb	r4,[r4,#0]	// [2] load tile index
-	lsls	r4,r6		// [1] tile index * tile size
-	ldr	r5,[r11,#POP_FULL_OFFSET0] // [1] get pointer to tile image
-	ldrb	r4,[r5,r4]	// [2] load pixel
-	lsls	r4,#24		// [1] shift 3 bytes left
+	lsls	r4,#8		// [1] shift 1 byte left
 	orrs	r1,r4		// [1] add pixel to accumulator
 
-	// [7] load 1st pixel
+	// [9] load 1st pixel
 	ldr	r4,[r3,#POP_FULL_OFFSET0] // [1] get pointer to tile map
 	ldrb	r4,[r4,#0]	// [2] load tile index
 	lsls	r4,r6		// [1] tile index * tile size
 	ldr	r5,[r11,#POP_FULL_OFFSET0] // [1] get pointer to tile image
 	ldrb	r2,[r5,r4]	// [2] load pixel
-
-	// [9] load 2nd pixel
-	ldr	r4,[r3,#POP_FULL_OFFSET0] // [1] get pointer to tile map
-	ldrb	r4,[r4,#0]	// [2] load tile index
-	lsls	r4,r6		// [1] tile index * tile size
-	ldr	r5,[r11,#POP_FULL_OFFSET0] // [1] get pointer to tile image
-	ldrb	r4,[r5,r4]	// [2] load pixel
-	lsls	r4,#8		// [1] shift 1 byte left
+	lsls	r4,r2,#8	// [1] shift 1 byte left
 	orrs	r2,r4		// [1] add pixel to accumulator
 
-	// [9] load 3rd pixel
+	// [11] load 2nd pixel
 	ldr	r4,[r3,#POP_FULL_OFFSET0] // [1] get pointer to tile map
 	ldrb	r4,[r4,#0]	// [2] load tile index
 	lsls	r4,r6		// [1] tile index * tile size
@@ -410,14 +366,7 @@ RenderTilePersp:
 	ldrb	r4,[r5,r4]	// [2] load pixel
 	lsls	r4,#16		// [1] shift 2 bytes left
 	orrs	r2,r4		// [1] add pixel to accumulator
-
-	// [9] load 4th pixel
-	ldr	r4,[r3,#POP_FULL_OFFSET0] // [1] get pointer to tile map
-	ldrb	r4,[r4,#0]	// [2] load tile index
-	lsls	r4,r6		// [1] tile index * tile size
-	ldr	r5,[r11,#POP_FULL_OFFSET0] // [1] get pointer to tile image
-	ldrb	r4,[r5,r4]	// [2] load pixel
-	lsls	r4,#24		// [1] shift 3 bytes left
+	lsls	r4,#8		// [1] shift 1 byte left
 	orrs	r2,r4		// [1] add pixel to accumulator
 
 	// [3] store 8 pixels
@@ -429,4 +378,3 @@ RenderTilePersp:
 
 	// pop registers
 8:	pop	{r3-r7,r10,r11,pc}
-
