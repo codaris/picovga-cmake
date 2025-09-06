@@ -9,7 +9,6 @@
 
 	.syntax unified
 	.section .time_critical.Render, "ax"
-	.cpu cortex-m0plus
 	.thumb			// use 16-bit instructions
 
 // render font pixel mask
@@ -169,7 +168,7 @@ RenderOscil_Last:
 
 	// [4] prepare conversion table -> R1
 	lsls	r1,#3		// [1] multiply sample * 8
-	ldr	r3,RenderOscil_Addr // [2] get pointer to conversion table -> R3
+	ldr	r3,=RenderTextMask // [2] get pointer to conversion table -> R3
 	add	r1,r3		// [1] add pointer to conversion table
 
 	// [7] convert 4 pixels (lower 4 bits)
@@ -266,7 +265,7 @@ RenderOscil_InLoop: // render 8 pixels in one loop step, top half of graph
 
 	// [4] prepare conversion table -> R7
 	lsls	r7,#3		// [1] multiply sample * 8
-	ldr	r3,RenderOscil_Addr // [2] get pointer to conversion table -> R3
+	ldr	r3,=RenderTextMask // [2] get pointer to conversion table -> R3
 	add	r7,r3		// [1] add pointer to conversion table
 
 	// [4] convert first 4 pixels (higher 4 bits)
@@ -292,6 +291,3 @@ RenderOscil_InLoop: // render 8 pixels in one loop step, top half of graph
 	ldr	r2,[sp,#4]	// get base pointer to sample data -> R2
 	b	RenderOscil_OutLoop // go back to outer loop
 
-	.align 2
-RenderOscil_Addr:
-	.word	RenderTextMask

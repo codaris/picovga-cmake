@@ -9,7 +9,6 @@
 
 	.syntax unified
 	.section .time_critical.Render, "ax"
-	.cpu cortex-m0plus
 	.thumb			// use 16-bit instructions
 
 // render font pixel mask
@@ -93,7 +92,7 @@ RenderLevelGrad:
 	eors	r6,r4		// [1] XOR foreground color with background color
 
 	// prepare pointer to conversion table -> LR
-	ldr	r3,RenderLevelGrad_Addr // get pointer to conversion table -> R5
+	ldr	r3,=RenderTextMask // get pointer to conversion table -> R5
 	mov	lr,r3		// conversion table -> LR
 
 	// prepare wrap width - start X -> R7
@@ -281,7 +280,3 @@ RenderLevelGrad_InLoopTop: // render 8 pixels in one loop step, top half of grap
 8:	beq	RenderLevelGrad_Last // render last 4-pixels
 	ldr	r2,[sp,#4]	// get base pointer to sample data -> R2
 	b	RenderLevelGrad_OutLoop // go back to outer loop
-
-	.align 2
-RenderLevelGrad_Addr:
-	.word	RenderTextMask

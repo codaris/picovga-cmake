@@ -9,11 +9,7 @@
 
 	.syntax unified
 	.section .time_critical.Render, "ax"
-	.cpu cortex-m0plus
 	.thumb			// use 16-bit instructions
-
-// render font pixel mask
-.extern	RenderTextMask		// u32 RenderTextMask[512];
 
 // extern "C" u8* RenderOscLine(u8* dbuf, int x, int y, int w, sSegm* segm);
 
@@ -185,6 +181,3 @@ RenderOscLine_Stop:
 	// pop registers and return
 	pop	{r2-r7,pc}
 
-	.align 2
-RenderOscLine_Addr:
-	.word	RenderTextMask

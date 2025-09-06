@@ -33,7 +33,6 @@
 
 	.syntax unified
 	.section .time_critical.Render, "ax"
-	.cpu cortex-m0plus
 	.thumb			// use 16-bit instructions
 
 // extern "C" u32* RenderGraph8Mat(u32* cbuf, int x, int y, int w, sSegm* segm);
@@ -93,7 +92,7 @@ RenderGraph8Mat:
 	ldrh	r2,[r4,#SSEGM_PAR2+2] // number of bits of image height -> R2
 
 	// prepare address of interpolator base -> R3
-	ldr	r3,RenderGraph8Mat_Interp // get address of interpolator base -> R3
+	ldr	r3,=(SIO_BASE+SIO_INTERP1_ACCUM0_OFFSET) // get address of interpolator base -> R3
 
 // R0 ... pointer to data buffer
 // R1 ... number of bits of image width xbits
@@ -111,7 +110,7 @@ RenderGraph8Mat:
 	str	r6,[r3,#BASE2_OFFSET]	// set image base
 
 	// set control word of lane 1 - add raw lane base back to accumulator, shift "FRACT-xbits", mask xbits...xbits+ybits-1
-	ldr	r6,RenderGraph8Mat_Ctrl // load control word
+	ldr	r6,=(SIO_INTERP0_CTRL_LANE0_ADD_RAW_BITS | (FRACT<<SIO_INTERP0_CTRL_LANE0_SHIFT_LSB)) // load control word
 	subs	r6,r1			// FRACT - xbits (SIO_INTERP0_CTRL_LANE0_SHIFT_LSB = 0, no shift required)
 	lsls	r5,r1,#SIO_INTERP0_CTRL_LANE0_MASK_LSB_LSB // shift xbits to mask LSB position -> R5
 	orrs	r6,r5			// add xbits to control word
@@ -130,7 +129,7 @@ RenderGraph8Mat:
 // R12 ... current coordinate Y0
 
 	// set control word of lane 0 - add raw lane base back to accumulator, shift "FRACT", mask 0..xbits-1
-	ldr	r6,RenderGraph8Mat_Ctrl // load control word
+	ldr	r6,=(SIO_INTERP0_CTRL_LANE0_ADD_RAW_BITS | (FRACT<<SIO_INTERP0_CTRL_LANE0_SHIFT_LSB)) // load control word
 	lsls	r1,#SIO_INTERP0_CTRL_LANE0_MASK_MSB_LSB // shift xbits-1 to mask MSB position
 	orrs	r6,r1			// add to control word
 	str	r6,[r3,#CTRL_LANE0_OFFSET] // set control word of lane 0
@@ -301,10 +300,3 @@ RenderGraph8Mat:
 	// pop registers
 8:	pop	{r4-r7,pc}
 
-	.align 2
-// pointer to Interp1 base
-RenderGraph8Mat_Interp:
-	.word	SIO_BASE+SIO_INTERP1_ACCUM0_OFFSET // addres of interpolator base
-
-RenderGraph8Mat_Ctrl:		// lane control word
-	.word	SIO_INTERP0_CTRL_LANE0_ADD_RAW_BITS | (FRACT<<SIO_INTERP0_CTRL_LANE0_SHIFT_LSB)

@@ -14,7 +14,6 @@
 
 	.syntax unified
 	.section .time_critical.Render, "ax"
-	.cpu cortex-m0plus
 	.thumb			// use 16-bit instructions
 
 // extern "C" u32* RenderTile(u32* cbuf, int x, int y, int w, sSegm* segm);
@@ -57,10 +56,16 @@ RenderTile:
 //  R4 ... sSegm*
 
 	// start divide Y/tile_height
-	ldr	r5,RenderTile_pSioBase // get address of SIO base -> R5
-	str	r2,[r5,#SIO_DIV_UDIVIDEND_OFFSET] // store dividend, Y coordinate
-	ldr	r2,[r4,#SSEGM_PAR2] // tile height -> R2
-	str	r2,[r5,#SIO_DIV_UDIVISOR_OFFSET] // store divisor, tile height
+    #if PICO_RP2040
+	    ldr	r5,=SIO_BASE // get address of SIO base -> R5
+	    str	r2,[r5,#SIO_DIV_UDIVIDEND_OFFSET] // store dividend, Y coordinate
+	    ldr	r2,[r4,#SSEGM_PAR2] // tile height -> R2
+	    str	r2,[r5,#SIO_DIV_UDIVISOR_OFFSET] // store divisor, tile height
+    #else
+        // RP2350: keep Y in R5, load tile_height to R2 (no divider writes)
+        mov     r5,r2                         // R5 = Y
+        ldr     r2,[r4,#SSEGM_PAR2]          // R2 = tile_height
+    #endif        
 
 // - now we must wait at least 8 clock cycles to get result of division
 
@@ -125,9 +130,15 @@ RenderTile:
 //  [SP+8] ... tile width
 
 	// load result of division Y/tile_height -> R6 Y relative at row, R7 Y row
-	//  Note: QUOTIENT must be read last
-	ldr	r6,[r5,#SIO_DIV_REMAINDER_OFFSET] // get remainder of result -> R6, Y coordinate relative to current row
-	ldr	r7,[r5,#SIO_DIV_QUOTIENT_OFFSET] // get quotient-> R7, index of row
+    #if PICO_RP2040
+	    //  Note: QUOTIENT must be read last
+	    ldr	r6,[r5,#SIO_DIV_REMAINDER_OFFSET] // get remainder of result -> R6, Y coordinate relative to current row
+	    ldr	r7,[r5,#SIO_DIV_QUOTIENT_OFFSET] // get quotient-> R7, index of row
+    #else
+        udiv    r7,r5,r2                    // R7 = Y / tile_height
+        mul     r6,r7,r2                    // tmp = (Y/tile_height)*tile_height
+        subs    r6,r5,r6                    // R6 = Y % tile_height
+    #endif
 
 //  R0 ... pointer to destination control buffer
 //  R1 ... X coordinate
@@ -142,10 +153,11 @@ RenderTile:
 //  [SP+8] ... tile width
 
 	// start divide X/tile_width
-	str	r1,[r5,#SIO_DIV_UDIVIDEND_OFFSET] // store dividend, X coordinate
-	str	r3,[r5,#SIO_DIV_UDIVISOR_OFFSET] // store divisor, tile width
-
-// - now we must wait at least 8 clock cycles to get result of division
+    #if PICO_RP2040
+	    str	r1,[r5,#SIO_DIV_UDIVIDEND_OFFSET] // store dividend, X coordinate
+	    str	r3,[r5,#SIO_DIV_UDIVISOR_OFFSET] // store divisor, tile width
+        // - now we must wait at least 8 clock cycles to get result of division
+    #endif
 
 //  R0 ... pointer to destination control buffer
 //  R1 ... X coordinate
@@ -214,9 +226,16 @@ RenderTile:
 //  [SP+8] ... tile width
 
 	// load result of division X/tile_width -> R6 X pixel relative, R5 tile position
-	//  Note: QUOTIENT must be read last
-	ldr	r6,[r5,#SIO_DIV_REMAINDER_OFFSET] // get remainder of result -> R6, X pixel relative in tile
-	ldr	r5,[r5,#SIO_DIV_QUOTIENT_OFFSET] // get quotient-> R5, tile position
+    #if PICO_RP2040
+	    //  Note: QUOTIENT must be read last
+	    ldr	r6,[r5,#SIO_DIV_REMAINDER_OFFSET] // get remainder of result -> R6, X pixel relative in tile
+	    ldr	r5,[r5,#SIO_DIV_QUOTIENT_OFFSET] // get quotient-> R5, tile position
+    #else
+        // RP2350: compute now (R1 = X, R3 = tile_width)
+        udiv    r5,r1,r3                    // R5 = X / tile_width  (tile position)
+        mul     r6,r5,r3                    // tmp = (X/tile_width)*tile_width
+        subs    r6,r1,r6                    // R6 = X % tile_width  (X pixel in tile)
+    #endif    
 
 //  R0 ... pointer to destination control buffer
 //  R1 ... X coordinate
@@ -424,8 +443,3 @@ RenderTile_InLoop:
 	bne	RenderTile_Last // render 1st half of last tile
 	mov	r7,lr		// get base pointer to tile data -> R7
 	b	RenderTile_OutLoop // go back to outer loop
-
-	.align 2
-// pointer to SIO base
-RenderTile_pSioBase:
-	.word	SIO_BASE	// addres of SIO base

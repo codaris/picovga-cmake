@@ -8,7 +8,6 @@
 #include "picovga.h"
 #include "overclock.h"
 #include "hardware/clocks.h"
-#include "hardware/structs/ssi.h"
 
 // Search PLL setup
 //  reqkhz ... required output frequency in kHz
@@ -99,17 +98,4 @@ bool FindSysClock(u32 reqkhz, u32* outkhz, u32* outvco, u16* outfbdiv, u8* outpd
 
 	// find PLL setup
 	return vcocalc(reqkhz, input, 400000, 1600000, false,  outkhz, outvco, outfbdiv, outpd1, outpd2);
-}
-
-// set flash SSI speed (4 default, <4 faster, >4 slower)
-void __not_in_flash_func(FlashSpeedSetup)(int baud)
-{
-	// disable SSI for further config
-	ssi_hw->ssienr = 0;
-
-	// set baud rate
-	ssi_hw->baudr = baud;
-
-	// Re-enable
-	ssi_hw->ssienr = 1;
 }

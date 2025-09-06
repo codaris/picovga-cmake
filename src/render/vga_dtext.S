@@ -14,7 +14,6 @@
 
 	.syntax unified
 	.section .time_critical.Render, "ax"
-	.cpu cortex-m0plus
 	.thumb			// use 16-bit instructions
 
 // render font pixel mask
@@ -33,6 +32,7 @@
 
 .thumb_func
 .global RenderDText
+.type   RenderDText, %function
 RenderDText:
 
 // Stack content:
@@ -56,12 +56,17 @@ RenderDText:
 	ldr	r4,[sp,#36]	// load video segment -> R4
 
 	// start divide Y/font height
-	ldr	r6,RenderDText_pSioBase // get address of SIO base -> R6
-	str	r2,[r6,#SIO_DIV_UDIVIDEND_OFFSET] // store dividend, Y coordinate
-	ldrb	r2,[r4,#SSEGM_PAR3+1] // font height -> R2
-	str	r2,[r6,#SIO_DIV_UDIVISOR_OFFSET] // store divisor, font height
+    #if PICO_RP2040
+	    ldr	r6,=SIO_BASE // get address of SIO base -> R6
+	    str	r2,[r6,#SIO_DIV_UDIVIDEND_OFFSET] // store dividend, Y coordinate
+	    ldrb	r2,[r4,#SSEGM_PAR3+1] // font height -> R2
+	    str	r2,[r6,#SIO_DIV_UDIVISOR_OFFSET] // store divisor, font height
+        // - now we must wait at least 8 clock cycles to get result of division
+    #else
+        // RP2350 path: stash Y in R6; we’ll compute quot/rem after the “delay work”
+        mov     r6,r2                                // R6 = Y
+    #endif
 
-// - now we must wait at least 8 clock cycles to get result of division
 
 	// [6] get wrap width -> [SP+36]
 	ldrh	r5,[r4,#SSEGM_WRAPX] // [2] get wrap width
@@ -77,9 +82,17 @@ RenderDText:
 	str	r3,[sp,#12]	// [2] save new width
 
 	// load result of division Y/font_height -> R6 Y relative at row, R7 Y row
-	//  Note: QUOTIENT must be read last
-	ldr	r5,[r6,#SIO_DIV_REMAINDER_OFFSET] // get remainder of result -> R5, Y coordinate relative to current row
-	ldr	r2,[r6,#SIO_DIV_QUOTIENT_OFFSET] // get quotient-> R2, index of row
+    #if PICO_RP2040
+	    //  Note: QUOTIENT must be read last
+	    ldr	r5,[r6,#SIO_DIV_REMAINDER_OFFSET] // get remainder of result -> R5, Y coordinate relative to current row
+	    ldr	r2,[r6,#SIO_DIV_QUOTIENT_OFFSET] // get quotient-> R2, index of row
+    #else
+        // RP2350: compute quotient and remainder now
+        ldrb    r7,[r4,#SSEGM_PAR3+1]      // R7 = font height (HIGH byte)
+        udiv    r2,r6,r7                   // R2 = Y / font_height
+        mul     r5,r2,r7                   // R5 = (Y/font_height)*font_height   (no flags)
+        subs    r5,r6,r5                   // R5 = Y % font_height
+    #endif        
 
 	// pointer to font line -> R3
 	lsls	r5,#8		// multiply Y relative * 256 (1 font line is 256 bytes long)
@@ -113,7 +126,7 @@ RenderDText:
 	orrs	r4,r5		// color expanded to 32 bits
 
 	// prepare pointer to conversion table -> LR
-	ldr	r5,RenderDText_Addr // get pointer to conversion table -> R5
+	ldr	r5,=RenderTextMask // get pointer to conversion table -> R5
 	mov	lr,r5		// conversion table -> LR
 
 // ---- render 2nd half of first character
@@ -428,9 +441,3 @@ RenderDText_InLoop:
 	ldr	r2,[sp,#8]	// get base pointer to text data -> R2
 	ldr	r3,[sp,#4]	// get base pointer to gradient array -> R3
 	b	RenderDText_OutLoop // go back to outer loop
-
-	.align 2
-RenderDText_Addr:
-	.word	RenderTextMask
-RenderDText_pSioBase:
-	.word	SIO_BASE	// addres of SIO base

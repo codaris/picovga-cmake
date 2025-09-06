@@ -57,7 +57,10 @@ Makefile
 CMakeDoxyfile.in
 CMakeDoxygenDefaults.cmake
 picotool/
+host_tools_proj-prefix/
 
 # Ignore the compiled pico tools
+
+
 tools/picovga_*
 host_tools_proj-prefix/**
