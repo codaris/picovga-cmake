@@ -60,3 +60,4 @@ picotool/
 
 # Ignore the compiled pico tools
 tools/picovga_*
+host_tools_proj-prefix/**
