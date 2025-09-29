@@ -343,6 +343,9 @@ void InitSlot()
 
 int main()
 {
+	// initialize stdio
+	stdio_init_all();
+
 	char ch;
 
 	// copy tiles images to RAM buffer (flash would be too slow)
@@ -368,9 +371,6 @@ int main()
 	// initialize videomode
 //	VideoInit();
 	Video(DEV_VGA, RES_VGA, FORM_TILE16, Board, TilesImg_Copy);
-
-	// initialize stdio
-	stdio_init_all();
 
 	// display help
 	DispHelp();

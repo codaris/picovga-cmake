@@ -143,7 +143,10 @@ void FlushChar()
 
 int main()
 {
-	int i;
+	// initialize stdio
+	stdio_init_all();
+
+    int i;
 
 	// initialize random number generator
 	RandInitSeed();
@@ -156,9 +159,6 @@ int main()
 
 	// initialize videomode
 	VideoInit();
-
-	// initialize stdio
-	stdio_init_all();
 
 	// initialize sound output
 	PWMSndInit();

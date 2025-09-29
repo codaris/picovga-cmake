@@ -54,7 +54,7 @@ extern u32	CtrlBuf2[CBUF_MAX];	// control pairs: u32 count, read address (must b
 extern int	CtrlBufSize[LAYERS_MAX]; // size of control buffers
 
 // render font pixel mask
-extern u32 RenderTextMask[512];
+extern "C" u32 RenderTextMask[512];
 
 // fill memory buffer with u32 words
 //  buf ... data buffer, must be 32-bit aligned

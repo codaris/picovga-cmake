@@ -254,16 +254,16 @@ void MonoList()
 
 int main()
 {
-	char c;
+	// initialize stdio
+	stdio_init_all();
+
+    char c;
 
 	// run VGA core
 	StartVgaCore();
 
 	// run default video mode VGA 640x480
 	MonoInit(22);
-
-	// initialize stdio
-	stdio_init_all();
 
 	while (true)
 	{

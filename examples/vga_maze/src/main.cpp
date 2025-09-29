@@ -214,7 +214,10 @@ void Clear()
 
 int main()
 {
-	int i;
+	// initialize stdio    
+	stdio_init_all();
+    
+    int i;
 	char ch;
 
 	// initialize random number generator
@@ -227,9 +230,6 @@ int main()
 	Video(DEV_VGA, RES_ZX, FORM_TILE8, Board, TilesImg_Copy);
 	if (MAZEW != MAPW) pScreen->strip[0].seg[0].offx = -4; // center image on the screen
 	if (MAZEH != MAPH) pScreen->strip[0].seg[0].offy = -4;
-
-	// initialize stdio
-	stdio_init_all();
 
 	// display help
 	DispHelp();

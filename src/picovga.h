@@ -73,14 +73,14 @@ typedef unsigned char Bool;
 //                               Constants
 // ----------------------------------------------------------------------------
 
-#define	B0 (1<<0)
-#define	B1 (1<<1)
-#define	B2 (1<<2)
-#define	B3 (1<<3)
-#define	B4 (1<<4)
-#define	B5 (1<<5)
-#define	B6 (1<<6)
-#define	B7 (1<<7)
+#define	B0 (1U<<0)
+#define	B1 (1U<<1)
+#define	B2 (1U<<2)
+#define	B3 (1U<<3)
+#define	B4 (1U<<4)
+#define	B5 (1U<<5)
+#define	B6 (1U<<6)
+#define	B7 (1U<<7)
 #define	B8 (1U<<8)
 #define	B9 (1U<<9)
 #define	B10 (1U<<10)

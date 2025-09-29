@@ -277,7 +277,10 @@ void DispOpenSel()
 // main function
 int main()
 {
-	char ch;
+	// initialize stdio
+	stdio_init_all();
+    
+    char ch;
 	u32 t;
 
 	// initialize random number generator
@@ -288,9 +291,6 @@ int main()
 
 	// initialize canvases
 	InitImg();
-
-	// initialize stdio
-	stdio_init_all();
 
 	// initialize sound output
 	PWMSndInit();

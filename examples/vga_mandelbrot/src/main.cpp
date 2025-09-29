@@ -380,16 +380,16 @@ void Help()
 
 int main()
 {
-	int c;
+	// initialize stdio
+	stdio_init_all();
+    
+    int c;
 
 	// run VGA core
 	StartVgaCore();
 
 	// setup videomode
 	Init();
-
-	// initialize stdio
-	stdio_init_all();
 
 	// initialize debug LED
 	gpio_init(LED_PIN);

@@ -200,7 +200,10 @@ void FlushChar()
 
 int main()
 {
-	// initialize random number generator
+	// initialize stdio
+	stdio_init_all();
+
+    // initialize random number generator
 	RandInitSeed();
 
 	// initialize buffers on program start
@@ -211,9 +214,6 @@ int main()
 
 	// initialize videomode
 	VideoInit();
-
-	// initialize stdio
-	stdio_init_all();
 
 	// some internal checks
 	while ((sizeof(SpritesImg) != SPRITE_NUM*SPRITEW*SPRITEH) ||

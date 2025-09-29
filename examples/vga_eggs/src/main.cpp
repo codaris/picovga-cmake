@@ -790,7 +790,10 @@ void PlayGame(Bool comp1, Bool comp2)
 // main function
 int main()
 {
-	char ch;
+	// initialize stdio
+	stdio_init_all();
+
+    char ch;
 
 	// copy tiles images
 	memcpy(TilesImg_Copy, TilesImg, sizeof(TilesImg));
@@ -804,9 +807,6 @@ int main()
 
 	// initialize videomode
 	Video(DEV_VGA, RES_EGA, FORM_8BIT, Box);
-
-	// initialize stdio
-	stdio_init_all();
 
 	// initialize sound output
 	PWMSndInit();

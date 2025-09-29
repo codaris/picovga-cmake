@@ -329,7 +329,10 @@ void FlushChar()
 
 int main()
 {
-	int t0, t2;
+	// initialize stdio
+	stdio_init_all();
+
+    int t0, t2;
 	float dt;
 
 	// copy images
@@ -349,9 +352,6 @@ int main()
 
 	// initialize videomode
 	VideoInit(170000);
-
-	// initialize stdio
-	stdio_init_all();
 
 	// initialize sound output
 	PWMSndInit();

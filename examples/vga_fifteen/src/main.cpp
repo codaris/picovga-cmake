@@ -118,7 +118,10 @@ Bool Check()
 // main function
 int main()
 {
-	int i;
+	// initialize stdio
+	stdio_init_all();
+
+    int i;
 
 	// initialize random number generator
 	RandInitSeed();
@@ -129,9 +132,6 @@ int main()
 	// initialize videomode
 	Video(DEV_VGA, RES_ZX, FORM_TILE48, Board, TilesImg_Copy);
 	pScreen->strip[0].seg[0].offx = -32;
-
-	// initialize stdio
-	stdio_init_all();
 
 	// initialize sound output
 	PWMSndInit();

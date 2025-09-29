@@ -294,7 +294,10 @@ void VideoInit()
 
 int main()
 {
-	char ch;
+	// initialize stdio
+	stdio_init_all();
+    
+    char ch;
 
 	// copy font to RAM buffer
 	memcpy(Font_Copy, FontBold8x8, sizeof(FontBold8x8));
@@ -308,9 +311,6 @@ int main()
 	// open first page
 	Page = 0;
 	OpenPage();
-
-	// initialize stdio
-	stdio_init_all();
 
 	// main loop
 	while (true)

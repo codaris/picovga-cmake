@@ -1006,7 +1006,10 @@ void PlayDemo()
 
 int main()
 {
-	// initialize random number generator
+	// initialize stdio
+	stdio_init_all();
+
+    // initialize random number generator
 	RandInitSeed();
 
 	// copy tiles images to RAM buffer
@@ -1022,10 +1025,7 @@ int main()
 	Canvas.wb = TILESIZE;
 	Canvas.format = CANVAS_8;
 
-	// initialize stdio
-	stdio_init_all();
-
-	// initialize sound output
+    // initialize sound output
 	PWMSndInit();
 
 	// display help
